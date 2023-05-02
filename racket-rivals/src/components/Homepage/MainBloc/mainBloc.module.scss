@@ -1,9 +1,15 @@
 .bloc {
-    width: 100%;
+    background-image: url('../../../assets/img/imgBgDesktop.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     height: 100vh;
-}
-
-img {
     width: 100%;
-    height: 100vh;
-}
+  }
+  
+  @media (max-width: 768px) {
+    .bloc {
+      background-image: url('../../../assets/img/imgBgMobile.jpg');
+    }
+  }
+  

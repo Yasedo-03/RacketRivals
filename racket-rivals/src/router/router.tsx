@@ -1,9 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
-import { HomePage } from "../pages/homepage";
+import { Suspense, lazy } from "react";
+
+const HomePage = lazy(() => import("../pages/homepage"));
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: (
+      <Suspense fallback={<div>loading...</div>}>
+        <HomePage />
+      </Suspense>
+    ),
   },
 ]);
