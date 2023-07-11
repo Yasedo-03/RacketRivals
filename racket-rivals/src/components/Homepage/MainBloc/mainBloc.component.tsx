@@ -1,12 +1,7 @@
-import styles from './mainBloc.module.scss';
-import { Header } from '../../Header';
+import styles from "./MainBloc.module.scss";
 
 export const MainBloc = () => {
-  return (
-    <div className={styles.bloc}>
-      <Header />
-    </div>
-  );
+  return <div className={styles.bloc}>MAIN BLOC</div>;
 };
 
-MainBloc.displayName = 'MainBloc';
+MainBloc.displayName = "MainBloc";
