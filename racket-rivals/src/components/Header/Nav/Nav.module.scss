@@ -1,0 +1,103 @@
+.container {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  padding-top: 80px;
+  backdrop-filter: blur(10px);
+  height: 100vh;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  font-family: "Paytone One", sans-serif;
+}
+
+.container.visible {
+  opacity: 1;
+}
+
+.navItem {
+  color: white;
+  width: 100%;
+  height: 100px;
+  text-align: center;
+  cursor: pointer;
+  transition: text-shadow 0.3s ease-in-out;
+}
+
+.navItem:hover {
+  text-shadow: 0 0 0.75rem red;
+}
+
+.navItem:first-child {
+  margin-top: 80px;
+}
+
+.loginButtonContainer {
+  position: fixed;
+  width: 50%;
+  left: 50%;
+  bottom: 25%;
+  transform: translateX(-50%);
+  font-family: "Paytone One", sans-serif;
+}
+
+.loginButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  color: white;
+  height: 80px;
+  background: linear-gradient(0deg, #000, #272727);
+  border-radius: 15rem;
+  cursor: pointer;
+}
+
+.loginButton:before,
+.loginButton:after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  background: linear-gradient(
+    45deg,
+    #b22222,
+    #ff4500,
+    #ff8c00,
+    #ffa500,
+    #ffd700,
+    #ffff00,
+    #891010,
+    hwb(57 5% 2%),
+    #e10505,
+    #ffff00,
+    #ffd700,
+    #ffa500,
+    #ff8c00,
+    #ff4500,
+    #b22222
+  );
+  background-size: 400%;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  z-index: -1;
+  animation: steam 20s linear infinite;
+  border-radius: 15rem;
+}
+
+@keyframes steam {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.loginButton:after {
+  filter: blur(5px);
+}
