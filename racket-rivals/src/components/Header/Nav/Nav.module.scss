@@ -1,3 +1,5 @@
+@import "src/styles/mixins.scss";
+
 .container {
   z-index: 100;
   position: fixed;
@@ -111,9 +113,13 @@
     background-position: 100% 100%, 0 100%;
     background-repeat: no-repeat;
     transition: background-size 400ms;
+    background-size: 0 3px, 100% 3px;
 
-    &:hover {
-      background-size: 0 3px, 100% 3px;
+    @include onDevice(desktop) {
+      background-size: 0 0, 0 0;
+      &:hover {
+        background-size: 0 3px, 100% 3px;
+      }
     }
   }
 }

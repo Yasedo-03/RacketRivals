@@ -11,7 +11,7 @@ export const MainBloc = () => {
           table.
         </p>
         <p className={styles.text}>
-          Rejoignez la compétition en quelques clics. Prêts pour le défi?
+          Rejoignez la compétition en quelques clics. Prêts à relever le défi?
         </p>
         <button className={styles.loginButton} type="button">
           Connexion
