@@ -21,7 +21,11 @@ export const Nav: FC<NavProps> = ({
     <>
       <div className={className}>
         {navItems.map((navItem) => (
-          <div className={styles.navItem}>{navItem}</div>
+          <div className={styles.navItem}>
+            <a className={styles.text} href="">
+              {navItem}
+            </a>
+          </div>
         ))}
         <div className={styles.loginButtonContainer}>
           <div className={styles.loginButton}>
