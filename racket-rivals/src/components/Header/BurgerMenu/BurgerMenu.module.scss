@@ -1,0 +1,28 @@
+.burgerMenu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  margin-right: 2em;
+}
+
+.burgerMenu .bar {
+  width: 2rem;
+  height: 0.25rem;
+  background-color: white;
+  transition: all 0.3s linear;
+}
+
+.burgerMenu.open .middleBar {
+  opacity: 0;
+}
+
+.burgerMenu.open .topBar {
+  transform: translateY(0.65rem) rotate(45deg);
+}
+
+.burgerMenu.open .bottomBar {
+  transform: translateY(-0.65rem) rotate(-45deg);
+}
