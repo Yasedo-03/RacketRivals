@@ -1,8 +1,13 @@
+import { handleClick } from "../../gsap-helpers/scrollAnimation";
 import styles from "./ScrollDownArrows.module.scss";
 
-export const ScrollDownArrows = () => {
+type ScrollDownArrowsProps = {
+  index: number;
+};
+
+export const ScrollDownArrows = ({ index }: ScrollDownArrowsProps) => {
   return (
-    <svg className={styles.arrows}>
+    <svg onClick={() => handleClick(index + 1)} className={styles.arrows}>
       <g transform="scale(0.75)">
         <path className={styles.a1} d="M0 0 L30 32 L60 0"></path>
         <path className={styles.a2} d="M0 20 L30 52 L60 20"></path>
