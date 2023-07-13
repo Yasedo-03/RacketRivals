@@ -21,7 +21,7 @@ export const Nav: FC<NavProps> = ({
     <>
       <div className={className}>
         {navItems.map((navItem) => (
-          <div className={styles.navItem}>
+          <div className={styles.navItem} key={navItem}>
             <a className={styles.text} href="">
               {navItem}
             </a>
