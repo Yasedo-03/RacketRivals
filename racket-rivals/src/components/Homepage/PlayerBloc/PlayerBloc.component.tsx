@@ -1,3 +1,4 @@
+import { BlurDivider } from "../../BlurDivider";
 import styles from "./PlayerBloc.module.scss";
 
 type PlayerBlocProps = {
@@ -5,7 +6,13 @@ type PlayerBlocProps = {
 };
 
 export const PlayerBloc = ({ index }: PlayerBlocProps) => {
-  return <div className={styles.bloc}>PLAYER BLOC</div>;
+  return (
+    <div className={styles.playerbloc}>
+      <BlurDivider position={"top"} />
+      PLAYER BLOC
+      <BlurDivider />
+    </div>
+  );
 };
 
 PlayerBloc.displayName = "PlayerBloc";

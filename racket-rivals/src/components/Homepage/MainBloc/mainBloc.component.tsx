@@ -1,3 +1,4 @@
+import { BlurDivider } from "../../BlurDivider";
 import { ScrollDownArrows } from "../../ScrollArrows";
 import styles from "./MainBloc.module.scss";
 
@@ -7,7 +8,7 @@ type MainBlocPros = {
 
 export const MainBloc = ({ index }: MainBlocPros) => {
   return (
-    <div className={styles.bloc}>
+    <div className={styles.mainbloc}>
       <div className={styles.mainCard}>
         <h1 className={styles.title}>Bienvenue sur RacketRivals</h1>
         <p className={styles.text}>
@@ -22,6 +23,7 @@ export const MainBloc = ({ index }: MainBlocPros) => {
         </button>
       </div>
       <ScrollDownArrows index={index} />
+      <BlurDivider />
     </div>
   );
 };

@@ -1,14 +1,7 @@
 @import "src/styles/mixins.scss";
 
-.bloc {
+.mainbloc {
   background-image: url("../../../assets/img/imgBgDesktop.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 100vh;
-  width: 100%;
-  color: white;
-  padding-top: 80px;
 
   @include onDevice(mobile) {
     background-image: url("../../../assets/img/imgBgMobile.jpg");
