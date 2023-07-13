@@ -56,3 +56,11 @@ export const createScrollAnimation = (
 
   return () => ctx.revert();
 };
+
+export const handleClick = (i: number) => {
+  gsap.to(window, {
+    scrollTo: { y: i * window.innerHeight, autoKill: false },
+    duration: 1,
+    overwrite: true,
+  });
+};

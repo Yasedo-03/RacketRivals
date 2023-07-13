@@ -1,7 +1,11 @@
 import { ScrollDownArrows } from "../../ScrollArrows";
 import styles from "./MainBloc.module.scss";
 
-export const MainBloc = () => {
+type MainBlocPros = {
+  index: number;
+};
+
+export const MainBloc = ({ index }: MainBlocPros) => {
   return (
     <div className={styles.bloc}>
       <div className={styles.mainCard}>
@@ -17,7 +21,7 @@ export const MainBloc = () => {
           Connexion
         </button>
       </div>
-      <ScrollDownArrows />
+      <ScrollDownArrows index={index} />
     </div>
   );
 };

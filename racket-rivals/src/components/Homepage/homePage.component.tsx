@@ -20,13 +20,13 @@ export const Home = () => {
   return (
     <>
       <div ref={(div) => (panels.current[0] = div)}>
-        <MainBloc />
+        <MainBloc index={0} />
       </div>
       <div ref={(div) => (panels.current[1] = div)}>
-        <TournamentBloc />
+        <TournamentBloc index={1} />
       </div>
       <div ref={(div) => (panels.current[2] = div)}>
-        <PlayerBloc />
+        <PlayerBloc index={2} />
       </div>
     </>
   );
