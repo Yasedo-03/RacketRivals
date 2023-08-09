@@ -1,8 +1,10 @@
 import { BlurDivider } from "../../BlurDivider";
 import { ScrollDownArrows } from "../../ScrollArrows";
 import { MenuTournamentBloc } from "./MenuTournamentBloc";
-import { TournamentBlocCard } from "./TournamentBlocCard";
+import { MyTournamentBlocCard } from "./MyTournamentBlocCard";
+import { Route, Routes, useLocation } from "react-router-dom";
 import styles from "./TournamentBloc.module.scss";
+import { CreateTournamentCard } from "./CreateTournamentCard";
 
 type TournamentBlocProps = {
   index: number;
@@ -13,7 +15,10 @@ export const TournamentBloc = ({ index }: TournamentBlocProps) => {
     <div className={styles.tournamentbloc}>
       <BlurDivider position={"top"} />
       <MenuTournamentBloc />
-      <TournamentBlocCard />
+      <Routes>
+        <Route path="/tournament/list" element={<MyTournamentBlocCard />} />
+        <Route path="/tournament/create" element={<CreateTournamentCard />} />
+      </Routes>
       <ScrollDownArrows index={index} />
       <BlurDivider />
     </div>
