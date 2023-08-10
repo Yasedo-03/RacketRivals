@@ -1,6 +1,7 @@
 @import "src/styles/mixins.scss";
 
 .mainBloc {
+  overflow-y: hidden;
   background-image: url("../../../assets/img/imgBgDesktop.png");
 
   @include onDevice(mobile) {

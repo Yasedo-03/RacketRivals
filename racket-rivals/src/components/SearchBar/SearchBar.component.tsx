@@ -7,7 +7,7 @@ export const SearchBar = () => {
       onSubmit={(event) => event.preventDefault()}
       role="search"
     >
-      <label htmlFor={styles.search}>Rechercher un tournoi</label>
+      <label className={styles.labelSearch} htmlFor={styles.search}>Rechercher un tournoi</label>
       <input
         id={styles.search}
         type="search"

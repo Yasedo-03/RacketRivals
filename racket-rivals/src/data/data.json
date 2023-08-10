@@ -26,10 +26,13 @@
       "name": "Spring Championship",
       "start_date": "2023-04-01",
       "end_date": "2023-04-03",
+      "start_hour": "19h30",
       "location": "New York",
       "format": "Round Robin",
       "description": "Annual Spring Championship for table tennis enthusiasts",
-      "number_of_participants": 16
+      "number_of_participants": 16,
+      "accesibility": "private",
+      "price": "5"
     }
   ],
   "participants": [
