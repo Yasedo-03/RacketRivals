@@ -1,4 +1,5 @@
 import { BlurDivider } from "../../BlurDivider";
+import { ScrollArrows, ScrollArrowsDirection } from "../../ScrollArrows";
 import styles from "./PlayerBloc.module.scss";
 
 type PlayerBlocProps = {
@@ -10,6 +11,10 @@ export const PlayerBloc = ({ index }: PlayerBlocProps) => {
     <div className={styles.playerbloc}>
       <BlurDivider position={"top"} />
       PLAYER BLOC
+      <ScrollArrows
+        index={index}
+        scrollArrowsDirection={ScrollArrowsDirection.TOP}
+      />
       <BlurDivider />
     </div>
   );

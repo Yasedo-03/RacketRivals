@@ -1,1 +1,1 @@
-export * from "./ScrollDownArrows.component";
+export * from "./ScrollArrows.component";
