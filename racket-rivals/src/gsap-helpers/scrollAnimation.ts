@@ -6,7 +6,8 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 export const createScrollAnimation = (
   panels: (HTMLElement | null)[],
-  scrollTween: React.MutableRefObject<gsap.core.Tween | null>
+  scrollTween: React.MutableRefObject<gsap.core.Tween | null>,
+  navigate: (path: string, options?: { replace?: boolean }) => void
 ) => {
   const ctx = gsap.context(() => {
     const observer = ScrollTrigger.normalizeScroll(true);
@@ -41,8 +42,24 @@ export const createScrollAnimation = (
           trigger: panel,
           start: "top bottom",
           end: "+=199%",
-          onToggle: (self) =>
-            self.isActive && !scrollTween.current && goToSection(i),
+          onToggle: (self) => {
+            self.isActive && !scrollTween.current && goToSection(i);
+            if (self.isActive && scrollTween.current) {
+              switch (i) {
+                case 0:
+                  navigate("/", { replace: true });
+                  break;
+                case 1:
+                  navigate("/tournament", { replace: true });
+                  break;
+                case 2:
+                  navigate("/player", { replace: true });
+                  break;
+                default:
+                  break;
+              }
+            }
+          },
         });
       }
     });

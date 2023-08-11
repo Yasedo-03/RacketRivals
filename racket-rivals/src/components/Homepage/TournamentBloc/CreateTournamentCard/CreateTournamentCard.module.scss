@@ -1,0 +1,10 @@
+.container {
+  height: 100%;
+  position: relative;
+  left: 500px;
+  transition: left 800ms ease;
+}
+
+.containerInPlace {
+  left: 0;
+}

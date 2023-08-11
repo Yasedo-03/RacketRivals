@@ -1,6 +1,7 @@
 import { BlurDivider } from "../../BlurDivider";
 import { ScrollDownArrows } from "../../ScrollArrows";
 import styles from "./MainBloc.module.scss";
+import { MainCard } from "./MainCard";
 
 type MainBlocPros = {
   index: number;
@@ -8,20 +9,8 @@ type MainBlocPros = {
 
 export const MainBloc = ({ index }: MainBlocPros) => {
   return (
-    <div className={styles.mainbloc}>
-      <div className={styles.mainCard}>
-        <h1 className={styles.title}>Bienvenue sur RacketRivals</h1>
-        <p className={styles.text}>
-          Votre espace pour organiser et trouver des tournois de tennis de
-          table.
-        </p>
-        <p className={styles.text}>
-          Rejoignez la compétition en quelques clics. Prêts à relever le défi?
-        </p>
-        <button className={styles.loginButton} type="button">
-          Connexion
-        </button>
-      </div>
+    <div className={styles.mainBloc}>
+      <MainCard />
       <ScrollDownArrows index={index} />
       <BlurDivider />
     </div>

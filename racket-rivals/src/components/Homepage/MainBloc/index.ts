@@ -1,1 +1,1 @@
-export * from "./MainBloc.component";
+export * from "./mainBloc.component";

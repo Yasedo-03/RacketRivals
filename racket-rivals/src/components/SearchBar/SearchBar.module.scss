@@ -1,0 +1,92 @@
+.searchForm {
+  position: relative;
+  width: 100%;
+  border-radius: 10px;
+  background: white;
+}
+
+#search,
+.searchBtn {
+  height: 3rem;
+  border: 0;
+  color: black;
+  font-size: 1.8rem;
+}
+
+#search {
+  outline: 0;
+  width: 100%;
+  background: white;
+  padding: 0 1.6rem;
+  border-radius: 10px;
+  transition: all 0.3s cubic-bezier(0, 0, 0.43, 1.49);
+  transition-property: width, border-radius;
+  z-index: 1;
+  position: relative;
+  left: 0;
+}
+
+#search::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.searchBtn {
+  color: rgba(0, 0, 0, 0.7);
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-weight: bold;
+  width: 3rem;
+  background: linear-gradient(
+    45deg,
+    #ff8c00,
+    #ff4500,
+    #ff8c00,
+    #ffa500,
+    #ffd700,
+    #ffff00,
+    #ffd700,
+    hwb(57 5% 2%),
+    #ff4500,
+    #ffff00,
+    #ffd700,
+    #ffa500,
+    #ff8c00,
+    #ff4500,
+    #ff8c00
+  );
+  background-size: 400%;
+  animation: AnimateBG 20s ease infinite;
+  border-radius: 0 10px 10px 0;
+}
+
+@keyframes AnimateBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+#search:not(:placeholder-shown) {
+  border-radius: 10px 0 0 10px;
+  width: calc(100% - 3rem);
+  + .searchBtn {
+    display: block;
+  }
+}
+
+.labelSearch {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
