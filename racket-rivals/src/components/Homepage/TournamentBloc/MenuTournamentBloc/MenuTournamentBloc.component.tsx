@@ -10,7 +10,7 @@ export const MenuTournamentBloc = () => {
           isActive ? `${styles.active} ${styles.menuButton}` : styles.menuButton
         }
       >
-        <span>Mes tournois</span>
+        <span>Trouver un tournoi</span>
       </NavLink>
       <NavLink
         to="/tournament/create"

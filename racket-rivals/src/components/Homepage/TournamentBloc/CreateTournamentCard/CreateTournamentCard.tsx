@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import { CreateTournamentForm } from "../../../CreateTournamentForm";
-import styles from './CreateTournamentCard.module.scss';
+import styles from "./CreateTournamentCard.module.scss";
 
 export const CreateTournamentCard = () => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -19,9 +19,7 @@ export const CreateTournamentCard = () => {
     <div className={styles.container} ref={cardRef}>
       <CreateTournamentForm />
     </div>
-  )
+  );
 };
 
 CreateTournamentCard.displayName = "CreateTournamentCard";
-
-

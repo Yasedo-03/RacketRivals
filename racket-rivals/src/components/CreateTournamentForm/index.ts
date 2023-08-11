@@ -1,1 +1,1 @@
-export * from './CreateTournamentForm.component';
+export * from "./CreateTournamentForm.component";
