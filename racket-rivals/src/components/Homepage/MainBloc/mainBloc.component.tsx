@@ -1,5 +1,5 @@
 import { BlurDivider } from "../../BlurDivider";
-import { ScrollDownArrows } from "../../ScrollArrows";
+import { ScrollArrows, ScrollArrowsDirection } from "../../ScrollArrows";
 import styles from "./MainBloc.module.scss";
 import { MainCard } from "./MainCard";
 
@@ -11,7 +11,7 @@ export const MainBloc = ({ index }: MainBlocPros) => {
   return (
     <div className={styles.mainBloc}>
       <MainCard />
-      <ScrollDownArrows index={index} />
+      <ScrollArrows index={index} />
       <BlurDivider />
     </div>
   );

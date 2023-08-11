@@ -1,5 +1,5 @@
 import { BlurDivider } from "../../BlurDivider";
-import { ScrollDownArrows } from "../../ScrollArrows";
+import { ScrollArrows, ScrollArrowsDirection } from "../../ScrollArrows";
 import { MenuTournamentBloc } from "./MenuTournamentBloc";
 import { useLocation } from "react-router-dom";
 import { TournamentCard } from "./TournamentCard";
@@ -61,7 +61,7 @@ export const TournamentBloc = ({ index }: TournamentBlocProps) => {
           </div>
         </CSSTransition>
       </div>
-      <ScrollDownArrows index={index} />
+      <ScrollArrows index={index} />
       <BlurDivider />
     </div>
   );
