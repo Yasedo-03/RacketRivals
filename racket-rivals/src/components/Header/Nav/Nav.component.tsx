@@ -50,7 +50,16 @@ export const Nav: FC<NavProps> = ({
           </div>
         ))}
         <div className={styles.loginButtonContainer}>
-          <div className={styles.loginButton}>
+          <div
+            onClick={
+              isLogged
+                ? () => {
+                    null;
+                  }
+                : () => navigate("/login")
+            }
+            className={styles.loginButton}
+          >
             {isLogged ? "Déconnexion" : "Connexion"}
           </div>
         </div>
