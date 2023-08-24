@@ -12,11 +12,13 @@
     flex-direction: column;
     height: 50px;
     font-size: 14px;
+    align-items: flex-start;
 
     input,
     textarea,
     select {
       margin: 2px 0;
+      width: 100%;
     }
   }
 
