@@ -5,7 +5,7 @@
   background-image: url("../../../assets/img/imgBgDesktop.png");
 
   @include onDevice(mobile) {
-    background-image: url("../../../assets/img/imgBgMobile.jpg");
+    background-image: url("../../../assets/img/imgBgMobilePlayerSection.png");
   }
 }
 
