@@ -14,11 +14,11 @@ export const Login: FC = () => {
       <div className={styles["login-box"]}>
         <form>
           <div className={styles["user-box"]}>
-            <input type="text" name="" required />
-            <label>Identifiant</label>
+            <input type="email" name="email" required />
+            <label>Email</label>
           </div>
           <div className={styles["user-box"]}>
-            <input type="password" name="" required />
+            <input type="password" name="password" required />
             <label>Mot de passe</label>
           </div>
           <a href="#">

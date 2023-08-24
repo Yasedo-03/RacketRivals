@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./RegisterPage.module.scss";
 
 export const Register: FC = () => {
@@ -14,11 +14,27 @@ export const Register: FC = () => {
       <div className={styles["login-box"]}>
         <form>
           <div className={styles["user-box"]}>
-            <input type="text" name="" required />
-            <label>Identifiant</label>
+            <input type="email" name="email" required />
+            <label>Email</label>
           </div>
           <div className={styles["user-box"]}>
-            <input type="password" name="" required />
+            <input type="text" name="firstname" required />
+            <label>Prénom</label>
+          </div>
+          <div className={styles["user-box"]}>
+            <input type="text" name="lastname" required />
+            <label>Nom</label>
+          </div>
+          <div className={styles["user-box"]}>
+            <input type="text" name="club" required />
+            <label>Club</label>
+          </div>
+          <div className={styles["user-box"]}>
+            <input type="number" name="rank" required />
+            <label>Classement</label>
+          </div>
+          <div className={styles["user-box"]}>
+            <input type="password" name="password" required />
             <label>Mot de passe</label>
           </div>
           <a href="#">
@@ -26,12 +42,9 @@ export const Register: FC = () => {
             <span></span>
             <span></span>
             <span></span>
-            Connexion
+            S'inscrire
           </a>
         </form>
-        <Link className={styles.signupLink} to="/register">
-          S'inscrire
-        </Link>
       </div>
     </div>
   );

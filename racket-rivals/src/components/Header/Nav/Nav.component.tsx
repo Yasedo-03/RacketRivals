@@ -28,7 +28,7 @@ export const Nav: FC<NavProps> = ({
   });
 
   const handleNavigation = (path: string, index: number) => {
-    if (path === "/account") {
+    if (path === "/account" || path === "/register") {
       navigate(path);
     } else {
       handleClick(index);

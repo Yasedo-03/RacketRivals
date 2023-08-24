@@ -9,6 +9,7 @@ const navItems = [
   { label: "Tournois", path: "/tournaments" },
   { label: "Joueurs", path: "/players" },
   { label: "Mon compte", path: "/account" },
+  { label: "Inscription", path: "/register" },
 ];
 
 export const Header = () => {
