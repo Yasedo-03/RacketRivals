@@ -1,30 +1,52 @@
 import { FC } from "react";
 import styles from "./Nav.module.scss";
 import classNames from "classnames";
+import { useNavigate } from "react-router-dom";
+import { handleClick } from "../../../gsap-helpers/scrollAnimation";
+
+interface NavItem {
+  label: string;
+  path: string;
+}
 
 interface NavProps {
   isVisible: boolean;
   isLogged: boolean;
-  navItems: Array<string>;
+  navItems: Array<NavItem>;
+  setIsNavVisible: (visible: boolean) => void;
 }
 
 export const Nav: FC<NavProps> = ({
   isVisible,
   navItems,
   isLogged,
+  setIsNavVisible,
 }: NavProps) => {
+  const navigate = useNavigate();
   const className = classNames(styles.container, {
     [styles.visible]: isVisible,
   });
 
+  const handleNavigation = (path: string, index: number) => {
+    if (path === "/account") {
+      navigate(path);
+    } else {
+      handleClick(index);
+    }
+    setIsNavVisible(false);
+  };
+
   return (
     <>
       <div className={className}>
-        {navItems.map((navItem) => (
-          <div className={styles.navItem} key={navItem}>
-            <a className={styles.text} href="">
-              {navItem}
-            </a>
+        {navItems.map((navItem, index) => (
+          <div className={styles.navItem} key={navItem.label}>
+            <div
+              className={styles.text}
+              onClick={() => handleNavigation(navItem.path, index)}
+            >
+              {navItem.label}
+            </div>
           </div>
         ))}
         <div className={styles.loginButtonContainer}>
