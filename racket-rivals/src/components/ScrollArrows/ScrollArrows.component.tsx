@@ -17,8 +17,19 @@ export const ScrollArrows: FC<ScrollArrowsProps> = ({
   index,
   scrollArrowsDirection,
 }) => {
+  const handleClickArrows = (
+    index: number,
+    scrollArrowsDirection?: ScrollArrowsDirection
+  ) => {
+    const newIndex = scrollArrowsDirection === "TOP" ? index - 1 : index + 1;
+    handleClick(newIndex);
+  };
+
   return (
-    <svg onClick={() => handleClick(index + 1)} className={styles.arrows}>
+    <svg
+      onClick={() => handleClickArrows(index, scrollArrowsDirection)}
+      className={styles.arrows}
+    >
       <g
         className={
           scrollArrowsDirection === ScrollArrowsDirection.TOP ? "rotation" : ""
