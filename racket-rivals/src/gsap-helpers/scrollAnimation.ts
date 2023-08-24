@@ -4,6 +4,8 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
+let isNavigationTriggeredByClick = false;
+
 export const createScrollAnimation = (
   panels: (HTMLElement | null)[],
   scrollTween: React.MutableRefObject<gsap.core.Tween | null>,
@@ -43,7 +45,9 @@ export const createScrollAnimation = (
           start: "top bottom",
           end: "+=199%",
           onToggle: (self) => {
-            self.isActive && !scrollTween.current && goToSection(i);
+            if (!isNavigationTriggeredByClick) {
+              self.isActive && !scrollTween.current && goToSection(i);
+            }
             if (self.isActive && scrollTween.current) {
               switch (i) {
                 case 0:
@@ -75,9 +79,13 @@ export const createScrollAnimation = (
 };
 
 export const handleClick = (i: number) => {
+  isNavigationTriggeredByClick = true;
   gsap.to(window, {
     scrollTo: { y: i * window.innerHeight, autoKill: false },
     duration: 1,
     overwrite: true,
+    onComplete: () => {
+      isNavigationTriggeredByClick = false;
+    },
   });
 };
