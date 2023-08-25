@@ -1,0 +1,64 @@
+// React-transition-group doesn't work with css module
+
+.page {
+  position: absolute;
+  width: 80%;
+  height: 90%;
+}
+
+.page-left-enter {
+  transform: translateX(-500px);
+  transition: transform 0.8s;
+}
+
+.page-left-enter-active {
+  transform: translateX(0);
+  transition: transform 0.8s;
+}
+
+.page-left-exit {
+  transform: translateX(0);
+  transition: transform 0.8s;
+}
+
+.page-left-exit-active {
+  transform: translateX(-500px);
+  transition: transform 0.8s;
+}
+
+.page-right-enter {
+  transform: translateX(500px);
+  transition: transform 0.8s;
+}
+
+.page-right-enter-active {
+  transform: translateX(0);
+  transition: transform 0.8s;
+}
+
+.page-right-exit {
+  transform: translateX(0);
+}
+
+.page-right-exit-active {
+  transform: translateX(500px);
+  transition: transform 0.8s;
+}
+
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 1s;
+}
