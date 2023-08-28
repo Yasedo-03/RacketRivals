@@ -2,8 +2,8 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { Pagination } from "../../../Pagination";
 import { SearchBar } from "../../../SearchBar";
 import { TournamentList } from "../TournamentList";
-import styles from "./TournamentCard.module.scss";
 import { MenuTournamentCard } from "../MenuTournamentCard/MenuTournamentCard.component";
+import styles from "./TournamentCard.module.scss";
 
 export enum TournamentListViews {
   MyTournaments = "myTournaments",

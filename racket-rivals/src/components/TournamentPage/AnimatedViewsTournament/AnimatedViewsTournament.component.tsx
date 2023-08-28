@@ -23,7 +23,7 @@ export const AnimatedViewsTournament = ({
           classNames="views"
           unmountOnExit
         >
-          <div className="view">{view.component}</div>
+          <div className={styles.views}>{view.component}</div>
         </CSSTransition>
       ))}
     </div>

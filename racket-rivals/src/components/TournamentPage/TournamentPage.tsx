@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
 import { MenuNavigationTournament } from "./MenuNavigationTournament";
 import { TournamentDetails } from "./TournamentDetails";
-import styles from "./TournamentPage.module.scss";
 import { AnimatedViewsTournament } from "./AnimatedViewsTournament";
+import { TournamentPlayersList } from "./TournamentPlayersList";
+import { TournamentBracket } from "./TournamentBracket";
+import styles from "./TournamentPage.module.scss";
 
 export enum labelsMenuTournamentPageNavigation {
   DETAILS = "Informations",
@@ -15,7 +17,7 @@ export enum labelsMenuTournamentPageNavigation {
 enum TOURNAMENT_VIEWS_ROUTES {
   DETAILS = "/tournament/1/details",
   BRACKET = "/tournament/1/bracket",
-  PLAYERS_LIST = "/tournament/1/players/list",
+  PLAYERS_LIST = "/tournament/1/players_list",
 }
 
 export type Views = {
@@ -47,16 +49,17 @@ export const Tournament: FC = () => {
       timeout: 800,
     },
     {
-      // component: <TournamentCard />,
+      component: <TournamentBracket />,
       route: TOURNAMENT_VIEWS_ROUTES.BRACKET,
       timeout: 800,
     },
     {
-      // component: <CreateTournamentCard />,
+      component: <TournamentPlayersList />,
       route: TOURNAMENT_VIEWS_ROUTES.PLAYERS_LIST,
       timeout: 800,
     },
   ];
+
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);

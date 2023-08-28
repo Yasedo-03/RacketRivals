@@ -1,0 +1,36 @@
+.container {
+  color: white;
+  opacity: 0;
+  transition: opacity 800ms ease-in-out;
+  overflow-y: auto;
+  height: 100%;
+
+  &.containerInPlace {
+    opacity: 1;
+  }
+
+  .participantItem {
+    display: flex;
+    justify-content: space-between;
+    height: 70px;
+    width: 100%;
+    border: 2px white solid;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    padding: 10px;
+
+    .participantNameAndClub {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+
+      span {
+        font-size: 12px;
+      }
+
+      .ranking {
+        font-size: 14px;
+      }
+    }
+  }
+}
