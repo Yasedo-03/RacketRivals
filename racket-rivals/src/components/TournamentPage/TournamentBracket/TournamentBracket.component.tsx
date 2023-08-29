@@ -1,4 +1,5 @@
 import { FC, useLayoutEffect, useRef } from "react";
+import { Ro16Bracket, Ro8Bracket } from "../../../templates";
 import styles from "./TournamentBracket.module.scss";
 
 export const TournamentBracket: FC = () => {
@@ -16,7 +17,8 @@ export const TournamentBracket: FC = () => {
 
   return (
     <div className={styles.container} ref={cardRef}>
-      bracket
+      <Ro8Bracket />
+      {/* <Ro16Bracket /> */}
     </div>
   );
 };

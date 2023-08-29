@@ -45,7 +45,7 @@ export const TournamentList: FC<TournamentListProps> = ({
         <Link
           key={tournament.id}
           className={styles.listItem}
-          to={"/tournament/1"}
+          to={"/tournament/1/details"}
         >
           <span>{tournament.name} </span>
           <span>{tournament.id}</span>

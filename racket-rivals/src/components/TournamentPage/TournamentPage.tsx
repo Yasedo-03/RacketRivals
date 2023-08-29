@@ -14,7 +14,7 @@ export enum labelsMenuTournamentPageNavigation {
   PLAYERS_LIST = "Liste des joueurs",
 }
 
-enum TOURNAMENT_VIEWS_ROUTES {
+export enum TOURNAMENT_VIEWS_ROUTES {
   DETAILS = "/tournament/1/details",
   BRACKET = "/tournament/1/bracket",
   PLAYERS_LIST = "/tournament/1/players_list",
@@ -62,7 +62,7 @@ export const Tournament: FC = () => {
 
   const navigate = useNavigate();
   const goBack = () => {
-    navigate(-1);
+    navigate("/");
   };
 
   return (
