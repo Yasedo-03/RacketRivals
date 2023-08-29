@@ -1,6 +1,7 @@
 import { FC } from "react";
 import styles from "./TournamentList.module.scss";
 import { TournamentListViews } from "../TournamentCard";
+import { Link } from "react-router-dom";
 
 type TournamentListProps = {
   tournamentListView: TournamentListViews;
@@ -41,10 +42,14 @@ export const TournamentList: FC<TournamentListProps> = ({
   return (
     <div className={styles.list}>
       {tournamentListToMap.map((tournament) => (
-        <a key={tournament.id} className={styles.listItem} href={tournament.id}>
+        <Link
+          key={tournament.id}
+          className={styles.listItem}
+          to={"/tournament/1/details"}
+        >
           <span>{tournament.name} </span>
           <span>{tournament.id}</span>
-        </a>
+        </Link>
       ))}
     </div>
   );

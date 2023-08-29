@@ -1,0 +1,46 @@
+.navContainer {
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  height: 90px;
+  margin: auto;
+  text-align: center;
+  border-radius: 10px;
+
+  .navItem {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 0.5rem;
+    border: 2px solid #ff4500;
+    transition: background-color 0.7s, color 0.7s;
+
+    &:hover,
+    &.active {
+      color: black;
+      background-color: #ff4500;
+
+      span {
+        display: inline-block;
+        transition: transform 0.5s;
+        transform: scale(1.1);
+      }
+    }
+
+    &:nth-child(2) {
+      border-left: none;
+      border-right: none;
+    }
+
+    &:first-child {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+  }
+}
