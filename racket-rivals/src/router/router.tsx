@@ -6,6 +6,7 @@ const HomePage = lazy(() => import("../pages/homePage"));
 const LoginPage = lazy(() => import("../pages/loginPage"));
 const RegisterPage = lazy(() => import("../pages/registerPage"));
 const TournamentPage = lazy(() => import("../pages/tournamentPage"));
+const AccountPage = lazy(() => import("../pages/accountPage"));
 
 export const Router = () => (
   <BrowserRouter>
@@ -13,6 +14,7 @@ export const Router = () => (
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/account" element={<AccountPage />} />
         <Route path="/tournament/1/*" element={<TournamentPage />} />
         <Route
           path="*"
