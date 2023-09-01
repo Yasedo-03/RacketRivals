@@ -1,30 +1,28 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
-export interface CounterState {
-  value: number;
-}
-
-const initialState: CounterState = {
-  value: 0,
-};
-
-export const counterSlice = createSlice({
-  name: "counter",
-  initialState,
+const slice = createSlice({
+  name: "auth",
+  initialState: { userID: null, token: null } as {
+    userID: null | any;
+    token: null | string;
+  },
   reducers: {
-    increment: (state) => {
-      state.value += 1;
-    },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload;
+    setCredentials: (
+      state,
+      {
+        payload: { userID, token },
+      }: PayloadAction<{ userID: string; token: string }>
+    ) => {
+      state.userID = userID;
+      state.token = token;
     },
   },
+  extraReducers: (builder) => {},
 });
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+export const { setCredentials } = slice.actions;
 
-export default counterSlice.reducer;
+export default slice.reducer;
+
+export const selectCurrentuserID = (state: RootState) => state.auth.userID;
