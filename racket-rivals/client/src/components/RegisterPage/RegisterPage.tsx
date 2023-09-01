@@ -14,7 +14,7 @@ export const Register: FC = () => {
       <div className={styles["login-box"]}>
         <form>
           <div className={styles["user-box"]}>
-            <input type="email" name="email" required />
+            <input type="text" name="email" required />
             <label>Email</label>
           </div>
           <div className={styles["user-box"]}>
@@ -30,7 +30,7 @@ export const Register: FC = () => {
             <label>Club</label>
           </div>
           <div className={styles["user-box"]}>
-            <input type="number" name="rank" required />
+            <input type="text" name="rank" required />
             <label>Classement</label>
           </div>
           <div className={styles["user-box"]}>

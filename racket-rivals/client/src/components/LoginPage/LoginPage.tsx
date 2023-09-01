@@ -1,11 +1,11 @@
 import { FC, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
-import styles from "./LoginPage.module.scss";
 import { useAppDispatch } from "../../hooks/store/useStore";
 import { LoginRequest } from "../../services/users/interfaces/usersInterfaces";
 import { useLoginMutation } from "../../services/users/endpoints";
 import { setCredentials } from "../../store/slice/slice";
+import styles from "./LoginPage.module.scss";
 
 export const Login: FC = () => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ export const Login: FC = () => {
       <div className={styles["login-box"]}>
         <form>
           <div className={styles["user-box"]}>
-            <input onChange={handleChange} type="email" name="email" required />
+            <input onChange={handleChange} type="text" name="email" required />
             <label>Email</label>
           </div>
           <div className={styles["user-box"]}>

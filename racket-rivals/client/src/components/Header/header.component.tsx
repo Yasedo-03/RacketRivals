@@ -1,8 +1,9 @@
-import styles from "./header.module.scss";
 import { Nav } from "./Nav";
 import { ReactComponent as AppLogo } from "../../assets/svg/logo_racketrivals.svg";
 import { useState } from "react";
 import BurgerMenu from "./BurgerMenu/BurgerMenu.component";
+import { useAuthStatus } from "../../hooks/store/user";
+import styles from "./header.module.scss";
 
 const navItems = [
   { label: "Accueil", path: "/" },
@@ -14,7 +15,7 @@ const navItems = [
 
 export const Header = () => {
   const [isNavVisible, setIsNavVisible] = useState<boolean>(false);
-  const [isLogged, setIsLogged] = useState<boolean>(false);
+  const isLogged = useAuthStatus();
 
   return (
     <>

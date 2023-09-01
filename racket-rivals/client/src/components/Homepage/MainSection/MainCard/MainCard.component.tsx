@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import { useAuthStatus } from "../../../../hooks/store/user";
 import styles from "./MainCard.module.scss";
 
 export const MainCard = () => {
   const navigate = useNavigate();
+  const isLogged = useAuthStatus();
+
   return (
     <div className={styles.mainCard}>
       <h1 className={styles.title}>Bienvenue sur RacketRivals</h1>
@@ -15,7 +18,7 @@ export const MainCard = () => {
         onClick={() => navigate("/login")}
         type="button"
       >
-        Connexion
+        {isLogged ? "Déconnexion" : "Connexion"}
       </button>
     </div>
   );
