@@ -1,10 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthStatus } from "../../../../hooks/store/user";
+import { useAppDispatch } from "../../../../hooks/store/useStore";
+import { logout } from "../../../../store/slice/auth";
 import styles from "./MainCard.module.scss";
 
 export const MainCard = () => {
   const navigate = useNavigate();
   const isLogged = useAuthStatus();
+  const dispatch = useAppDispatch();
+
+  const handleClickLoggin = (isLogged: boolean) => {
+    isLogged ? dispatch(logout()) : navigate("/login");
+  };
 
   return (
     <div className={styles.mainCard}>
@@ -15,7 +22,7 @@ export const MainCard = () => {
       <p className={styles.text}>Rejoignez la compétition en quelques clics.</p>
       <button
         className={styles.loginButton}
-        onClick={() => navigate("/login")}
+        onClick={() => handleClickLoggin(isLogged)}
         type="button"
       >
         {isLogged ? "Déconnexion" : "Connexion"}

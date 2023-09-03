@@ -40,7 +40,12 @@ export const Nav: FC<NavProps> = ({
     <>
       <div className={className}>
         {navItems.map((navItem, index) => (
-          <div className={styles.navItem} key={navItem.label}>
+          <div
+            className={classNames(styles.navItem, {
+              [styles.hidden]: isLogged && navItem.label === "Inscription",
+            })}
+            key={navItem.label}
+          >
             <div
               className={styles.text}
               onClick={() => handleNavigation(navItem.path, index)}

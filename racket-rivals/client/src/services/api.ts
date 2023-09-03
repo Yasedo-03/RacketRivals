@@ -6,7 +6,7 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
     if (token) {
-      headers.set("authentication", `Bearer ${token}`);
+      headers.set("authorization", `Bearer ${token}`);
     }
     return headers;
   },
@@ -15,6 +15,6 @@ const baseQuery = fetchBaseQuery({
 export const racketRivalsApi = createApi({
   reducerPath: "racketRivalsAPI",
   baseQuery: baseQuery,
-  tagTypes: ["Users"],
+  tagTypes: ["Users", "Auth"],
   endpoints: () => ({}),
 });

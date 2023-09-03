@@ -1,6 +1,7 @@
 import { ConfigureStoreOptions, configureStore } from "@reduxjs/toolkit";
 import { racketRivalsApi } from "../services/api";
-import auth from "./slice/slice";
+import auth from "./slice/auth";
+import user from "./slice/user";
 
 export const createStore = (
   options?: ConfigureStoreOptions["preloadedState"] | undefined
@@ -9,6 +10,7 @@ export const createStore = (
     reducer: {
       [racketRivalsApi.reducerPath]: racketRivalsApi.reducer,
       auth,
+      user,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(racketRivalsApi.middleware),

@@ -3,8 +3,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/store/useStore";
 import { LoginRequest } from "../../services/users/interfaces/usersInterfaces";
-import { useLoginMutation } from "../../services/users/endpoints";
-import { setCredentials } from "../../store/slice/slice";
+import { authenticateAndFetchUser } from "../../services/users/authThunk";
 import styles from "./LoginPage.module.scss";
 
 export const Login: FC = () => {
@@ -19,7 +18,17 @@ export const Login: FC = () => {
     password: "",
   });
 
-  const [login, { isLoading }] = useLoginMutation();
+  const handleLogin = async () => {
+    try {
+      const action = await dispatch(authenticateAndFetchUser(formState));
+
+      if (authenticateAndFetchUser.fulfilled.match(action)) {
+        navigate("/");
+      }
+    } catch (err) {
+      console.log("Erreur lors de la connexion:", err);
+    }
+  };
 
   const handleChange = ({
     target: { name, value },
@@ -44,21 +53,7 @@ export const Login: FC = () => {
             />
             <label>Mot de passe</label>
           </div>
-          <a
-            onClick={async () => {
-              try {
-                const result = await login(formState);
-
-                if ("data" in result && result.data) {
-                  dispatch(setCredentials(result.data));
-                  navigate("/");
-                }
-              } catch (err) {
-                console.log(err);
-              }
-            }}
-            href="#"
-          >
+          <a onClick={handleLogin} href="#">
             <span></span>
             <span></span>
             <span></span>

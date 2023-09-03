@@ -30,7 +30,7 @@ export const Register: FC = () => {
             <label>Club</label>
           </div>
           <div className={styles["user-box"]}>
-            <input type="text" name="rank" required />
+            <input type="text" name="rank" />
             <label>Classement</label>
           </div>
           <div className={styles["user-box"]}>
