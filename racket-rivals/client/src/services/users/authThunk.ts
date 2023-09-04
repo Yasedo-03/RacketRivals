@@ -10,6 +10,8 @@ export const authenticateAndFetchUser = createAsyncThunk(
     const authAction = await dispatch(
       authEndpoints.endpoints.login.initiate(credentials)
     );
+    console.log(authAction);
+
     if ("error" in authAction && authAction.error) {
       const errorData = (authAction.error as any).data;
 
@@ -21,13 +23,12 @@ export const authenticateAndFetchUser = createAsyncThunk(
     }
 
     if ("data" in authAction && authAction.data) {
-      const { userID, token } = authAction.data;
-      dispatch(setCredentials({ userID, token }));
+      const { userID, accessToken } = authAction.data;
 
-      if (token) {
-        await dispatch(
-          usersEndpoints.endpoints.getMe.initiate(credentials.email)
-        );
+      dispatch(setCredentials({ userID, accessToken }));
+
+      if (accessToken) {
+        await dispatch(usersEndpoints.endpoints.getMe.initiate());
       }
     }
   }

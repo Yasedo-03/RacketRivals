@@ -16,6 +16,13 @@ export const authEndpoints = racketRivalsApi.injectEndpoints({
         credentials: "include",
       }),
     }),
+    logout: builder.mutation<void, null>({
+      query: () => ({
+        url: "auth/logout",
+        method: "POST",
+        credentials: "include",
+      }),
+    }),
     registerUser: builder.mutation<User, RegisterInput>({
       query: (data) => ({
         url: "auth/register",
@@ -27,4 +34,5 @@ export const authEndpoints = racketRivalsApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useLoginMutation, useRegisterUserMutation } = authEndpoints;
+export const { useLoginMutation, useRegisterUserMutation, useLogoutMutation } =
+  authEndpoints;

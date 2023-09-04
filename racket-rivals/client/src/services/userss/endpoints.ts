@@ -4,14 +4,11 @@ import { User } from "../users/interfaces/usersInterfaces";
 
 export const usersEndpoints = racketRivalsApi.injectEndpoints({
   endpoints: (builder) => ({
-    getMe: builder.query<User, string>({
-      query(email: string) {
+    getMe: builder.query<User, void>({
+      query() {
         return {
           url: `auth/me`,
           credentials: "include",
-          headers: {
-            "user-email": email,
-          },
         };
       },
       transformResponse: (result: User) => result ?? null,

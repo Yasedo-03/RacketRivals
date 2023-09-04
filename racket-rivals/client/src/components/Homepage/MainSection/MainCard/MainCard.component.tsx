@@ -1,16 +1,28 @@
 import { useNavigate } from "react-router-dom";
-import { useAuthStatus } from "../../../../hooks/store/user";
+import { useAuthStatus, useGetToken } from "../../../../hooks/store/user";
 import { useAppDispatch } from "../../../../hooks/store/useStore";
 import { logout } from "../../../../store/slice/auth";
+import { useLogoutMutation } from "../../../../services/users/endpoints";
 import styles from "./MainCard.module.scss";
 
 export const MainCard = () => {
   const navigate = useNavigate();
   const isLogged = useAuthStatus();
   const dispatch = useAppDispatch();
+  const [logoutMutation] = useLogoutMutation();
 
-  const handleClickLoggin = (isLogged: boolean) => {
-    isLogged ? dispatch(logout()) : navigate("/login");
+  const handleClickLoggin = async (isLogged: boolean) => {
+    if (isLogged) {
+      try {
+        await logoutMutation(null).unwrap();
+        console.log("Mutation réussie");
+        dispatch(logout());
+      } catch (error) {
+        console.error("Erreur lors de la déconnexion : ", error);
+      }
+    } else {
+      navigate("/login");
+    }
   };
 
   return (

@@ -35,12 +35,26 @@ router.post("/login", async (req, res) => {
       .status(400)
       .json({ message: "Username or password is incorrect" });
   }
+
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) {
     return res.status(400).json({ message: "Email or password is incorrect" });
   }
-  const token = jwt.sign({ id: user._id }, "secret", { expiresIn: "1h" });
-  res.json({ token, userID: user._id });
+
+  const accessToken = jwt.sign({ 
+    id: user._id, email: user.email 
+  }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
+
+  const refreshToken = jwt.sign({
+    id: user._id,
+}, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
+
+  res.cookie('refresh_token', refreshToken, { httpOnly: true, 
+      sameSite: 'None', secure: true,
+      maxAge: 24 * 60 * 60 * 1000 
+    }
+  ); 
+  res.json({ accessToken, userID: user._id });
 });
 
 router.get("/me", verifyToken, async (req, res) => {
@@ -51,6 +65,33 @@ router.get("/me", verifyToken, async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
+});
+
+router.post("/refresh", async (req, res) => {
+
+  const user = await UserModel.findOne({ email });
+
+  if (req.cookies?.jwt) {
+      const refreshToken = req.cookies.jwt;
+
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, 
+    (err, decoded) => {
+        if (err) {
+          return res.status(406).json({ message: 'Unauthorized' });
+        }
+        else {
+            const accessToken = jwt.sign({
+              id: user._id,
+              email: user.email
+            }, process.env.ACCESS_TOKEN_SECRET, {
+              expiresIn: '10m'
+            });
+            return res.json({ accessToken, userID: user._id });
+        }
+    })
+} else {
+    return res.status(406).json({ message: 'Unauthorized' });
+}
 });
 
 export { router as userRouter };

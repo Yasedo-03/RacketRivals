@@ -3,6 +3,9 @@ import styles from "./Nav.module.scss";
 import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
 import { handleClick } from "../../../gsap-helpers/scrollAnimation";
+import { useLogoutMutation } from "../../../services/users/endpoints";
+import { useAppDispatch } from "../../../hooks/store/useStore";
+import { logout } from "../../../store/slice/auth";
 
 interface NavItem {
   label: string;
@@ -23,9 +26,24 @@ export const Nav: FC<NavProps> = ({
   setIsNavVisible,
 }: NavProps) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const [logoutMutation] = useLogoutMutation();
   const className = classNames(styles.container, {
     [styles.visible]: isVisible,
   });
+
+  const handleClickLoggin = async (isLogged: boolean) => {
+    if (isLogged) {
+      try {
+        await logoutMutation(null).unwrap();
+        dispatch(logout());
+      } catch (error) {
+        console.error("Erreur lors de la déconnexion : ", error);
+      }
+    } else {
+      navigate("/login");
+    }
+  };
 
   const handleNavigation = (path: string, index: number) => {
     if (path === "/account" || path === "/register") {
@@ -56,13 +74,7 @@ export const Nav: FC<NavProps> = ({
         ))}
         <div className={styles.loginButtonContainer}>
           <div
-            onClick={
-              isLogged
-                ? () => {
-                    null;
-                  }
-                : () => navigate("/login")
-            }
+            onClick={() => handleClickLoggin(isLogged)}
             className={styles.loginButton}
           >
             {isLogged ? "Déconnexion" : "Connexion"}
