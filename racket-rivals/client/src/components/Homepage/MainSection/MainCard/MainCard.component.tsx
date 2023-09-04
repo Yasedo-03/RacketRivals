@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStatus, useGetToken } from "../../../../hooks/store/user";
 import { useAppDispatch } from "../../../../hooks/store/useStore";
 import { logout } from "../../../../store/slice/auth";
-import { useLogoutMutation } from "../../../../services/users/endpoints";
+import { useLogoutMutation } from "../../../../services/auth/endpoints";
 import styles from "./MainCard.module.scss";
 
 export const MainCard = () => {

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { usersEndpoints } from "../userss/endpoints";
-import { LoginRequest } from "./interfaces/usersInterfaces";
+import { usersEndpoints } from "../users/endpoints";
+import { LoginRequest } from "./interfaces/authInterfaces";
 import { authEndpoints } from "./endpoints";
 import { setCredentials } from "../../store/slice/auth";
 

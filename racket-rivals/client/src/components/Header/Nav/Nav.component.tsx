@@ -3,7 +3,7 @@ import styles from "./Nav.module.scss";
 import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
 import { handleClick } from "../../../gsap-helpers/scrollAnimation";
-import { useLogoutMutation } from "../../../services/users/endpoints";
+import { useLogoutMutation } from "../../../services/auth/endpoints";
 import { useAppDispatch } from "../../../hooks/store/useStore";
 import { logout } from "../../../store/slice/auth";
 
