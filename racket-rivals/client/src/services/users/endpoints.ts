@@ -1,30 +1,28 @@
+import { setUser } from "../../store/slice/user";
 import { racketRivalsApi } from "../api";
-import {
-  LoginRequest,
-  RegisterInput,
-  User,
-  UserResponse,
-} from "./interfaces/usersInterfaces";
+import { User } from "./interfaces/usersInterfaces";
 
-export const authEndpoints = racketRivalsApi.injectEndpoints({
+export const usersEndpoints = racketRivalsApi.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<UserResponse, LoginRequest>({
-      query: (credentials) => ({
-        url: "auth/login",
-        method: "POST",
-        body: credentials,
-        credentials: "include",
-      }),
-    }),
-    registerUser: builder.mutation<User, RegisterInput>({
-      query: (data) => ({
-        url: "auth/register",
-        method: "POST",
-        body: data,
-      }),
+    getMe: builder.query<User, void>({
+      query() {
+        return {
+          url: `auth/me`,
+          credentials: "include",
+        };
+      },
+      transformResponse: (result: User) => result ?? null,
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setUser(data));
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useLoginMutation, useRegisterUserMutation } = authEndpoints;
+export const { useGetMeQuery } = usersEndpoints;

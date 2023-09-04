@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-const initialState = { userID: null, token: null } as {
+const initialState = { userID: null, accessToken: null } as {
   userID: null | any;
-  token: null | string;
+  accessToken: null | string;
 };
 
 const slice = createSlice({
@@ -14,11 +14,11 @@ const slice = createSlice({
     setCredentials: (
       state,
       {
-        payload: { userID, token },
-      }: PayloadAction<{ userID: string; token: string }>
+        payload: { userID, accessToken },
+      }: PayloadAction<{ userID: string; accessToken: string }>
     ) => {
       state.userID = userID;
-      state.token = token;
+      state.accessToken = accessToken;
     },
   },
   extraReducers: (builder) => {},

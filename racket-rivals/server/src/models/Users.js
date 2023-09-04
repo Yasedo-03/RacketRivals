@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema({
   club: { type: String, required: true },
   rank: { type: String },
   password: { type: String, required: true },
+  refreshToken: [String],
 });
 
 export const UserModel = mongoose.model("users", UserSchema);

@@ -2,13 +2,14 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 import { userRouter } from "./routes/users.js";
 
 dotenv.config();
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT;
 const corsOptions = {
   origin: "http://localhost:5173",
   credentials: true,
@@ -16,6 +17,7 @@ const corsOptions = {
 
 app.use(express.json());
 app.use(cors(corsOptions));
+app.use(cookieParser());
 
 app.use("/auth", userRouter);
 
