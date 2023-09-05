@@ -1,7 +1,9 @@
 import { useLayoutEffect, useRef } from "react";
+import { useGetUser } from "../../../../hooks/store/user";
 import styles from "./PlayerCard.module.scss";
 
 export const PlayerCard = () => {
+  const me = useGetUser();
   const cardRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     const timer = setTimeout(() => {
@@ -15,9 +17,9 @@ export const PlayerCard = () => {
 
   return (
     <div className={styles.container} ref={cardRef}>
-      <h1 className={styles.fullName}>John Doe</h1>
+      <h1 className={styles.fullName}>{`${me?.firstName} ${me?.lastName}`}</h1>
       <p className={styles.rank}>
-        Classement <span className={styles.greenBorder}>1200</span>
+        Classement <span className={styles.greenBorder}>{me?.rank}</span>
       </p>
       <div className={styles.tournamentStats}>
         <h2 className={styles.tournamentStatsTitle}>Tournois</h2>

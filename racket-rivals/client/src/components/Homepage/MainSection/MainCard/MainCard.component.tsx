@@ -15,7 +15,6 @@ export const MainCard = () => {
     if (isLogged) {
       try {
         await logoutMutation(null).unwrap();
-        console.log("Mutation réussie");
         dispatch(logout());
       } catch (error) {
         console.error("Erreur lors de la déconnexion : ", error);

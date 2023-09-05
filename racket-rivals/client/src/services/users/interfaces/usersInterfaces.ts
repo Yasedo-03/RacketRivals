@@ -1,7 +1,9 @@
 export interface User {
+  _id: string;
   email: string;
-  first_name: string;
-  last_name: string;
-  club: string;
-  rank: string;
+  firstName: string;
+  lastName: string;
+  club?: string;
+  rank?: string;
+  password: string;
 }

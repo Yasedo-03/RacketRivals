@@ -10,9 +10,9 @@ export interface LoginRequest {
 
 export interface RegisterInput {
   email: string;
-  first_name: string;
-  last_name: string;
-  club: string;
-  rank: string;
+  firstName: string;
+  lastName: string;
+  club?: string;
+  rank?: string;
   password: string;
 }
