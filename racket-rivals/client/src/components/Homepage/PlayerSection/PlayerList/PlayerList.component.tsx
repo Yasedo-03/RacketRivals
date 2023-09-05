@@ -1,48 +1,20 @@
 import { FC } from "react";
+import { User } from "../../../../services/users/interfaces/usersInterfaces";
+import { useGetUsersQuery } from "../../../../services/users/endpoints";
 import styles from "./PlayerList.module.scss";
 
-interface player {
-  id: number;
-  first_name: string;
-  last_name: string;
-  club: string;
-  ranking: number;
-}
-
 export const PlayerList: FC = () => {
-  const players = [
-    {
-      id: 1,
-      first_name: "Jane",
-      last_name: "Doe",
-      club: "ézanville",
-      ranking: 1200,
-    },
-    {
-      id: 2,
-      first_name: "June",
-      last_name: "Dah",
-      club: "eaubonne",
-      ranking: 1400,
-    },
-    {
-      id: 3,
-      first_name: "John",
-      last_name: "Doe",
-      club: "domont",
-      ranking: 1700,
-    },
-  ];
+  const { data: players } = useGetUsersQuery();
 
   return (
     <div className={styles.list}>
-      {players.map((player: player) => (
-        <a key={player.id} className={styles.listItem} href={player.club}>
+      {players?.map((player: User) => (
+        <a key={player._id} className={styles.listItem} href={player.club}>
           <span>
-            {player.first_name} {player.last_name}{" "}
+            {player.firstName} {player.lastName}{" "}
           </span>
           <span>{player.club}</span>
-          <span>{player.ranking}</span>
+          <span>{player.rank}</span>
         </a>
       ))}
     </div>

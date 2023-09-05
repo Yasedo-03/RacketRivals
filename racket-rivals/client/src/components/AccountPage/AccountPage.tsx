@@ -1,9 +1,11 @@
 import { FC } from "react";
 import { FaArrowLeft, FaPenToSquare } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { useGetUser } from "../../hooks/store/user";
 import styles from "./AccountPage.module.scss";
 
 export const Account: FC = () => {
+  const me = useGetUser();
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
@@ -14,15 +16,15 @@ export const Account: FC = () => {
       <div className={styles.card}>
         <div>
           <span>Nom :</span>
-          <span className={styles.userInfos}>Doe</span>
+          <span className={styles.userInfos}>{me?.lastName}</span>
         </div>
         <div>
           <span>Prénom :</span>
-          <span className={styles.userInfos}>John</span>
+          <span className={styles.userInfos}>{me?.firstName}</span>
         </div>
         <div>
           <span>Email :</span>
-          <span className={styles.userInfos}>john.doe@example.com</span>
+          <span className={styles.userInfos}>{me?.email}</span>
         </div>
         <div>
           <span>Mot de passe :</span>
@@ -34,14 +36,14 @@ export const Account: FC = () => {
         <div>
           <span>Club :</span>
           <span className={styles.userInfos}>
-            Ézanville
+            {me?.club}
             <FaPenToSquare className={styles.editIcon} />
           </span>
         </div>
         <div>
           <span>Classement :</span>
           <span className={styles.userInfos}>
-            1200
+            {me?.rank}
             <FaPenToSquare className={styles.editIcon} />
           </span>
         </div>

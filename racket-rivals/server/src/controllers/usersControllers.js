@@ -9,3 +9,12 @@ export const getUser = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+export const getUsers = async (req, res) => {
+  try {
+    const result = await UserModel.find();
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};

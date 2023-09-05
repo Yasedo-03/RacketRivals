@@ -4,7 +4,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  club: { type: String, required: true },
+  club: { type: String },
   rank: { type: String },
   password: { type: String, required: true },
   refreshToken: [String],

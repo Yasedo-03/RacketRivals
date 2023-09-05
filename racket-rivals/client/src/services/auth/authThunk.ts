@@ -10,7 +10,6 @@ export const authenticateAndFetchUser = createAsyncThunk(
     const authAction = await dispatch(
       authEndpoints.endpoints.login.initiate(credentials)
     );
-    console.log(authAction);
 
     if ("error" in authAction && authAction.error) {
       const errorData = (authAction.error as any).data;

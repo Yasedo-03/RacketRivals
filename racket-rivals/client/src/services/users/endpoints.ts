@@ -7,7 +7,7 @@ export const usersEndpoints = racketRivalsApi.injectEndpoints({
     getMe: builder.query<User, void>({
       query() {
         return {
-          url: `auth/me`,
+          url: `me`,
           credentials: "include",
         };
       },
@@ -21,8 +21,15 @@ export const usersEndpoints = racketRivalsApi.injectEndpoints({
         }
       },
     }),
+    getUsers: builder.query<[User], void>({
+      query() {
+        return {
+          url: `users`,
+        };
+      },
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetMeQuery } = usersEndpoints;
+export const { useGetMeQuery, useGetUsersQuery } = usersEndpoints;
