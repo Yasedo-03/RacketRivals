@@ -1,8 +1,8 @@
 import { racketRivalsApi } from "../api";
+import { User } from "../users/interfaces/usersInterfaces";
 import {
   LoginRequest,
   RegisterInput,
-  User,
   UserResponse,
 } from "./interfaces/authInterfaces";
 
@@ -30,9 +30,20 @@ export const authEndpoints = racketRivalsApi.injectEndpoints({
         body: data,
       }),
     }),
+    refresh: builder.query<UserResponse, void>({
+      query: () => ({
+        url: "auth/refresh",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useLoginMutation, useRegisterUserMutation, useLogoutMutation } =
-  authEndpoints;
+export const {
+  useLoginMutation,
+  useRegisterUserMutation,
+  useLogoutMutation,
+  useRefreshQuery,
+} = authEndpoints;

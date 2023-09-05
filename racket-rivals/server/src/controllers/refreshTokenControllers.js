@@ -2,18 +2,19 @@ import { UserModel } from "../models/Users.js";
 import jwt from "jsonwebtoken";
 
 export const handleRefreshToken = async (req, res) => {
-  const user = await UserModel.findOne({ email });
-
-  if (req.cookies?.jwt) {
-    const refreshToken = req.cookies.jwt;
-
+  if (req.cookies?.refresh_token) {
+    const refreshToken = req.cookies.refresh_token;
     jwt.verify(
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET,
-      (err, decoded) => {
+      async (err, decoded) => {
         if (err) {
           return res.status(406).json({ message: "Unauthorized" });
         } else {
+          const user = await UserModel.findOne({ _id: decoded.id });
+          if (!user) {
+            return res.status(406).json({ message: "Unauthorized" });
+          }
           const accessToken = jwt.sign(
             {
               id: user._id,
@@ -24,7 +25,7 @@ export const handleRefreshToken = async (req, res) => {
               expiresIn: "10m",
             },
           );
-          return res.json({ accessToken, userID: user._id });
+          return res.json({ userID: user._id, accessToken });
         }
       },
     );

@@ -2,8 +2,8 @@ import { FC, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/store/useStore";
-import { LoginRequest } from "../../services/users/interfaces/usersInterfaces";
-import { authenticateAndFetchUser } from "../../services/users/authThunk";
+import { LoginRequest } from "../../services/auth/interfaces/authInterfaces";
+import { authenticateAndFetchUser } from "../../services/auth/authThunk";
 import styles from "./LoginPage.module.scss";
 
 export const Login: FC = () => {
