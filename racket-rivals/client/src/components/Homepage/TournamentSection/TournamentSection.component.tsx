@@ -8,8 +8,8 @@ import {
   useGetMyTournamentsQuery,
   useGetTournamentsQuery,
 } from "../../../services/tournaments/endpoints";
-import styles from "./TournamentSection.module.scss";
 import "./TournamentSection.scss";
+import styles from "./TournamentSection.module.scss";
 
 type TournamentSectionProps = {
   index: number;
@@ -22,7 +22,7 @@ export enum labelsMenuTournamentNavigation {
 
 enum TOURNAMENT_ROUTES {
   LIST = "/tournaments/list",
-  CREATE = "/tournament/create",
+  CREATE = "/tournaments/create",
 }
 
 export type Page = {

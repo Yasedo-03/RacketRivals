@@ -10,6 +10,7 @@ import { logout, setCredentials } from "../store/slice/auth";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_URL,
+  credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
     if (token) {
@@ -25,9 +26,9 @@ const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-  if (result.error && result.error.status === 403) {
-    console.log("403 error");
+  console.log(result);
 
+  if (result.error && result.error.status === 403) {
     const refreshResult = await baseQuery("auth/refresh", api, extraOptions);
     if (refreshResult.data) {
       const { userID, accessToken } = refreshResult.data as {
