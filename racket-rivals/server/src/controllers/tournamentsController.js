@@ -160,10 +160,8 @@ export const newTournament = async (req, res) => {
       .json({ message: "Tournoi créé avec succès", tournament: newTournament });
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({
-        message: "Une erreur est survenue lors de la création du tournoi",
-      });
+    res.status(500).json({
+      message: "Une erreur est survenue lors de la création du tournoi",
+    });
   }
 };
