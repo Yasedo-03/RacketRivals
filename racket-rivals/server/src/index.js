@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 
 import { authRouter } from "./routes/auth.js";
 import { userRouter } from "./routes/users.js";
+import { tournamentRouter } from "./routes/tournaments.js";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api", userRouter);
+app.use("/api/tournament", tournamentRouter);
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,

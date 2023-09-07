@@ -1,4 +1,6 @@
 .details {
+  position: relative;
+  height: 100%;
   color: white;
   display: flex;
   flex-direction: column;
@@ -53,5 +55,30 @@
     &:hover {
       transform: scale(1.1);
     }
+
+    &:disabled {
+      color: black;
+      cursor: not-allowed;
+
+      &:hover {
+        transform: none;
+      }
+    }
+  }
+
+  .cancel {
+    margin-top: 5px;
+    font-size: 12px;
+    cursor: pointer;
+
+    &:hover {
+      color: #ff4500;
+    }
+  }
+
+  .codeTournament {
+    position: absolute;
+    right: -10px;
+    bottom: -20px;
   }
 }

@@ -25,7 +25,9 @@ const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-  if (result.error && result.error.status === 401) {
+  if (result.error && result.error.status === 403) {
+    console.log("403 error");
+
     const refreshResult = await baseQuery("auth/refresh", api, extraOptions);
     if (refreshResult.data) {
       const { userID, accessToken } = refreshResult.data as {
@@ -50,6 +52,6 @@ const baseQueryWithReauth: BaseQueryFn<
 export const racketRivalsApi = createApi({
   reducerPath: "racketRivalsAPI",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["Users", "Auth"],
+  tagTypes: ["Users", "Auth", "Tournaments"],
   endpoints: () => ({}),
 });

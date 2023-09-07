@@ -1,15 +1,21 @@
 import { CSSTransition } from "react-transition-group";
 import { useLocation } from "react-router-dom";
-import { TOURNAMENT_VIEWS_ROUTES, Views } from "../TournamentPage";
+import { Views } from "../TournamentPage";
 import "./AnimatedViewsTournament.scss";
 import styles from "./AnimatedViewsTournament.module.scss";
 
 type AnimatedViewsTournamentProps = {
   views: Views[];
+  tournamentRoutes: {
+    DETAILS: string;
+    BRACKET: string;
+    PLAYERS_LIST: string;
+  };
 };
 
 export const AnimatedViewsTournament = ({
   views,
+  tournamentRoutes,
 }: AnimatedViewsTournamentProps) => {
   const location = useLocation();
 
@@ -25,7 +31,7 @@ export const AnimatedViewsTournament = ({
         >
           <div
             className={
-              view.route === TOURNAMENT_VIEWS_ROUTES.BRACKET
+              view.route === tournamentRoutes.BRACKET
                 ? `${styles.views} ${styles.bracketView}`
                 : styles.views
             }
