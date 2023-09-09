@@ -30,8 +30,8 @@ export interface RegisterToTournamentBody {
 
 export interface ITournamentInput {
   name: string;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   start_hour: string;
   location: string;
   format: string;

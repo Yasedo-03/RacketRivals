@@ -1,49 +1,27 @@
-import { useState, ChangeEvent, FormEvent, FC } from "react";
+import { ChangeEvent, FormEvent, FC } from "react";
+import { setModal } from "../../store/slice/modals";
+import { useAppDispatch, useAppSelector } from "../../hooks/store/useStore";
 import styles from "./CreateTournamentForm.module.scss";
-
-interface TournamentFormData {
-  name: string;
-  start_date: string;
-  end_date: string;
-  start_hour: string;
-  location: string;
-  format: string;
-  description: string;
-  number_of_participants: number;
-  accesibility: string;
-  price: number;
-}
+import { updateTournamentForm } from "../../store/slice/tournamentForm";
 
 export const CreateTournamentForm: FC = () => {
-  const [formData, setFormData] = useState<TournamentFormData>({
-    name: "",
-    start_date: "",
-    end_date: "",
-    start_hour: "",
-    location: "",
-    format: "",
-    description: "",
-    number_of_participants: 0,
-    accesibility: "",
-    price: 0,
-  });
+  const dispatch = useAppDispatch();
+  const formData = useAppSelector((state) => state.tournamentForm);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]:
-        name === "number_of_participants" || name === "price"
-          ? parseInt(value)
-          : value,
-    });
+    const updatedValue =
+      name === "number_of_participants" || name === "price"
+        ? parseInt(value)
+        : value;
+    dispatch(updateTournamentForm({ [name]: updatedValue }));
   };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+    dispatch(setModal({ name: "contactFormModal", visible: true }));
   };
 
   return (

@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useTournament } from "../../../hooks/store/tournaments";
 import { format } from "date-fns";
@@ -88,7 +90,7 @@ export const TournamentDetails: FC = () => {
       await unregisterToTournament(registerToTournamentBody).unwrap();
       setIsUserRegistered(false);
     } catch (err) {
-      console.log("Erreur lors de l'annulation de l'inscription:", err);
+      console.error("Erreur lors de l'annulation de l'inscription:", err);
     }
   };
 

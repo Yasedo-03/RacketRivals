@@ -60,9 +60,10 @@ export const tournamentsEndpoints = racketRivalsApi.injectEndpoints({
       },
     }),
     newTournament: builder.mutation<ITournament, ITournamentInput>({
-      query: () => ({
+      query: (data) => ({
         url: "/tournament/create",
         method: "POST",
+        body: data,
         credentials: "include",
       }),
     }),

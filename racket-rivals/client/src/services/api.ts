@@ -1,9 +1,8 @@
-import {
-  BaseQueryFn,
-  FetchArgs,
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import type {
   FetchBaseQueryError,
-  createApi,
-  fetchBaseQuery,
+  FetchArgs,
+  BaseQueryFn,
 } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store/store";
 import { logout, setCredentials } from "../store/slice/auth";
@@ -26,8 +25,6 @@ const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-  console.log(result);
-
   if (result.error && result.error.status === 403) {
     const refreshResult = await baseQuery("auth/refresh", api, extraOptions);
     if (refreshResult.data) {

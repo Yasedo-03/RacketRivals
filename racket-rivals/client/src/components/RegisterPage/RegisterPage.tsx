@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { FC, useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +32,7 @@ export const Register: FC = () => {
     try {
       await registerUser(formRegister).unwrap();
     } catch (err) {
-      console.log("Erreur lors de l'inscription:", err);
+      console.error("Erreur lors de l'inscription:", err);
     }
   };
 
@@ -46,43 +47,52 @@ export const Register: FC = () => {
       <div className={styles["login-box"]}>
         <form>
           <div className={styles["user-box"]}>
-            <input onChange={handleChange} type="text" name="email" required />
-            <label>Email</label>
+            <input
+              id="email"
+              onChange={handleChange}
+              type="text"
+              name="email"
+              required
+            />
+            <label htmlFor="email">Email</label>
           </div>
           <div className={styles["user-box"]}>
             <input
+              id="firstName"
               onChange={handleChange}
               type="text"
               name="firstName"
               required
             />
-            <label>Prénom</label>
+            <label htmlFor="firstName">Prénom</label>
           </div>
           <div className={styles["user-box"]}>
             <input
+              id="lastName"
               onChange={handleChange}
               type="text"
               name="lastName"
               required
             />
-            <label>Nom</label>
+            <label htmlFor="lastName">Nom</label>
           </div>
           <div className={styles["user-box"]}>
-            <input onChange={handleChange} type="text" name="club" />
-            <label>Club</label>
+            <input id="club" onChange={handleChange} type="text" name="club" />
+            <label htmlFor="club">Club</label>
           </div>
           <div className={styles["user-box"]}>
-            <input onChange={handleChange} type="text" name="rank" />
-            <label>Classement</label>
+            <input id="rank" onChange={handleChange} type="text" name="rank" />
+            <label htmlFor="rank">Classement</label>
           </div>
           <div className={styles["user-box"]}>
             <input
+              id="lpassword"
               onChange={handleChange}
               type="password"
               name="password"
               required
             />
-            <label>Mot de passe</label>
+            <label htmlFor="password">Mot de passe</label>
           </div>
           <a onClick={handleSubmit} href="#">
             <span></span>

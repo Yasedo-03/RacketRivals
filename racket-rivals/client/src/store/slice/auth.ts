@@ -1,8 +1,9 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 const initialState = { userID: null, accessToken: null } as {
-  userID: null | any;
+  userID: null | string;
   accessToken: null | string;
 };
 
