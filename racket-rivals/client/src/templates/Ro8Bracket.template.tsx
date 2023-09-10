@@ -1,7 +1,13 @@
 import { FC } from "react";
+import { ITournament } from "../services/tournaments/interfaces/tournamentInterface";
 import styles from "./Ro8Bracket.module.scss";
+interface Ro8BracketProps {
+  tournament: ITournament;
+}
 
-export const Ro8Bracket: FC = () => {
+export const Ro8Bracket: FC<Ro8BracketProps> = ({ tournament }) => {
+  console.log(tournament);
+
   return (
     <div className={styles.bracket}>
       <section className={`${styles.round} ${styles.quarterfinals}`}>
@@ -10,11 +16,17 @@ export const Ro8Bracket: FC = () => {
             <div className={styles.matchup}>
               <div className={styles.participants}>
                 <div className={`${styles.participant} ${styles.winner}`}>
-                  <span>Uno</span>
+                  <span>
+                    {tournament.participants?.[0]?.firstName}{" "}
+                    {tournament.participants?.[0]?.lastName}
+                  </span>
                   <span>3</span>
                 </div>
                 <div className={`${styles.participant} ${styles.loser}`}>
-                  <span>Ocho</span>
+                  <span>
+                    {tournament.participants?.[7]?.firstName}{" "}
+                    {tournament.participants?.[7]?.lastName}
+                  </span>
                   <span>0</span>
                 </div>
               </div>
@@ -22,10 +34,16 @@ export const Ro8Bracket: FC = () => {
             <div className={styles.matchup}>
               <div className={styles.participants}>
                 <div className={styles.participant}>
-                  <span>Dos</span>
+                  <span>
+                    {tournament.participants?.[2]?.firstName}{" "}
+                    {tournament.participants?.[2]?.lastName}
+                  </span>
                 </div>
                 <div className={`${styles.participant} ${styles.winner}`}>
-                  <span>Siete</span>
+                  <span>
+                    {tournament.participants?.[5]?.firstName}{" "}
+                    {tournament.participants?.[5]?.lastName}
+                  </span>
                 </div>
               </div>
             </div>
@@ -40,20 +58,32 @@ export const Ro8Bracket: FC = () => {
             <div className={styles.matchup}>
               <div className={styles.participants}>
                 <div className={styles.participant}>
-                  <span>Treis</span>
+                  <span>
+                    {tournament.participants?.[3]?.firstName}{" "}
+                    {tournament.participants?.[3]?.lastName}
+                  </span>
                 </div>
                 <div className={`${styles.participant} ${styles.winner}`}>
-                  <span>Seis</span>
+                  <span>
+                    {tournament.participants?.[4]?.firstName}{" "}
+                    {tournament.participants?.[4]?.lastName}
+                  </span>
                 </div>
               </div>
             </div>
             <div className={styles.matchup}>
               <div className={styles.participants}>
                 <div className={styles.participant}>
-                  <span>Cuatro</span>
+                  <span>
+                    {tournament.participants?.[6]?.firstName}{" "}
+                    {tournament.participants?.[6]?.lastName}
+                  </span>
                 </div>
                 <div className={`${styles.participant} ${styles.winner}`}>
-                  <span>Cinco</span>
+                  <span>
+                    {tournament.participants?.[1]?.firstName}{" "}
+                    {tournament.participants?.[1]?.lastName}
+                  </span>
                 </div>
               </div>
             </div>

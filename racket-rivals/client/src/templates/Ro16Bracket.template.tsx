@@ -1,7 +1,12 @@
 import { FC } from "react";
+import { ITournament } from "../services/tournaments/interfaces/tournamentInterface";
 import styles from "./Ro16Bracket.module.scss";
 
-export const Ro16Bracket: FC = () => {
+interface Ro8BracketProps {
+  tournament: ITournament;
+}
+
+export const Ro16Bracket: FC<Ro8BracketProps> = ({ tournament }) => {
   return (
     <div className={styles.bracket}>
       <section className={`${styles.round} ${styles.ro16}`}>

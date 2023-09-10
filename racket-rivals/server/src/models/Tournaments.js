@@ -25,6 +25,13 @@ const TournamentSchema = new Schema({
       ref: "users",
     },
   ],
+  seeds: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
+  ],
+  matchs: [{ type: mongoose.Schema.Types.ObjectId, ref: "matchs" }],
 });
 
 export const TournamentModel = mongoose.model("tournaments", TournamentSchema);

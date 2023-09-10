@@ -1,6 +1,6 @@
 import { FC, useLayoutEffect, useRef } from "react";
-import styles from "./TournamentPlayersList.module.scss";
 import { useTournament } from "../../../hooks/store/tournaments";
+import styles from "./TournamentPlayersList.module.scss";
 
 export const TournamentPlayersList: FC = () => {
   const cardRef = useRef<HTMLDivElement>(null);

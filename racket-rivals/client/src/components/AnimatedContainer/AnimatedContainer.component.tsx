@@ -1,7 +1,7 @@
 import { CSSTransition } from "react-transition-group";
 import { useLocation } from "react-router-dom";
-import styles from "./AnimatedContainer.module.scss";
 import { Page } from "../Homepage/TournamentSection";
+import styles from "./AnimatedContainer.module.scss";
 import "./AnimatedContainer.scss";
 
 type AnimatedContainerProps = {

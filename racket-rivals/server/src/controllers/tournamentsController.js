@@ -30,6 +30,12 @@ export const registerToTournament = async (req, res) => {
         .json({ message: "Utilisateur déjà inscrit au tournoi." });
     }
 
+    if (tournament.participants.length >= tournament.number_of_participants) {
+      return res
+        .status(400)
+        .json({ message: "Le tournoi a atteint sa limite de participants." });
+    }
+
     tournament.participants.push(userId);
 
     await tournament.save();
@@ -97,9 +103,21 @@ export const getTournament = async (req, res) => {
     const tournamentId = req.params.tournamentId;
     const result = await TournamentModel.findById(tournamentId)
       .populate("organizer", "email firstName lastName club")
-      .populate("participants", "firstName lastName club rank");
+      .populate({
+        path: "participants",
+        select: "firstName lastName club rank",
+        options: { sort: { rank: -1 } },
+      });
 
     if (result) {
+      const sortedParticipants = [...result.participants].sort(
+        (a, b) => b.rank - a.rank,
+      );
+
+      result.seeds = sortedParticipants.map((participant) => participant._id);
+
+      await result.save();
+
       res.status(200).json(result);
     } else {
       res.status(404).json({ message: "Tournoi non trouvé" });

@@ -1,8 +1,8 @@
 import { ChangeEvent, FormEvent, FC } from "react";
 import { setModal } from "../../store/slice/modals";
 import { useAppDispatch, useAppSelector } from "../../hooks/store/useStore";
-import styles from "./CreateTournamentForm.module.scss";
 import { updateTournamentForm } from "../../store/slice/tournamentForm";
+import styles from "./CreateTournamentForm.module.scss";
 
 export const CreateTournamentForm: FC = () => {
   const dispatch = useAppDispatch();
@@ -97,13 +97,15 @@ export const CreateTournamentForm: FC = () => {
       </label>
       <label>
         Number of Participants:
-        <input
+        <select
           required
-          type="number"
           name="number_of_participants"
           value={formData.number_of_participants}
           onChange={handleChange}
-        />
+        >
+          <option value="8">8</option>
+          <option value="16">16</option>
+        </select>
       </label>
       <label>
         Accessibility:

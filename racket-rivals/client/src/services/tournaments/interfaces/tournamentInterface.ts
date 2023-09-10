@@ -46,5 +46,6 @@ export interface ITournament extends ITournamentInput {
   _id: string;
   organizer: Organizer;
   uniqueCode: string;
-  participants?: [Participant];
+  participants?: Participant[];
+  seeds?: Participant[];
 }
