@@ -1,3 +1,4 @@
+import { updateTournamentForm } from "../../store/slice/tournamentForm";
 import {
   setMyTournaments,
   setTournament,
@@ -9,6 +10,7 @@ import {
   ITournament,
   ITournamentInput,
   RegisterToTournamentBody,
+  UpdateTournamentParams,
 } from "./interfaces/tournamentInterface";
 
 export const tournamentsEndpoints = racketRivalsApi.injectEndpoints({
@@ -107,6 +109,23 @@ export const tournamentsEndpoints = racketRivalsApi.injectEndpoints({
         }
       },
     }),
+    updateTournament: builder.mutation<ITournament, UpdateTournamentParams>({
+      query: ({ tournament, tournamentId }) => ({
+        url: `/tournament/${tournamentId}/update`,
+        method: "PATCH",
+        body: tournament,
+        credentials: "include",
+      }),
+      transformResponse: (result: ITournament) => result ?? null,
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(updateTournamentForm(data));
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    }),
   }),
   overrideExisting: false,
 });
@@ -118,4 +137,5 @@ export const {
   useNewTournamentMutation,
   useRegisterToTournamentMutation,
   useUnregisterToTournamentMutation,
+  useUpdateTournamentMutation,
 } = tournamentsEndpoints;

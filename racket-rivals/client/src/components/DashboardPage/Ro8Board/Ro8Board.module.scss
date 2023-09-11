@@ -1,0 +1,40 @@
+.updateFormTournament {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    height: 50px;
+    font-size: 14px;
+    align-items: flex-start;
+    margin-bottom: 0.3rem;
+
+    input,
+    textarea,
+    select {
+      margin: 2px 0;
+      width: 100%;
+      border-radius: 5px;
+      border: none;
+    }
+  }
+
+  .UpdateTournamentFormBtn {
+    border-radius: 5px;
+    background-color: white;
+    border: 2px black solid;
+  }
+}
+
+.goToUpdateMatchPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  background-color: black;
+  height: 50px;
+  border-radius: 10px;
+}

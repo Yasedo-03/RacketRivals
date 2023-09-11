@@ -1,6 +1,7 @@
 import { TournamentModel } from "../models/Tournaments.js";
 import { UserModel } from "../models/Users.js";
 import { generateUniqueCode } from "../utils/uniqueCodeGenerator.js";
+import { generateMatchsForTournamentRo8 } from "../utils/generateMatchsForTournament.js";
 
 export const getTournaments = async (req, res) => {
   try {
@@ -22,6 +23,12 @@ export const registerToTournament = async (req, res) => {
 
     if (!tournament) {
       return res.status(404).json({ message: "Tournoi introuvable." });
+    }
+
+    if (tournament.organizer._id === userId) {
+      return res
+        .status(400)
+        .json({ message: "L'organisateur ne peut pas participer au tournoi." });
     }
 
     if (tournament.participants.includes(userId)) {
@@ -107,7 +114,8 @@ export const getTournament = async (req, res) => {
         path: "participants",
         select: "firstName lastName club rank",
         options: { sort: { rank: -1 } },
-      });
+      })
+      .populate("matchs", "round player1 player2 score winner nextMatchId");
 
     if (result) {
       const sortedParticipants = [...result.participants].sort(
@@ -173,6 +181,16 @@ export const newTournament = async (req, res) => {
 
     await newTournament.save();
 
+    if (
+      newTournament.format === "Round Robin" &&
+      newTournament.number_of_participants === 8
+    ) {
+      const matchs = await generateMatchsForTournamentRo8(newTournament._id);
+
+      newTournament.matchs = matchs.map((match) => match._id);
+      await newTournament.save();
+    }
+
     res
       .status(201)
       .json({ message: "Tournoi créé avec succès", tournament: newTournament });
@@ -180,6 +198,32 @@ export const newTournament = async (req, res) => {
     console.error(err);
     res.status(500).json({
       message: "Une erreur est survenue lors de la création du tournoi",
+    });
+  }
+};
+
+export const updateTournament = async (req, res) => {
+  try {
+    const tournamentId = req.params.tournamentId;
+    const updates = req.body;
+
+    const tournament = await TournamentModel.findById(tournamentId);
+
+    if (!tournament) {
+      return res.status(404).json({ message: "Tournoi introuvable." });
+    }
+
+    for (let key in updates) {
+      tournament[key] = updates[key];
+    }
+
+    await tournament.save();
+
+    res.status(200).json(tournament);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "Une erreur est survenue lors de la mise à jour du tournoi.",
     });
   }
 };

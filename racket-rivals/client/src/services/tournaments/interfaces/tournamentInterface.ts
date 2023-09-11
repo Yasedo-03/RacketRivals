@@ -19,8 +19,26 @@ export interface Contact {
   phone?: string;
 }
 
+export interface Match {
+  tournamentId: string;
+  round: string;
+  player1: Participant;
+  player2: Participant;
+  score: {
+    player1: Number;
+    player2: Number;
+  };
+  winner: Participant;
+  nextMatchId: string | null;
+}
+
 export interface GetTournamentParams {
   tournamentId: string | undefined;
+}
+
+export interface UpdateTournamentParams {
+  tournamentId: string | undefined;
+  tournament: ITournamentInput;
 }
 
 export interface RegisterToTournamentBody {
@@ -46,6 +64,7 @@ export interface ITournament extends ITournamentInput {
   _id: string;
   organizer: Organizer;
   uniqueCode: string;
-  participants?: Participant[];
+  participants?: Participant[] | undefined;
   seeds?: Participant[];
+  matchs: Match[];
 }

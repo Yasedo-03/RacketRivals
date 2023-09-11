@@ -7,6 +7,7 @@ import {
   getMyTournaments,
   registerToTournament,
   unregisterFromTournament,
+  updateTournament,
 } from "../controllers/tournamentsController.js";
 
 const router = express.Router();
@@ -14,6 +15,7 @@ const router = express.Router();
 router.post("/create", verifyToken, newTournament);
 router.patch("/register", verifyToken, registerToTournament);
 router.patch("/unregister", verifyToken, unregisterFromTournament);
+router.patch("/:tournamentId/update", verifyToken, updateTournament);
 router.get("/myTournaments", verifyToken, getMyTournaments);
 router.get("/:tournamentId", getTournament);
 router.get("/", getTournaments);

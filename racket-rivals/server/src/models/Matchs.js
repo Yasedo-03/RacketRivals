@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 
 const MatchSchema = new Schema({
   tournamentId: { type: mongoose.Schema.Types.ObjectId, ref: "tournaments" },
-  round: String,
-  player1: { type: Schema.Types.ObjectId, ref: "users", required: true },
-  player2: { type: Schema.Types.ObjectId, ref: "users", required: true },
+  round: { type: String, required: true },
+  player1: { type: Schema.Types.ObjectId, ref: "users" },
+  player2: { type: Schema.Types.ObjectId, ref: "users" },
   score: {
     player1: Number,
     player2: Number,

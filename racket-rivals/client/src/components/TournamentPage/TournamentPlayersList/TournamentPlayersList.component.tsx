@@ -18,17 +18,21 @@ export const TournamentPlayersList: FC = () => {
 
   return (
     <div className={styles.container} ref={cardRef}>
-      {tournament &&
-        tournament.participants &&
-        tournament.participants.map((participant) => (
-          <div className={styles.participantItem} key={participant._id}>
-            <div className={styles.participantNameAndClub}>
-              {participant.lastName} {participant.firstName}
-              <span>{participant.club}</span>
+      {tournament && tournament.participants ? (
+        tournament.participants.length > 0 ? (
+          tournament.participants.map((participant) => (
+            <div className={styles.participantItem} key={participant._id}>
+              <div className={styles.participantNameAndClub}>
+                {participant.lastName} {participant.firstName}
+                <span>{participant.club}</span>
+              </div>
+              <span>{participant.rank} pts</span>
             </div>
-            <span>{participant.rank} pts</span>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>Aucun joueurs inscrit pour le moment</p>
+        )
+      ) : null}
     </div>
   );
 };

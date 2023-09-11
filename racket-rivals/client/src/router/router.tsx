@@ -7,6 +7,8 @@ const LoginPage = lazy(() => import("../pages/loginPage"));
 const RegisterPage = lazy(() => import("../pages/registerPage"));
 const TournamentPage = lazy(() => import("../pages/tournamentPage"));
 const AccountPage = lazy(() => import("../pages/accountPage"));
+const DashboardPage = lazy(() => import("../pages/dashboardPage"));
+const DashboardMatchsPage = lazy(() => import("../pages/dashboardMatchsPage"));
 
 export const Router = () => (
   <BrowserRouter>
@@ -15,6 +17,11 @@ export const Router = () => (
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/account" element={<AccountPage />} />
+        <Route path="/dashboard/:tournamentId" element={<DashboardPage />} />
+        <Route
+          path="/dashboard/:tournamentId/matchs"
+          element={<DashboardMatchsPage />}
+        />
         <Route
           path="/tournament/:tournamentId/*"
           element={<TournamentPage />}

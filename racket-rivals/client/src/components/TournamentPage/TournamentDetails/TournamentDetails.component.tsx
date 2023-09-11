@@ -18,6 +18,7 @@ import styles from "./TournamentDetails.module.scss";
 
 export const TournamentDetails: FC = () => {
   const navigate = useNavigate();
+  const [buttonSubmitLabel, setButtonSubmitLabel] = useState<string>("");
   const [registerToTournamentBody, setRegisterToTournamentBody] =
     useState<RegisterToTournamentBody>({
       tournamentId: null,
@@ -33,9 +34,8 @@ export const TournamentDetails: FC = () => {
   const me = useGetUser();
   const cardRef = useRef<HTMLDivElement>(null);
   const tournament = useTournament();
-  const buttonLabel =
-    isUserRegistered || isRegisterSuccess ? "Inscrit" : "S'inscrire";
   const buttonDisabled = isUserRegistered || isRegisterSuccess;
+  const isUserOrganizer = me?._id === tournament?.organizer._id;
 
   const checkIfUserIsRegistered = (tournament: ITournament): boolean => {
     return (
@@ -44,6 +44,16 @@ export const TournamentDetails: FC = () => {
       ) || false
     );
   };
+
+  useEffect(() => {
+    if (isUserOrganizer) {
+      setButtonSubmitLabel("Dashboard");
+    } else if (isUserRegistered || isRegisterSuccess) {
+      setButtonSubmitLabel("Dashboard");
+    } else {
+      setButtonSubmitLabel("S'inscrire");
+    }
+  }, [isUserRegistered, isRegisterSuccess, isUserOrganizer]);
 
   useEffect(() => {
     if (tournament && me) {
@@ -78,8 +88,12 @@ export const TournamentDetails: FC = () => {
       if (!me) {
         navigate("/login");
       }
-      await registerToTournament(registerToTournamentBody).unwrap();
-      setIsUserRegistered(true);
+      if (isUserOrganizer) {
+        navigate(`/dashboard/${tournament?._id}`);
+      } else {
+        await registerToTournament(registerToTournamentBody).unwrap();
+        setIsUserRegistered(true);
+      }
     } catch (err) {
       console.log("Erreur lors de l'inscription:", err);
     }
@@ -118,9 +132,9 @@ export const TournamentDetails: FC = () => {
             type="submit"
             disabled={buttonDisabled}
           >
-            {buttonLabel}
+            {buttonSubmitLabel}
           </button>
-          {isUserRegistered && (
+          {isUserRegistered && !isUserOrganizer && (
             <span onClick={handleCancel} className={styles.cancel}>
               Annuler
             </span>
