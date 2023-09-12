@@ -6,10 +6,12 @@ interface Ro8BracketProps {
   tournament: ITournament;
 }
 
-const Match: FC<{ participants: any[] }> = ({ participants }) => (
+export const Match: FC<{ participants: any[] | undefined }> = ({
+  participants,
+}) => (
   <div className={styles.matchup}>
     <div className={styles.participants}>
-      {participants.map((participant, index) => (
+      {participants?.map((participant, index) => (
         <div key={index} className={`${styles.participant} ${styles.winner}`}>
           <span className={styles.participantName}>
             {participant?.firstName} {participant?.lastName}

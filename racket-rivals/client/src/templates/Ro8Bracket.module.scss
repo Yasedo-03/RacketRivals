@@ -63,19 +63,9 @@ $font-content: "Paytone One", sans-serif;
                   }
                 }
 
-                &.loser {
-                }
-
                 &:not(:last-child) {
                   border-bottom: thin solid white;
                 }
-
-                // span {
-                //   margin: 0 1.25rem;
-                //   line-height: 3;
-                //   font-size: 1rem;
-                //   font-family: $font-content;
-                // }
               }
             }
           }

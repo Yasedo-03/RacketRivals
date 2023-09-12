@@ -20,6 +20,7 @@ export interface Contact {
 }
 
 export interface Match {
+  _id: string;
   tournamentId: string;
   round: string;
   player1: Participant;
