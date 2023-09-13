@@ -36,6 +36,7 @@
     }
 
     input {
+      text-align: center;
       width: 30px;
       border-radius: 5px;
       border: none;
@@ -55,4 +56,10 @@
 .scoreBtnWin,
 .scoreBtn {
   cursor: pointer;
+}
+
+.scoreBtnWin {
+  &.winner {
+    color: gold;
+  }
 }

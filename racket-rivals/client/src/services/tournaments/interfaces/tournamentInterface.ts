@@ -23,28 +23,35 @@ export interface Match {
   _id: string;
   tournamentId: string;
   round: string;
-  player1: Participant;
-  player2: Participant;
+  player1: string;
+  player2: string;
   score: {
-    player1: Number;
-    player2: Number;
+    player1: number;
+    player2: number;
   };
-  winner: Participant;
+  winner: string | null;
   nextMatchId: string | null;
+  status: STATUS;
 }
 
-export interface GetTournamentParams {
+export interface GetDataFromTournamentParams {
   tournamentId: string | undefined;
 }
 
 export interface UpdateTournamentParams {
   tournamentId: string | undefined;
-  tournament: ITournamentInput;
+  tournament?: ITournamentInput;
 }
 
 export interface RegisterToTournamentBody {
   tournamentId: string | null;
   userId: string | null;
+}
+
+export enum STATUS {
+  NOT_STARTED = "NOT_STARTED",
+  ONGOING = "ONGOING",
+  FINISHED = "FINISHED",
 }
 
 export interface ITournamentInput {
@@ -61,6 +68,15 @@ export interface ITournamentInput {
   price: number;
 }
 
+export interface IMatchInput {
+  winner?: string | null;
+  score: {
+    player1: number;
+    player2: number;
+  };
+  status?: STATUS;
+}
+
 export interface ITournament extends ITournamentInput {
   _id: string;
   organizer: Organizer;
@@ -68,4 +84,5 @@ export interface ITournament extends ITournamentInput {
   participants?: Participant[] | undefined;
   seeds?: Participant[];
   matchs: Match[];
+  status: STATUS;
 }

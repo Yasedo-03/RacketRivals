@@ -19,6 +19,11 @@ const TournamentSchema = new Schema({
   },
   price: { type: Number, required: true },
   uniqueCode: { type: String, unique: true, required: true },
+  status: {
+    type: String,
+    enum: ["NOT_STARTED", "ONGOING", "FINISHED"],
+    default: "NOT_STARTED",
+  },
   participants: [
     {
       type: Schema.Types.ObjectId,

@@ -50,6 +50,6 @@ const baseQueryWithReauth: BaseQueryFn<
 export const racketRivalsApi = createApi({
   reducerPath: "racketRivalsAPI",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["Users", "Auth", "Tournaments"],
+  tagTypes: ["Users", "Auth", "Tournaments", "Matchs"],
   endpoints: () => ({}),
 });

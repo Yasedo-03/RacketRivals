@@ -1,45 +1,75 @@
 import { FC } from "react";
-import { ITournament } from "../services/tournaments/interfaces/tournamentInterface";
+import {
+  ITournament,
+  Participant,
+} from "../services/tournaments/interfaces/tournamentInterface";
 import styles from "./Ro8Bracket.module.scss";
 
 interface Ro8BracketProps {
   tournament: ITournament;
 }
 
-export const Match: FC<{ participants: any[] | undefined }> = ({
-  participants,
-}) => (
-  <div className={styles.matchup}>
-    <div className={styles.participants}>
-      {participants?.map((participant, index) => (
-        <div key={index} className={`${styles.participant} ${styles.winner}`}>
-          <span className={styles.participantName}>
-            {participant?.firstName} {participant?.lastName}
-          </span>
-          <span className={styles.score}>{participant?.score || 0}</span>
-        </div>
-      ))}
+type Score = {
+  [key: string]: number;
+  player1: number;
+  player2: number;
+};
+
+export const Match: FC<{
+  participantIds: string[];
+  participants: Participant[];
+  score: Score;
+}> = ({ participantIds, participants, score }) => {
+  const matchedParticipants = participantIds.map((id) =>
+    participants.find((p) => p._id === id)
+  );
+
+  return (
+    <div className={styles.matchup}>
+      <div className={styles.participants}>
+        {matchedParticipants.map((participant, index) => (
+          <div
+            key={index}
+            className={`${styles.participant} ${
+              score &&
+              score[`player${index + 1}`] ===
+                Math.max(score.player1, score.player2)
+                ? styles.winner
+                : ""
+            }`}
+          >
+            <span className={styles.participantName}>
+              {participant?.firstName} {participant?.lastName}
+            </span>
+            <span className={styles.score}>
+              {score ? score[`player${index + 1}`] : 0}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export const Ro8Bracket: FC<Ro8BracketProps> = ({ tournament }) => {
+  const ro8Matches = tournament.matchs.filter((match) => match.round === "Ro8");
+  const ro4Matches = tournament.matchs.filter((match) => match.round === "Ro4");
+  const finalsMatch = tournament.matchs.find((match) => match.round === "Ro2");
+
   return (
     <div className={styles.bracket}>
       <section className={`${styles.round} ${styles.quarterfinals}`}>
         <div className={styles.winners}>
           <div className={styles.matchups}>
             <Match
-              participants={[
-                tournament?.participants?.[0],
-                tournament?.participants?.[7],
-              ]}
+              participantIds={[ro8Matches[0]?.player1, ro8Matches[0]?.player2]}
+              participants={tournament.participants || []}
+              score={ro8Matches[0]?.score}
             />
             <Match
-              participants={[
-                tournament?.participants?.[2],
-                tournament?.participants?.[5],
-              ]}
+              participantIds={[ro8Matches[1]?.player1, ro8Matches[1]?.player2]}
+              participants={tournament.participants || []}
+              score={ro8Matches[1]?.score}
             />
           </div>
           <div className={styles.connector}>
@@ -50,16 +80,14 @@ export const Ro8Bracket: FC<Ro8BracketProps> = ({ tournament }) => {
         <div className={styles.winners}>
           <div className={styles.matchups}>
             <Match
-              participants={[
-                tournament?.participants?.[3],
-                tournament?.participants?.[4],
-              ]}
+              participantIds={[ro8Matches[2]?.player1, ro8Matches[2]?.player2]}
+              participants={tournament.participants || []}
+              score={ro8Matches[2]?.score}
             />
             <Match
-              participants={[
-                tournament?.participants?.[6],
-                tournament?.participants?.[1],
-              ]}
+              participantIds={[ro8Matches[3]?.player1, ro8Matches[3]?.player2]}
+              participants={tournament.participants || []}
+              score={ro8Matches[3]?.score}
             />
           </div>
           <div className={styles.connector}>
@@ -71,12 +99,14 @@ export const Ro8Bracket: FC<Ro8BracketProps> = ({ tournament }) => {
       <section className={`${styles.round} ${styles.semifinals}`}>
         <div className={styles.winners}>
           <div className={styles.matchups}>
-            <Match
-              participants={[{ firstName: "Uno" }, { firstName: "Dos" }]}
-            />
-            <Match
-              participants={[{ firstName: "Seis" }, { firstName: "Cinco" }]}
-            />
+            {ro4Matches.map((match, index) => (
+              <Match
+                key={index}
+                participantIds={[match.player1, match.player2]}
+                participants={tournament.participants || []}
+                score={match.score}
+              />
+            ))}
           </div>
           <div className={styles.connector}>
             <div className={styles.merger}></div>
@@ -87,9 +117,13 @@ export const Ro8Bracket: FC<Ro8BracketProps> = ({ tournament }) => {
       <section className={`${styles.round} ${styles.finals}`}>
         <div className={styles.winners}>
           <div className={styles.matchups}>
-            <Match
-              participants={[{ firstName: "Uno" }, { firstName: "Seis" }]}
-            />
+            {finalsMatch && (
+              <Match
+                participantIds={[finalsMatch.player1, finalsMatch.player2]}
+                participants={tournament.participants || []}
+                score={finalsMatch.score}
+              />
+            )}
           </div>
         </div>
       </section>

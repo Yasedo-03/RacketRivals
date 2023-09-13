@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetTournamentQuery } from "../services/tournaments/endpoints";
 import { MatchBoard } from "./MatchBoard";
+import { useGetMatchsQuery } from "../services/matchs/endpoints";
 import styles from "./DashBoardMatchs.module.scss";
 
 enum RoundNames {
@@ -14,7 +14,7 @@ enum RoundNames {
 
 export const DashboardMatchs: FC = () => {
   const { tournamentId } = useParams();
-  const { data: tournament } = useGetTournamentQuery({ tournamentId });
+  const { data: matchs } = useGetMatchsQuery({ tournamentId });
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
@@ -23,18 +23,16 @@ export const DashboardMatchs: FC = () => {
   const [selectedRound, setSelectedRound] = useState<RoundNames | string>("");
 
   useEffect(() => {
-    if (tournament) {
-      const rounds = [
-        ...new Set(tournament.matchs.map((match) => match.round)),
-      ];
+    if (matchs) {
+      const rounds = [...new Set(matchs.map((match) => match.round))];
       setUniqueRounds(rounds);
 
       setSelectedRound(rounds[0] || "");
     }
-  }, [tournament]);
+  }, [matchs]);
 
   const filteredMatchs =
-    tournament?.matchs.filter((match) => match.round === selectedRound) || [];
+    matchs?.filter((match) => match.round === selectedRound) || [];
 
   return (
     <div className={styles.container}>

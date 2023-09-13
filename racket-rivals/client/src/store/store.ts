@@ -7,6 +7,8 @@ import user from "./slice/user";
 import tournaments from "./slice/tournaments";
 import modals from "./slice/modals";
 import tournamentForm from "./slice/tournamentForm";
+import matchForm from "./slice/matchForm";
+import matchs from "./slice/matchs";
 
 export const createStore = (
   options?: ConfigureStoreOptions["preloadedState"] | undefined
@@ -19,6 +21,8 @@ export const createStore = (
       tournaments,
       modals,
       tournamentForm,
+      matchForm,
+      matchs,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(

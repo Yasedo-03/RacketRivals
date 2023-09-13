@@ -13,6 +13,11 @@ const MatchSchema = new Schema({
   },
   winner: { type: Schema.Types.ObjectId, ref: "users" },
   nextMatchId: { type: mongoose.Schema.Types.ObjectId, ref: "matchs" },
+  status: {
+    type: String,
+    enum: ["NOT_STARTED", "ONGOING", "FINISHED"],
+    default: "NOT_STARTED",
+  },
 });
 
 export const MatchModel = mongoose.model("matchs", MatchSchema);

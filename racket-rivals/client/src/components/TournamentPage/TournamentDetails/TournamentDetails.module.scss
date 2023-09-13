@@ -42,11 +42,12 @@
     overflow: auto;
   }
 
-  .registrationTournament {
+  .registrationTournament,
+  .generateTournament {
     font-size: 18px;
     height: 2rem;
     background-color: #ff4500;
-    border-radius: 15px;
+    border-radius: 5px;
     border: none;
     transition: transform 0.2s ease-in-out;
     cursor: pointer;
@@ -63,6 +64,16 @@
         transform: none;
       }
     }
+  }
+
+  .registrationTournament {
+    margin-bottom: 1rem;
+  }
+
+  .generateTournament {
+    position: absolute;
+    left: -10px;
+    bottom: -25px;
   }
 
   .cancel {

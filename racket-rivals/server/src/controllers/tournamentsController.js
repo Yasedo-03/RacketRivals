@@ -1,7 +1,9 @@
 import { TournamentModel } from "../models/Tournaments.js";
 import { UserModel } from "../models/Users.js";
+import { MatchModel } from "../models/Matchs.js";
 import { generateUniqueCode } from "../utils/uniqueCodeGenerator.js";
 import { generateMatchsForTournamentRo8 } from "../utils/generateMatchsForTournament.js";
+import { updateEliminationMatchesWithParticipants } from "../utils/updateEliminationMatchesWithParticipants.js";
 
 export const getTournaments = async (req, res) => {
   try {
@@ -225,5 +227,95 @@ export const updateTournament = async (req, res) => {
     res.status(500).json({
       message: "Une erreur est survenue lors de la mise à jour du tournoi.",
     });
+  }
+};
+
+export const launchTournament = async (req, res) => {
+  try {
+    const tournamentId = req.params.tournamentId;
+    const organizerId = req.user.id;
+
+    const tournament = await TournamentModel.findById(tournamentId);
+
+    if (!tournament) {
+      return res.status(404).json({ message: "Tournoi introuvable." });
+    }
+
+    if (organizerId !== tournament.organizer._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "L'organisateur ne correspond pas." });
+    }
+
+    if (tournament.participants.length !== tournament.number_of_participants) {
+      return res
+        .status(400)
+        .json({ message: "Le nombre de participants n'est pas complet." });
+    }
+
+    const updatedTournament =
+      await updateEliminationMatchesWithParticipants(tournament);
+
+    tournament.matchs = updatedTournament.matchs.map((match) => match._id);
+    await tournament.save();
+
+    res
+      .status(200)
+      .json({ message: "Le tournoi a été lancé avec succès!", tournament });
+  } catch (err) {
+    console.error(err);
+
+    if (
+      err.message ===
+      "Les matchs ont déjà été configurés avec les participants actuels."
+    ) {
+      return res.status(400).json({ message: err.message });
+    }
+
+    res.status(500).json({ message: "Erreur lors du lancement du tournoi." });
+  }
+};
+
+export const updateTournamentEliminationMatches = async (req, res) => {
+  try {
+    const tournamentId = req.params.tournamentId;
+    const organizerId = req.user.id;
+    const updatedMatch = req.body;
+
+    if (!updatedMatch._id) {
+      return res.status(400).json({ message: "L'ID du match est requis." });
+    }
+
+    const tournament = await TournamentModel.findById(tournamentId);
+
+    if (!tournament) {
+      return res.status(404).json({ message: "Tournoi introuvable." });
+    }
+
+    if (organizerId !== tournament.organizer._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "L'organisateur ne correspond pas." });
+    }
+    const matchIndex = tournament.matchs.findIndex(
+      (match) => match._id.toString() === updatedMatch._id,
+    );
+    if (matchIndex === -1) {
+      return res.status(404).json({ message: "Match introuvable." });
+    }
+
+    await MatchModel.findByIdAndUpdate(updatedMatch._id, updatedMatch);
+
+    await tournament.save();
+
+    res
+      .status(200)
+      .json({ message: "Le match a été mis à jour avec succès!", tournament });
+  } catch (err) {
+    console.error(err);
+
+    res
+      .status(500)
+      .json({ message: "Erreur lors de la mise à jour du match." });
   }
 };

@@ -6,6 +6,10 @@ export const generateMatchsForTournamentRo8 = async (tournamentId) => {
     const match = new MatchModel({
       tournamentId: tournamentId,
       round: "Ro8",
+      score: {
+        player1: 0,
+        player2: 0,
+      },
     });
     await match.save();
     quarterFinals.push(match);
@@ -16,6 +20,10 @@ export const generateMatchsForTournamentRo8 = async (tournamentId) => {
     const match = new MatchModel({
       tournamentId: tournamentId,
       round: "Ro4",
+      score: {
+        player1: 0,
+        player2: 0,
+      },
     });
     await match.save();
     quarterFinals[i * 2].nextMatchId = match._id;
@@ -28,6 +36,10 @@ export const generateMatchsForTournamentRo8 = async (tournamentId) => {
   const final = new MatchModel({
     tournamentId: tournamentId,
     round: "Ro2",
+    score: {
+      player1: 0,
+      player2: 0,
+    },
   });
 
   await final.save();
@@ -47,6 +59,10 @@ export const generateMatchsForTournamentRo16 = async (tournamentId) => {
     const match = new MatchModel({
       tournamentId: tournamentId,
       round: "Ro16",
+      score: {
+        player1: 0,
+        player2: 0,
+      },
     });
     await match.save();
     roundOf16.push(match);
@@ -57,6 +73,10 @@ export const generateMatchsForTournamentRo16 = async (tournamentId) => {
     const match = new MatchModel({
       tournamentId: tournamentId,
       round: "Ro8",
+      score: {
+        player1: 0,
+        player2: 0,
+      },
     });
     await match.save();
     roundOf16[i * 2].nextMatchId = match._id;
@@ -71,6 +91,10 @@ export const generateMatchsForTournamentRo16 = async (tournamentId) => {
     const match = new MatchModel({
       tournamentId: tournamentId,
       round: "Ro4",
+      score: {
+        player1: 0,
+        player2: 0,
+      },
     });
     await match.save();
     quarterFinals[i].nextMatchId = match._id;
@@ -83,6 +107,10 @@ export const generateMatchsForTournamentRo16 = async (tournamentId) => {
   const final = new MatchModel({
     tournamentId: tournamentId,
     round: "Ro2",
+    score: {
+      player1: 0,
+      player2: 0,
+    },
   });
 
   await final.save();

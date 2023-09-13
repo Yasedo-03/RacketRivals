@@ -5,6 +5,7 @@ import { useTournament } from "../../../hooks/store/tournaments";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import {
+  useLaunchEliminationTournamentMutation,
   useRegisterToTournamentMutation,
   useUnregisterToTournamentMutation,
 } from "../../../services/tournaments/endpoints";
@@ -27,15 +28,19 @@ export const TournamentDetails: FC = () => {
   const [formattedStartTournamentDate, setFormattedStartTournamentDate] =
     useState<string>("");
   const [isUserRegistered, setIsUserRegistered] = useState<boolean>(false);
+  const [isUserOrganizer, setIsUserOrganizer] = useState<boolean>(false);
   const [registerToTournament, { isSuccess: isRegisterSuccess }] =
     useRegisterToTournamentMutation();
   const [unregisterToTournament, { isSuccess: isUnregisterSuccess }] =
     useUnregisterToTournamentMutation();
+  const [
+    launchEliminationTournamentMutation,
+    { isSuccess: isTournamentLaunched },
+  ] = useLaunchEliminationTournamentMutation();
   const me = useGetUser();
   const cardRef = useRef<HTMLDivElement>(null);
   const tournament = useTournament();
   const buttonDisabled = isUserRegistered || isRegisterSuccess;
-  const isUserOrganizer = me?._id === tournament?.organizer._id;
 
   const checkIfUserIsRegistered = (tournament: ITournament): boolean => {
     return (
@@ -57,10 +62,13 @@ export const TournamentDetails: FC = () => {
 
   useEffect(() => {
     if (tournament && me) {
+      me._id === tournament.organizer?._id
+        ? setIsUserOrganizer(true)
+        : setIsUserOrganizer(false);
       setIsUserRegistered(checkIfUserIsRegistered(tournament));
       setRegisterToTournamentBody({
-        tournamentId: tournament?._id,
-        userId: me?._id,
+        tournamentId: tournament._id,
+        userId: me._id,
       });
 
       if (tournament.start_date && !formattedStartTournamentDate) {
@@ -108,6 +116,21 @@ export const TournamentDetails: FC = () => {
     }
   };
 
+  const handleGenerate = async () => {
+    try {
+      if (
+        tournament &&
+        tournament?.participants?.length === tournament?.number_of_participants
+      ) {
+        await launchEliminationTournamentMutation({
+          tournamentId: tournament._id,
+        }).unwrap();
+      }
+    } catch (err) {
+      console.error("Erreur lors du lancement du tournoi:", err);
+    }
+  };
+
   return (
     <div className={styles.details} ref={cardRef}>
       {tournament && (
@@ -140,6 +163,15 @@ export const TournamentDetails: FC = () => {
             </span>
           )}
           <span className={styles.codeTournament}>{tournament.uniqueCode}</span>
+          {isUserOrganizer && (
+            <button
+              onClick={handleGenerate}
+              className={styles.generateTournament}
+              type="submit"
+            >
+              Générer l'arbre
+            </button>
+          )}
         </>
       )}
     </div>
