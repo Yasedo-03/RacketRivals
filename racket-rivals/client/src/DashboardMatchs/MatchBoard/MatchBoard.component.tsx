@@ -46,7 +46,7 @@ export const MatchBoard: FC<MatchBoardProps> = ({ match }) => {
 
   const handleScoreChange = (player: string, value: number) => {
     const newScore = value < 0 ? 0 : value > 4 ? 4 : value;
-    const updatedScore = { ...score, [player]: newScore };
+    const updatedScore = { ...displayData.score, [player]: newScore };
     const status = determineMatchStatus(updatedScore, currentWinnerId ?? null);
     dispatch(
       updateMatchForm({

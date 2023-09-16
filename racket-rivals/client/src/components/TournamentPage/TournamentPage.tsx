@@ -8,6 +8,7 @@ import { TournamentPlayersList } from "./TournamentPlayersList";
 import { TournamentBracket } from "./TournamentBracket";
 import { useGetTournamentQuery } from "../../services/tournaments/endpoints";
 import styles from "./TournamentPage.module.scss";
+import { useGetMatchsQuery } from "../../services/matchs/endpoints";
 
 export enum labelsMenuTournamentPageNavigation {
   DETAILS = "Informations",
@@ -34,6 +35,7 @@ export const Tournament: FC = () => {
 
   const tournamentRoutes = getTournamentRoutes(tournamentId);
   const { data: tournament } = useGetTournamentQuery({ tournamentId });
+  useGetMatchsQuery({ tournamentId });
 
   const navItems = [
     {

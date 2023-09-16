@@ -1,5 +1,6 @@
 import { TournamentModel } from "../models/Tournaments.js";
 import { MatchModel } from "../models/Matchs.js";
+import { handleWinnerChange } from "../utils/handleWinnerChange.js";
 
 export const getMatchs = async (req, res) => {
   try {
@@ -53,7 +54,6 @@ export const getMatchs = async (req, res) => {
 export const updateTournamentEliminationMatch = async (req, res) => {
   try {
     const tournamentId = req.params.tournamentId;
-
     const updatedMatch = req.body;
     const { matchInput, matchId } = updatedMatch;
 
@@ -72,44 +72,23 @@ export const updateTournamentEliminationMatch = async (req, res) => {
         .json({ message: "L'organisateur ne correspond pas." });
     }
 
-    await MatchModel.findByIdAndUpdate(matchId, matchInput);
+    const matchToUpdate = await MatchModel.findById(matchId);
+    const updatedMatches = [];
 
-    if (matchInput.winner && matchInput.nextMatchId) {
-      const nextMatch = await MatchModel.findById(matchInput.nextMatchId);
+    const nextMatch = await handleWinnerChange(matchToUpdate, matchInput);
 
-      if (nextMatch) {
-        const updates = {};
-
-        // Si le match suivant n'a aucun joueur
-        if (!nextMatch.player1 && !nextMatch.player2) {
-          updates.player1 = matchInput.winner;
-        }
-        // Si le match suivant a déjà un joueur1 mais pas de joueur2
-        else if (nextMatch.player1 && !nextMatch.player2) {
-          // Vérifiez que le joueur gagnant du quart n'est pas identique au joueur1 déjà enregistré
-          if (nextMatch.player1.toString() !== matchInput.winner.toString()) {
-            updates.player2 = matchInput.winner;
-          }
-        }
-        // Si le match suivant a un joueur2 mais pas de joueur1
-        else if (!nextMatch.player1 && nextMatch.player2) {
-          // Vérifiez que le joueur gagnant du match précédent n'est pas identique au joueur2 déjà enregistré
-          if (nextMatch.player2.toString() !== matchInput.winner.toString()) {
-            updates.player1 = matchInput.winner;
-          }
-        }
-
-        if (Object.keys(updates).length) {
-          await MatchModel.findByIdAndUpdate(nextMatch._id, updates);
-        }
-      }
-    }
-
-    const allMatches = await MatchModel.find({ tournamentId: tournamentId })
+    const updated = await MatchModel.findByIdAndUpdate(matchId, matchInput, {
+      new: true,
+    })
       .populate("player1", "firstName lastName _id")
       .populate("player2", "firstName lastName _id");
+    updatedMatches.push(updated);
 
-    res.status(200).json(allMatches);
+    if (nextMatch) {
+      updatedMatches.push(nextMatch);
+    }
+
+    res.status(200).json(updatedMatches);
   } catch (err) {
     console.error(err);
     res

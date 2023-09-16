@@ -21,7 +21,6 @@ const slice = createSlice({
       }>
     ) => {
       const { matchId, data, originalMatch } = action.payload;
-
       if (!state[matchId] && originalMatch) {
         const updatedMatch: Match = {
           ...originalMatch,
@@ -41,12 +40,18 @@ const slice = createSlice({
         }
       }
     },
+    setMatchFromAPI: (state, action: PayloadAction<Match>) => {
+      console.log("updateMatchForm called with:", action.payload);
+      const match = action.payload;
+      state[match._id] = match;
+    },
     clearMatchForm: (state, action: PayloadAction<string>) => {
       delete state[action.payload];
     },
   },
 });
 
-export const { updateMatchForm, clearMatchForm } = slice.actions;
+export const { updateMatchForm, clearMatchForm, setMatchFromAPI } =
+  slice.actions;
 
 export default slice.reducer;

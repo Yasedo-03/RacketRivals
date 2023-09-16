@@ -3,8 +3,8 @@ import {
   ITournament,
   Participant,
 } from "../services/tournaments/interfaces/tournamentInterface";
-import { useParams } from "react-router-dom";
-import { useGetMatchsQuery } from "../services/matchs/endpoints";
+import { useAppSelector } from "../hooks/store/useStore";
+import { selectAllMatchs } from "../store/slice/matchs";
 import styles from "./Ro8Bracket.module.scss";
 
 interface Ro8BracketProps {
@@ -51,8 +51,7 @@ export const Match: FC<{
 };
 
 export const Ro8Bracket: FC<Ro8BracketProps> = ({ tournament }) => {
-  const { tournamentId } = useParams();
-  const { data: matchs } = useGetMatchsQuery({ tournamentId });
+  const matchs = useAppSelector(selectAllMatchs);
 
   if (!matchs) {
     return <div>Loading...</div>;

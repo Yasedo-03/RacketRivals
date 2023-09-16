@@ -1,4 +1,5 @@
-import { setMatchs } from "../../store/slice/matchs";
+import { setMatchFromAPI, updateMatchForm } from "../../store/slice/matchForm";
+import { setMatchs, updateMatches } from "../../store/slice/matchs";
 import { racketRivalsApi } from "../api";
 import { GetDataFromTournamentParams } from "../tournaments/interfaces/tournamentInterface";
 import { Match, UpdateMatchParams } from "./interfaces/matchInterface";
@@ -34,7 +35,13 @@ export const matchsEndpoints = racketRivalsApi.injectEndpoints({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          dispatch(setMatchs(data));
+          dispatch(updateMatches(data));
+          console.log("Data from queryFulfilled:", data);
+
+          data.forEach((match) => {
+            console.log("Dispatching updateMatchForm for:", match);
+            dispatch(setMatchFromAPI(match));
+          });
         } catch (error) {
           console.log(error);
         }
