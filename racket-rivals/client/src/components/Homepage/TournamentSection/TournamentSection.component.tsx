@@ -2,10 +2,14 @@ import { BlurDivider } from "../../BlurDivider";
 import { ScrollArrows } from "../../ScrollArrows";
 import { TournamentCard } from "./TournamentCard";
 import { CreateTournamentCard } from "./CreateTournamentCard";
-import styles from "./TournamentSection.module.scss";
-import "./TournamentSection.scss";
 import { MenuNavigationSection } from "../../MenuNavigationSection";
 import { AnimatedContainer } from "../../AnimatedContainer";
+import {
+  useGetMyTournamentsQuery,
+  useGetTournamentsQuery,
+} from "../../../services/tournaments/endpoints";
+import "./TournamentSection.scss";
+import styles from "./TournamentSection.module.scss";
 
 type TournamentSectionProps = {
   index: number;
@@ -17,8 +21,8 @@ export enum labelsMenuTournamentNavigation {
 }
 
 enum TOURNAMENT_ROUTES {
-  LIST = "/tournament/list",
-  CREATE = "/tournament/create",
+  LIST = "/tournaments/list",
+  CREATE = "/tournaments/create",
 }
 
 export type Page = {
@@ -29,6 +33,9 @@ export type Page = {
 };
 
 export const TournamentSection = ({ index }: TournamentSectionProps) => {
+  useGetTournamentsQuery();
+  useGetMyTournamentsQuery();
+
   const menuItems = [
     {
       label: labelsMenuTournamentNavigation.SEARCH_TOURNAMENT,

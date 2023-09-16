@@ -1,0 +1,27 @@
+.container {
+  position: relative;
+  background: linear-gradient(#141e30, #ff4500);
+  width: 100vw;
+  height: 100vh;
+  font-family: "Paytone One", sans-serif;
+  color: white;
+  padding: 2rem;
+
+  .title {
+    text-align: center;
+    font-size: 2rem;
+    width: 70%;
+    margin: auto;
+    margin-bottom: 2rem;
+  }
+
+  .backArrow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 35px;
+    height: 35px;
+    color: #ff4500;
+    margin: 1rem;
+  }
+}

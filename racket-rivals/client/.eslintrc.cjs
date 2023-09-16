@@ -24,7 +24,12 @@ module.exports = {
       },
     },
     rules: {
-      // Add your own rules here to override ones from the extended configs.
+      "react/react-in-jsx-scope": "off",
+      "react/jsx-uses-react": "off",
+      "react/no-unescaped-entities": "off",
+    },
+    env: {
+      node: true,
     },
   };
   

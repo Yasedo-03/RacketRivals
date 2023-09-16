@@ -1,54 +1,38 @@
 import { FC } from "react";
-import styles from "./TournamentList.module.scss";
 import { TournamentListViews } from "../TournamentCard";
 import { Link } from "react-router-dom";
+import {
+  useMyTournaments,
+  useTournaments,
+} from "../../../../hooks/store/tournaments";
+import { ITournament } from "../../../../services/tournaments/interfaces/tournamentInterface";
+import styles from "./TournamentList.module.scss";
 
 type TournamentListProps = {
   tournamentListView: TournamentListViews;
 };
 
-type Tournament = {
-  id: string;
-  name: string;
-};
-
 export const TournamentList: FC<TournamentListProps> = ({
   tournamentListView,
 }) => {
-  const myTournaments = [
-    { id: "#12345", name: "Tournoi d'ézanville" },
-    { id: "#12346", name: "Tournoi d'eaubonne" },
-    { id: "#12347", name: "Tournoi d'eaubonne" },
-  ];
+  const tournaments = useTournaments();
+  const myTournaments = useMyTournaments();
 
-  const tournaments = [
-    { id: "#12345", name: "Tournoi d'ézanville" },
-    { id: "#12346", name: "Tournoi d'eaubonne" },
-    { id: "#12347", name: "Tournoi d'eaubonne" },
-    { id: "#12348", name: "Tournoi d'eaubonne" },
-    { id: "#12349", name: "Tournoi d'eaubonne" },
-    { id: "#12654", name: "Tournoi d'eaubonne" },
-    { id: "#16984", name: "Tournoi d'eaubonne" },
-    { id: "#12365", name: "Tournoi d'eaubonne" },
-    { id: "#16952", name: "Tournoi d'eaubonne" },
-    { id: "#19878", name: "Tournoi d'eaubonne" },
-  ];
-
-  const tournamentListToMap: Array<Tournament> =
+  const tournamentListToMap: Array<ITournament> | null =
     tournamentListView === TournamentListViews.MyTournaments
       ? myTournaments
       : tournaments;
 
   return (
     <div className={styles.list}>
-      {tournamentListToMap.map((tournament) => (
+      {tournamentListToMap?.map((tournament) => (
         <Link
-          key={tournament.id}
+          key={tournament._id}
           className={styles.listItem}
-          to={"/tournament/1/details"}
+          to={`/tournament/${tournament._id}/details`}
         >
           <span>{tournament.name} </span>
-          <span>{tournament.id}</span>
+          <span>{tournament.uniqueCode}</span>
         </Link>
       ))}
     </div>

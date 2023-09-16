@@ -1,0 +1,64 @@
+$glass: rgba(255, 255, 255, 0.2);
+$glass-icon: rgba(255, 255, 255, 0.3);
+$option: #4d4a48;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background: linear-gradient(#141e30, rgb(187 114 24 / 98%), #ff4500);
+  width: 100vw;
+  font-family: "Paytone One", sans-serif;
+  color: white;
+  padding: 2rem;
+  min-height: 100vh;
+
+  .backArrow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 35px;
+    height: 35px;
+    color: #ff4500;
+    margin: 1rem;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 2rem;
+    width: 70%;
+    margin-bottom: 2rem;
+  }
+}
+
+.selectRound {
+  appearance: none;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  width: 20em;
+  height: 3em;
+  padding: 0 4em 0 1em;
+  background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg)
+      no-repeat right 0.8em center / 1.4em,
+    linear-gradient(to left, $glass-icon 3em, $glass 3em);
+  color: white;
+  border-radius: 0.25em;
+  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+
+  option {
+    width: 20rem !important;
+    color: inherit;
+    background-color: $option;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &::-ms-expand {
+    display: none;
+  }
+}

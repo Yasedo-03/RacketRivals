@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   club: { type: String },
-  rank: { type: String },
+  rank: { type: Number },
   password: { type: String, required: true },
   refreshToken: [String],
 });

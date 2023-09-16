@@ -32,6 +32,10 @@
       "description": "Annual Spring Championship for table tennis enthusiasts",
       "number_of_participants": 16,
       "accesibility": "private",
+      "contact": {
+        "email": "jane.doe@example.com",
+        "phone": "06 23 41 89 21"
+      },
       "price": "5"
     }
   ],

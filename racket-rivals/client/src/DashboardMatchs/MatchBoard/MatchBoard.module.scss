@@ -1,0 +1,65 @@
+.matchContainer {
+  margin-top: 3rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 3px white solid;
+  border-radius: 10px;
+
+  .match {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    padding: 0 0.5rem;
+    align-items: center;
+
+    &:first-child {
+      border-bottom: 1px white solid;
+    }
+
+    .endContainer {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .score {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 1.5rem;
+
+    .scoreBtn {
+      width: 20px;
+      height: 20px;
+    }
+
+    input {
+      text-align: center;
+      width: 30px;
+      border-radius: 5px;
+      border: none;
+      margin: 0 0.5rem;
+    }
+  }
+}
+* .updateMatchBtn {
+  color: white;
+  margin-top: 1rem;
+  border: 2px solid white;
+  border-radius: 5px;
+  height: 40px;
+  background: transparent;
+}
+
+.scoreBtnWin,
+.scoreBtn {
+  cursor: pointer;
+}
+
+.scoreBtnWin {
+  &.winner {
+    color: gold;
+  }
+}
