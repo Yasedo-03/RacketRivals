@@ -1,9 +1,7 @@
 import { setMatchs } from "../../store/slice/matchs";
 import { racketRivalsApi } from "../api";
-import {
-  GetDataFromTournamentParams,
-  Match,
-} from "../tournaments/interfaces/tournamentInterface";
+import { GetDataFromTournamentParams } from "../tournaments/interfaces/tournamentInterface";
+import { Match, UpdateMatchParams } from "./interfaces/matchInterface";
 
 export const matchsEndpoints = racketRivalsApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -12,6 +10,26 @@ export const matchsEndpoints = racketRivalsApi.injectEndpoints({
         url: `/match/${tournamentId}`,
         method: "GET",
       }),
+      transformResponse: (result: Match[]) => result ?? null,
+      async onQueryStarted(_args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setMatchs(data));
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    }),
+    updateMatch: builder.mutation<Match[], UpdateMatchParams>({
+      query: ({ tournamentId, matchInput, matchId }) => ({
+        url: `/match/${tournamentId}/matchs_update`,
+        method: "PATCH",
+        body: { matchInput, matchId },
+        credentials: "include",
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: "Matchs", id: arg.matchId },
+      ],
       transformResponse: (result: Match[]) => result ?? null,
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
@@ -26,4 +44,4 @@ export const matchsEndpoints = racketRivalsApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetMatchsQuery } = matchsEndpoints;
+export const { useGetMatchsQuery, useUpdateMatchMutation } = matchsEndpoints;

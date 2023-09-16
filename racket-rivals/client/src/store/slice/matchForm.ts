@@ -1,13 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
-  IMatchInput,
-  STATUS,
-} from "../../services/tournaments/interfaces/tournamentInterface";
+  Match,
+  MatchUpdate,
+} from "../../services/matchs/interfaces/matchInterface";
 
-type MatchState = Record<string, IMatchInput>;
+type MatchFormState = Record<string, Match>;
 
-const initialState: MatchState = {};
+const initialState: MatchFormState = {};
 
 const slice = createSlice({
   name: "matchForm",
@@ -15,17 +14,32 @@ const slice = createSlice({
   reducers: {
     updateMatchForm: (
       state,
-      action: PayloadAction<{ matchId: string; data: Partial<IMatchInput> }>
+      action: PayloadAction<{
+        matchId: string;
+        data?: MatchUpdate;
+        originalMatch?: Match;
+      }>
     ) => {
-      const { matchId, data } = action.payload;
-      if (!state[matchId]) {
-        state[matchId] = {
-          winner: "",
-          score: { player1: 0, player2: 0 },
-          status: STATUS.NOT_STARTED,
+      const { matchId, data, originalMatch } = action.payload;
+
+      if (!state[matchId] && originalMatch) {
+        const updatedMatch: Match = {
+          ...originalMatch,
+          ...data,
+          score: {
+            player1: data?.score?.player1 || originalMatch.score.player1,
+            player2: data?.score?.player2 || originalMatch.score.player2,
+          },
         };
+        state[matchId] = updatedMatch;
+      } else if (state[matchId]) {
+        for (const key in data) {
+          const value = data[key as keyof MatchUpdate];
+          if (value !== undefined) {
+            (state[matchId][key as keyof Match] as any) = value;
+          }
+        }
       }
-      state[matchId] = { ...state[matchId], ...data };
     },
     clearMatchForm: (state, action: PayloadAction<string>) => {
       delete state[action.payload];

@@ -1,3 +1,5 @@
+import { Match } from "../../matchs/interfaces/matchInterface";
+
 export interface Organizer {
   _id: string;
   email: string;
@@ -17,21 +19,6 @@ export interface Participant {
 export interface Contact {
   email: string;
   phone?: string;
-}
-
-export interface Match {
-  _id: string;
-  tournamentId: string;
-  round: string;
-  player1: string;
-  player2: string;
-  score: {
-    player1: number;
-    player2: number;
-  };
-  winner: string | null;
-  nextMatchId: string | null;
-  status: STATUS;
 }
 
 export interface GetDataFromTournamentParams {
@@ -66,15 +53,6 @@ export interface ITournamentInput {
   accesibility: string;
   contact: Contact;
   price: number;
-}
-
-export interface IMatchInput {
-  winner?: string | null;
-  score: {
-    player1: number;
-    player2: number;
-  };
-  status?: STATUS;
 }
 
 export interface ITournament extends ITournamentInput {

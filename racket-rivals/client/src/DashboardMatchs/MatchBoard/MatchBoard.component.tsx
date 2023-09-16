@@ -1,11 +1,12 @@
-import { FC, useEffect, useMemo } from "react";
+import { FC, useEffect } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { FaTrophy } from "react-icons/fa";
 import { VscChromeMinimize } from "react-icons/vsc";
-import { Match } from "../../services/tournaments/interfaces/tournamentInterface";
+import { Match } from "../../services/matchs/interfaces/matchInterface";
 import { useAppDispatch, useAppSelector } from "../../hooks/store/useStore";
 import { updateMatchForm } from "../../store/slice/matchForm";
-import { determineWinner } from "../../utils/match";
+import { determineMatchStatus, determineWinner } from "../../utils/matchUtils";
+import { useUpdateMatchMutation } from "../../services/matchs/endpoints";
 import styles from "./MatchBoard.module.scss";
 
 interface MatchBoardProps {
@@ -14,112 +15,185 @@ interface MatchBoardProps {
 
 export const MatchBoard: FC<MatchBoardProps> = ({ match }) => {
   const dispatch = useAppDispatch();
-  const matchForm = useAppSelector((state) => state.matchForm);
   const currentMatchData = useAppSelector(
     (state) => state.matchForm[match._id]
   );
+  const displayData = currentMatchData || match;
 
-  const currentWinnerId = currentMatchData?.winner || match.winner;
+  const [updateMatch, { isLoading }] = useUpdateMatchMutation();
 
-  const winnerPlayer = determineWinner(
-    currentWinnerId,
-    match.player1,
-    match.player2
-  );
+  const currentWinnerId = currentMatchData?.winner;
 
-  const score = useMemo(() => {
-    return matchForm[match._id]?.score || { player1: 0, player2: 0 };
-  }, [matchForm, match._id]);
+  const winnerPlayer =
+    currentMatchData?.player1 && currentMatchData?.player2
+      ? determineWinner(
+          currentWinnerId ?? null,
+          currentMatchData?.player1?._id ?? null,
+          currentMatchData?.player2?._id ?? null
+        )
+      : undefined;
+
+  const score = match.score || { player1: 0, player2: 0 };
 
   useEffect(() => {
-    const initialMatchData = {
-      matchId: match._id,
-      data: {
-        score: match.score || { player1: 0, player2: 0 },
-        winner: match.winner || null,
-      },
-    };
-
-    dispatch(updateMatchForm(initialMatchData));
+    dispatch(
+      updateMatchForm({
+        matchId: match._id,
+        originalMatch: match,
+      })
+    );
   }, [match]);
 
   const handleScoreChange = (player: string, value: number) => {
     const newScore = value < 0 ? 0 : value > 4 ? 4 : value;
+    const updatedScore = { ...score, [player]: newScore };
+    const status = determineMatchStatus(updatedScore, currentWinnerId ?? null);
     dispatch(
       updateMatchForm({
         matchId: match._id,
-        data: { score: { ...score, [player]: newScore } },
+        data: { score: updatedScore, status },
       })
     );
   };
 
   const handleWinnerUpdate = (playerId: string) => {
-    dispatch(
-      updateMatchForm({ matchId: match._id, data: { winner: playerId } })
-    );
+    let status;
+    if (currentMatchData.winner === playerId) {
+      status = determineMatchStatus(score, null);
+      dispatch(
+        updateMatchForm({ matchId: match._id, data: { winner: null, status } })
+      );
+    } else {
+      status = determineMatchStatus(score, playerId);
+      dispatch(
+        updateMatchForm({
+          matchId: match._id,
+          data: { winner: playerId, status },
+        })
+      );
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!currentMatchData) {
+      console.error("Données du match introuvables.");
+      return;
+    }
+
+    try {
+      const { _id, ...updatedMatchData } = currentMatchData;
+
+      await updateMatch({
+        tournamentId: match.tournamentId,
+        matchInput: updatedMatchData,
+        matchId: _id,
+      }).unwrap();
+    } catch (err) {
+      console.error("Erreur lors de la mise à jour du match:", err);
+    }
   };
 
   return (
     <>
       <div className={styles.matchContainer}>
         <div className={styles.match}>
-          <span>p1</span>
+          <span>
+            {(displayData?.player1?.firstName || "") +
+              " " +
+              (displayData?.player1?.lastName || "")}
+          </span>
           <div className={styles.endContainer}>
             <div className={styles.score}>
               <FaPlus
                 className={styles.scoreBtn}
-                onClick={() => handleScoreChange("player1", score?.player1 + 1)}
+                onClick={() =>
+                  handleScoreChange(
+                    "player1",
+                    (displayData.score?.player1 || 0) + 1
+                  )
+                }
               />
               <input
                 type="number"
-                value={score.player1}
+                value={displayData.score?.player1 || 0}
                 onChange={(e) => handleScoreChange("player1", +e.target.value)}
               />
               <VscChromeMinimize
                 className={styles.scoreBtn}
-                onClick={() => handleScoreChange("player1", score?.player1 - 1)}
+                onClick={() =>
+                  handleScoreChange(
+                    "player1",
+                    (displayData.score?.player1 || 0) - 1
+                  )
+                }
               />
             </div>
             <FaTrophy
               className={`${styles.scoreBtnWin} ${
-                match.player1 && winnerPlayer === match.player1
+                displayData?.player1 &&
+                winnerPlayer === displayData?.player1._id
                   ? styles.winner
                   : ""
               }`}
-              onClick={() => match.player1 && handleWinnerUpdate(match.player1)}
+              onClick={() =>
+                displayData?.player1 &&
+                handleWinnerUpdate(displayData?.player1._id)
+              }
             />
           </div>
         </div>
         <div className={styles.match}>
-          <span>p2</span>
+          <span>
+            {(displayData?.player2?.firstName || "") +
+              " " +
+              (displayData?.player2?.lastName || "")}
+          </span>
           <div className={styles.endContainer}>
             <div className={styles.score}>
               <FaPlus
                 className={styles.scoreBtn}
-                onClick={() => handleScoreChange("player2", score?.player2 + 1)}
+                onClick={() =>
+                  handleScoreChange(
+                    "player2",
+                    (displayData.score?.player2 || 0) + 1
+                  )
+                }
               />
               <input
                 type="number"
-                value={score.player2}
+                value={displayData.score?.player2 || 0}
                 onChange={(e) => handleScoreChange("player2", +e.target.value)}
               />
               <VscChromeMinimize
                 className={styles.scoreBtn}
-                onClick={() => handleScoreChange("player2", score?.player2 - 1)}
+                onClick={() =>
+                  handleScoreChange(
+                    "player2",
+                    (displayData.score?.player2 || 0) - 1
+                  )
+                }
               />
             </div>
             <FaTrophy
               className={`${styles.scoreBtnWin} ${
-                match.player2 && winnerPlayer === match.player2
+                displayData?.player2 &&
+                winnerPlayer === displayData?.player2._id
                   ? styles.winner
                   : ""
               }`}
-              onClick={() => match.player2 && handleWinnerUpdate(match.player2)}
+              onClick={() =>
+                displayData?.player2 &&
+                handleWinnerUpdate(displayData?.player2._id)
+              }
             />
           </div>
         </div>
       </div>
-      <button className={styles.updateMatchBtn} type="submit">
+      <button
+        className={styles.updateMatchBtn}
+        onClick={handleSubmit}
+        type="submit"
+      >
         Mettre à jour
       </button>
     </>
