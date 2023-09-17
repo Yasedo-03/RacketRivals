@@ -61,6 +61,7 @@ export const Nav: FC<NavProps> = ({
           <div
             className={classNames(styles.navItem, {
               [styles.hidden]: isLogged && navItem.label === "Inscription",
+              [styles.hidden]: !isLogged && navItem.label === "Mon compte",
             })}
             key={navItem.label}
           >

@@ -8,8 +8,10 @@ import {
   useGetMyTournamentsQuery,
   useGetTournamentsQuery,
 } from "../../../services/tournaments/endpoints";
-import "./TournamentSection.scss";
+import { NotLogged } from "../../NotLogged";
+import { useGetUser } from "../../../hooks/store/user";
 import styles from "./TournamentSection.module.scss";
+import "./TournamentSection.scss";
 
 type TournamentSectionProps = {
   index: number;
@@ -33,8 +35,11 @@ export type Page = {
 };
 
 export const TournamentSection = ({ index }: TournamentSectionProps) => {
+  const me = useGetUser();
   useGetTournamentsQuery();
-  useGetMyTournamentsQuery();
+  useGetMyTournamentsQuery(undefined, {
+    skip: !me,
+  });
 
   const menuItems = [
     {
@@ -72,7 +77,7 @@ export const TournamentSection = ({ index }: TournamentSectionProps) => {
       classNames: "page-left",
     },
     {
-      component: <CreateTournamentCard />,
+      component: me ? <CreateTournamentCard /> : <NotLogged />,
       route: TOURNAMENT_ROUTES.CREATE,
       timeout: 800,
       classNames: "page-right",
