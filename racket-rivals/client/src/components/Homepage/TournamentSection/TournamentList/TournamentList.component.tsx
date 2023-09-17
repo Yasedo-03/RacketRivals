@@ -6,6 +6,8 @@ import {
   useTournaments,
 } from "../../../../hooks/store/tournaments";
 import { ITournament } from "../../../../services/tournaments/interfaces/tournamentInterface";
+import { useGetUser } from "../../../../hooks/store/user";
+import { NotLogged } from "../../../NotLogged";
 import styles from "./TournamentList.module.scss";
 
 type TournamentListProps = {
@@ -15,6 +17,7 @@ type TournamentListProps = {
 export const TournamentList: FC<TournamentListProps> = ({
   tournamentListView,
 }) => {
+  const me = useGetUser();
   const tournaments = useTournaments();
   const myTournaments = useMyTournaments();
 
@@ -25,16 +28,20 @@ export const TournamentList: FC<TournamentListProps> = ({
 
   return (
     <div className={styles.list}>
-      {tournamentListToMap?.map((tournament) => (
-        <Link
-          key={tournament._id}
-          className={styles.listItem}
-          to={`/tournament/${tournament._id}/details`}
-        >
-          <span>{tournament.name} </span>
-          <span>{tournament.uniqueCode}</span>
-        </Link>
-      ))}
+      {!me && tournamentListToMap === myTournaments ? (
+        <NotLogged animated={false} />
+      ) : (
+        tournamentListToMap?.map((tournament) => (
+          <Link
+            key={tournament._id}
+            className={styles.listItem}
+            to={`/tournament/${tournament._id}/details`}
+          >
+            <span>{tournament.name} </span>
+            <span>{tournament.uniqueCode}</span>
+          </Link>
+        ))
+      )}
     </div>
   );
 };

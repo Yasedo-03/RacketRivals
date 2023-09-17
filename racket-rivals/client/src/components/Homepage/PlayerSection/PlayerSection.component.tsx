@@ -2,9 +2,11 @@ import { AnimatedContainer } from "../../AnimatedContainer";
 import { BlurDivider } from "../../BlurDivider";
 import { MenuNavigationSection } from "../../MenuNavigationSection";
 import { ScrollArrows, ScrollArrowsDirection } from "../../ScrollArrows";
-import styles from "./PlayerSection.module.scss";
 import { PlayerCard } from "./PlayerCard";
 import { SearchPlayerCard } from "./SearchPlayerCard";
+import { useGetUser } from "../../../hooks/store/user";
+import { NotLogged } from "../../NotLogged";
+import styles from "./PlayerSection.module.scss";
 
 type PlayerSectionProps = {
   index: number;
@@ -21,6 +23,7 @@ enum PLAYER_ROUTES {
 }
 
 export const PlayerSection = ({ index }: PlayerSectionProps) => {
+  const me = useGetUser();
   const menuItems = [
     { label: labelsMenuPlayerNavigation.SEARCH_PLAYER, to: PLAYER_ROUTES.LIST },
     { label: labelsMenuPlayerNavigation.MY_PROFIL, to: PLAYER_ROUTES.ME },
@@ -46,7 +49,7 @@ export const PlayerSection = ({ index }: PlayerSectionProps) => {
       classNames: "fade",
     },
     {
-      component: <PlayerCard />,
+      component: me ? <PlayerCard /> : <NotLogged />,
       route: PLAYER_ROUTES.ME,
       timeout: 800,
       classNames: "page-right",

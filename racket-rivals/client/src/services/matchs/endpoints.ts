@@ -36,10 +36,8 @@ export const matchsEndpoints = racketRivalsApi.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(updateMatches(data));
-          console.log("Data from queryFulfilled:", data);
 
           data.forEach((match) => {
-            console.log("Dispatching updateMatchForm for:", match);
             dispatch(setMatchFromAPI(match));
           });
         } catch (error) {
