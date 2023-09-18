@@ -9,12 +9,14 @@ import { userRouter } from "./routes/users.js";
 import { tournamentRouter } from "./routes/tournaments.js";
 import { matchRouter } from "./routes/matchs.js";
 
-dotenv.config();
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
 
 const app = express();
 const port = process.env.PORT;
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: process.env.CLIENT_URL_DEV,
   credentials: true,
 };
 
