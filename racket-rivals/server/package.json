@@ -1,0 +1,31 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "lint": "yarn run prettier && yarn run eslint . --ext .ts,.tsx",
+    "lint:fix": "yarn run prettify && yarn run eslint:fix",
+    "prettify": "prettier --write ./src",
+    "prettier": "prettier --check ./src",
+    "eslint:fix": "eslint --ext .ts,.tsx --fix"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.5.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.3"
+  }
+}

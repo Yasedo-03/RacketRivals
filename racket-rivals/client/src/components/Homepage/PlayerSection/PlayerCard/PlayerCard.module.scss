@@ -1,0 +1,102 @@
+@import "src/styles/mixins.scss";
+@import "src/styles/globals.scss";
+
+.container {
+  height: 100%;
+  position: relative;
+  left: 500px;
+  transition: left 800ms ease;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+
+  h2 {
+    font-size: 24px;
+  }
+
+  p {
+    align-items: center;
+  }
+
+  span {
+    padding: 5px 10px;
+    border-radius: 0.3rem;
+    background-color: black;
+  }
+}
+
+.containerInPlace {
+  left: 0;
+}
+
+.fullName {
+  font-size: 28px;
+}
+
+.redBorder {
+  border: 3px solid rgba(255, 0, 0, 1);
+}
+
+.greenBorder,
+.goldVariant {
+  border-width: 3px;
+  border-style: solid;
+}
+
+.greenBorder {
+  border-color: rgba(0, 255, 0, 0.5);
+}
+
+.rank,
+.tournamentWin,
+.matchStats {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tournamentStatsTitle,
+.matchStatsTitle,
+.matchStats {
+  margin-bottom: 1rem;
+}
+
+.winrate,
+.matchStatsWin,
+.matchStatsLost {
+  display: flex;
+  flex-direction: column;
+}
+
+.matchStatsWin,
+.matchStatsLost {
+  h3 {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.winrate {
+  h3 {
+    margin-bottom: 1rem;
+  }
+}
+
+.winrate span {
+  align-self: center;
+}
+
+.matchStats span {
+  padding: 3px 10px;
+}
+
+.winrate h3 {
+  margin-bottom: 0.5rem;
+}
+
+.rank,
+.tournamentStats,
+.matchStatsContainer {
+  border: 2px white solid;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+  box-shadow: rgba(152, 33, 21, 1) 0px 20px 30px -10px;
+}

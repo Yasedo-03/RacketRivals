@@ -1,0 +1,107 @@
+@import "src/styles/mixins.scss";
+@import "src/styles/globals.scss";
+
+.animatedContainer {
+  height: 100%;
+  position: relative;
+  left: 500px;
+  transition: left 800ms ease;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.containerInPlace {
+  left: 0;
+}
+
+.loginButton {
+  margin-top: 2rem;
+  width: 110px;
+  height: 110px;
+  border: none;
+  outline: none;
+  color: #fff;
+  background: #111;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  border-radius: 50%;
+  font-size: 14px;
+
+  &::before {
+    content: "";
+    background: linear-gradient(
+      45deg,
+      #b22222,
+      #ff4500,
+      #ff8c00,
+      #ffa500,
+      #ffd700,
+      #ffff00,
+      #891010,
+      hwb(57 5% 2%),
+      #e10505,
+      #ffff00,
+      #ffd700,
+      #ffa500,
+      #ff8c00,
+      #ff4500,
+      #b22222
+    );
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 50%;
+
+    @include onDevice(deskstop) {
+      opacity: 0;
+    }
+  }
+
+  &:hover:before {
+    opacity: 1;
+  }
+
+  &:after {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    left: 0;
+    top: 0;
+    border-radius: 50%;
+  }
+}
+
+@keyframes glowing {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}

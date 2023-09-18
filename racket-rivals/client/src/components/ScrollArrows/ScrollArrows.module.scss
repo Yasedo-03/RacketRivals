@@ -1,0 +1,64 @@
+.arrows {
+  width: 45px;
+  height: 54px;
+  position: absolute;
+  margin-left: 1rem;
+  bottom: 30px;
+  left: 0;
+  cursor: pointer;
+}
+
+.arrows path {
+  fill: transparent;
+  stroke-width: 1px;
+  animation: arrow 2s infinite;
+  -webkit-animation: arrow 2s infinite;
+}
+
+@keyframes arrow {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes arrow /*Safari and Chrome*/ {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.arrows path.a1 {
+  stroke: white;
+  animation-delay: -0.4s;
+  -webkit-animation-delay: -0.4s;
+}
+
+.arrows path.a2 {
+  stroke: orangered;
+  animation-delay: -0.25s;
+  -webkit-animation-delay: -0.25s;
+}
+
+.arrows path.a3 {
+  stroke: #ffff00;
+  animation-delay: 0s;
+  -webkit-animation-delay: 0s;
+}

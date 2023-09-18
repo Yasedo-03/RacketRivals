@@ -1,0 +1,21 @@
+@import "src/styles/mixins.scss";
+@import "src/styles/globals.scss";
+
+.tournamentbloc {
+  overflow-y: hidden;
+  background-image: url("../../../assets/img/tournamentBlockMobileBg.png");
+
+  @include onDevice(desktop) {
+    background-image: url("../../../assets/img/imgBgDesktop.png");
+  }
+}
+
+.title {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+.text {
+  font-size: 1.2em;
+  line-height: 1.6;
+}

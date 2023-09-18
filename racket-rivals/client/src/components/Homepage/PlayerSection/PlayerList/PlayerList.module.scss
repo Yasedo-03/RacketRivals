@@ -1,0 +1,24 @@
+.list {
+  margin-top: 3rem;
+  overflow: hidden;
+  height: 70%;
+}
+
+.listItem {
+  height: 50px;
+  position: relative;
+  padding: 0.25rem;
+  text-decoration: none;
+  color: white;
+  border: 1px solid white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  cursor: pointer;
+
+  span {
+    width: 80px;
+    padding: 0 10px;
+  }
+}

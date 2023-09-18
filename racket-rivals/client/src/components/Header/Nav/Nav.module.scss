@@ -1,0 +1,131 @@
+@import "src/styles/mixins.scss";
+
+.container {
+  z-index: 100;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 80px;
+  backdrop-filter: blur(10px);
+  height: 100vh;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out, visibility 0s linear 0.5s;
+  font-family: "Paytone One", sans-serif;
+  visibility: hidden;
+}
+
+.container.visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.loginButtonContainer {
+  width: 50%;
+  margin-top: 2.5rem;
+  font-family: "Paytone One", sans-serif;
+}
+
+.loginButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  color: white;
+  height: 80px;
+  background: linear-gradient(0deg, #000, #272727);
+  border-radius: 15rem;
+  transition: all 0.3s linear;
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    background: linear-gradient(
+      45deg,
+      #b22222,
+      #ff4500,
+      #ff8c00,
+      #ffa500,
+      #ffd700,
+      #ffff00,
+      #891010,
+      hwb(57 5% 2%),
+      #e10505,
+      #ffff00,
+      #ffd700,
+      #ffa500,
+      #ff8c00,
+      #ff4500,
+      #b22222
+    );
+    background-size: 400%;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    z-index: -1;
+    animation: steam 20s linear infinite;
+    border-radius: 15rem;
+  }
+
+  &::after {
+    filter: blur(5px);
+  }
+}
+
+@keyframes steam {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.navItem {
+  height: 80px;
+  text-align: center;
+  cursor: pointer;
+  color: white;
+  transition: transform 400ms;
+  padding-top: 2.5rem;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  .text {
+    background: linear-gradient(to right, white, white),
+      linear-gradient(to right, rgba(255, 0, 0, 1), #ffd700, rgba(255, 0, 0, 1));
+    background-size: 100% 3px, 0 3px;
+    background-position: 100% 100%, 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 400ms;
+    background-size: 0 3px, 100% 3px;
+    padding: 10px;
+
+    @include onDevice(desktop) {
+      background-size: 0 0, 0 0;
+      &:hover {
+        background-size: 0 3px, 100% 3px;
+      }
+    }
+  }
+}
+
+.navItem:first-child {
+  margin-top: 80px;
+}
+
+.hidden {
+  display: none;
+}

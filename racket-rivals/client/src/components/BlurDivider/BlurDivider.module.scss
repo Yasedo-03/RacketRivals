@@ -1,0 +1,57 @@
+.blurDivider {
+  position: absolute;
+  height: 30px;
+  width: 100%;
+  bottom: -2vh;
+  filter: blur(10px);
+  background-size: 300% 300%;
+  background-image: linear-gradient(
+    45deg,
+    #b22222,
+    #ff4500,
+    #ff8c00,
+    #ffa500,
+    #ffd700,
+    #ffff00,
+    #891010,
+    hwb(57 5% 2%),
+    #e10505,
+    #ffff00,
+    #ffd700,
+    #ffa500,
+    #ff8c00,
+    #ff4500,
+    #b22222
+  );
+  -webkit-animation: AnimateBG 20s ease infinite;
+  animation: AnimateBG 20s ease infinite;
+
+  &.top {
+    bottom: auto;
+    top: -2vh;
+  }
+}
+
+@-webkit-keyframes AnimateBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes AnimateBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

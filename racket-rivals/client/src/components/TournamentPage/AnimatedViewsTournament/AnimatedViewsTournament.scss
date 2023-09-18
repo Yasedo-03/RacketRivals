@@ -1,0 +1,21 @@
+// React-transition-group doesn't work with css module
+
+.views-enter {
+  opacity: 0;
+  transition: opacity 0.8s;
+}
+
+.views-enter-active {
+  opacity: 1;
+  transition: opacity 0.8s;
+}
+
+.views-exit {
+  opacity: 1;
+  transition: opacity 0.8s;
+}
+
+.views-exit-active {
+  opacity: 0;
+  transition: opacity 0.8s;
+}
