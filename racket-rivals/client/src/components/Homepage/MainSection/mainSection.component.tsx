@@ -1,7 +1,7 @@
 import { BlurDivider } from "../../BlurDivider";
 import { ScrollArrows, ScrollArrowsDirection } from "../../ScrollArrows";
-import styles from "./MainSection.module.scss";
 import { MainCard } from "./MainCard";
+import styles from "./MainSection.module.scss";
 
 type MainSectionPros = {
   index: number;
