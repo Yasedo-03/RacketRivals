@@ -14,14 +14,14 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const app = express();
-const port = process.env.PORT;
-const corsOptions = {
-  origin: process.env.CLIENT_URL_DEV,
-  credentials: true,
-};
+const port = process.env.PORT || 5001;
+// const corsOptions = {
+//   origin: process.env.CLIENT_URL_DEV,
+//   credentials: true,
+// };
 
 app.use(express.json());
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 app.use(cookieParser());
 
 app.use("/", (req, res) => {
@@ -33,15 +33,11 @@ app.use("/api", userRouter);
 app.use("/api/tournament", tournamentRouter);
 app.use("/api/match", matchRouter);
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-// app.listen(port, () => {
-//   console.log(`App listening on port ${port}`);
+// mongoose.connect(process.env.MONGO_URI, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
 // });
 
-app.listen(4002, () => {
-  console.log(`App listening on port 4002`);
+app.listen(port, () => {
+  console.log(`App listening on port ${port}`);
 });
