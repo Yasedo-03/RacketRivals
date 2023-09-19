@@ -4,10 +4,10 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
-import { authRouter } from "../src/routes/auth.js";
-import { userRouter } from "../src/routes/users.js";
-import { tournamentRouter } from "../src/routes/tournaments.js";
-import { matchRouter } from "../src/routes/matchs.js";
+import { authRouter } from "./src/routes/auth.js";
+import { userRouter } from "./src/routes/users.js";
+import { tournamentRouter } from "./src/routes/tournaments.js";
+import { matchRouter } from "./src/routes/matchs.js";
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config();

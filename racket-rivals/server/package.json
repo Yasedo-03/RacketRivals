@@ -5,7 +5,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "nodemon api/index.js",
+    "start": "nodemon index.js",
     "lint": "yarn run prettier && yarn run eslint . --ext .ts,.tsx",
     "lint:fix": "yarn run prettify && yarn run eslint:fix",
     "prettify": "prettier --write ./src",
