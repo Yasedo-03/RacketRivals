@@ -38,6 +38,10 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true,
 });
 
-app.listen(port, () => {
-  console.log(`App listening on port ${port}`);
+// app.listen(port, () => {
+//   console.log(`App listening on port ${port}`);
+// });
+
+app.list(4002, () => {
+  console.log(`App listening on port 4002`);
 });
