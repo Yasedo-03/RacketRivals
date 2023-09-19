@@ -24,6 +24,10 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use(cookieParser());
 
+app.use("/", (req, res) => {
+  res.send("Server is running");
+})
+
 app.use("/api/auth", authRouter);
 app.use("/api", userRouter);
 app.use("/api/tournament", tournamentRouter);
