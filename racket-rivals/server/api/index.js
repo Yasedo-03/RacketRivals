@@ -4,10 +4,10 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
-import { authRouter } from "./routes/auth.js";
-import { userRouter } from "./routes/users.js";
-import { tournamentRouter } from "./routes/tournaments.js";
-import { matchRouter } from "./routes/matchs.js";
+import { authRouter } from "../src/routes/auth.js";
+import { userRouter } from "../src/routes/users.js";
+import { tournamentRouter } from "../src/routes/tournaments.js";
+import { matchRouter } from "../src/routes/matchs.js";
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
@@ -42,6 +42,6 @@ mongoose.connect(process.env.MONGO_URI, {
 //   console.log(`App listening on port ${port}`);
 // });
 
-app.list(4002, () => {
+app.listen(4002, () => {
   console.log(`App listening on port 4002`);
 });
