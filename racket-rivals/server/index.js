@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
 const app = express();
 const port = process.env.PORT || 5001;
 const corsOptions = {
-  origin: 'https://racket-rivals.vercel.app',
+  origin: 'https://racket-rivals.vercel.app/',
   credentials: true,
 };
 
