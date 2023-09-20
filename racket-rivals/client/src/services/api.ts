@@ -8,7 +8,7 @@ import { RootState } from "../store/store";
 import { logout, setCredentials } from "../store/slice/auth";
 // import.meta.env.VITE_API_URL
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://racket-rivals-dl6t.vercel.app',
+  baseUrl: 'https://racket-rivals-dl6t.vercel.app/api',
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
