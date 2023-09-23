@@ -1,4 +1,4 @@
-import { getTournaments } from "../../src/controllers/tournamentsController.js";
+import { getTournaments } from "../src/controllers/tournamentsController.js";
 
 export default async (req, res) => {
   if (req.method === 'GET') {

@@ -1,5 +1,5 @@
-import { verifyToken } from "../../src/middlewares/verifyToken.js";
-import { getUser } from "../../src/controllers/usersControllers.js";
+import { verifyToken } from "../src/middlewares/verifyToken.js";
+import { getUser } from "../src/controllers/usersControllers.js";
 
 export default async (req, res) => {
   if (req.method === 'GET') {

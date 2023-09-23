@@ -1,4 +1,4 @@
-import { getUsers } from "../../src/controllers/usersControllers.js";
+import { getUsers } from "../src/controllers/usersControllers.js";
 
 export default async (req, res) => {
   if (req.method === 'GET') {
