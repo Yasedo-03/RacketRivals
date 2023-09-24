@@ -4,25 +4,24 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
-import { authRouter } from "./src/routes/auth.js";
-import { userRouter } from "./src/routes/users.js";
-import { tournamentRouter } from "./src/routes/tournaments.js";
-import { matchRouter } from "./src/routes/matchs.js";
+import { authRouter } from "./routes/auth.js";
+import { userRouter } from "./routes/users.js";
+import { tournamentRouter } from "./routes/tournaments.js";
+import { matchRouter } from "./routes/matchs.js";
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
 }
 
 const app = express();
-// process.env.PORT ||
-const port = 5001;
-// const corsOptions = {
-//   origin: '*',
-//   credentials: true,
-// };
+const port = process.env.PORT || 5000;
+const corsOptions = {
+  origin: '*',
+  credentials: true,
+};
 
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 app.use("/", (req, res) => {
