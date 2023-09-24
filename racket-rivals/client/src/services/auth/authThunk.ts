@@ -27,6 +27,8 @@ export const authenticateAndFetchUser = createAsyncThunk(
       dispatch(setCredentials({ userID, accessToken }));
 
       if (accessToken) {
+        console.log(accessToken);
+        
         console.log('trigger getMe');
         await dispatch(usersEndpoints.endpoints.getMe.initiate());
       }
