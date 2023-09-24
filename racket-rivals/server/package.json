@@ -10,7 +10,8 @@
     "lint:fix": "yarn run prettify && yarn run eslint:fix",
     "prettify": "prettier --write ./src",
     "prettier": "prettier --check ./src",
-    "eslint:fix": "eslint --ext .ts,.tsx --fix"
+    "eslint:fix": "eslint --ext .ts,.tsx --fix",
+    "vercel-build": "echo Hello"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
