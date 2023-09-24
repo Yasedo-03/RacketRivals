@@ -1,5 +1,28 @@
 {
-  "rewrites": [
-      { "source": "/api/(.*)", "destination": "/api" }
-  ]
+    "rewrites": [
+        { "source": "/api/(.*)", "destination": "/api" }
+    ],
+    "headers": [
+        {
+            "source": "/api/(.*)",
+            "headers": [
+                {
+                    "key": "Access-Control-Allow-Origin",
+                    "value": "https://racket-rivals.vercel.app"
+                },
+                {
+                    "key": "Access-Control-Allow-Methods",
+                    "value": "PUT, POST, GET, DELETE, PATCH, OPTIONS"
+                },
+                {
+                    "key": "Access-Control-Allow-Headers",
+                    "value": "Origin, X-Requested-With, Content-Type, Accept"
+                },
+                {
+                    "key": "Access-Control-Allow-Credentials",
+                    "value": "true"
+                }
+            ]
+        }
+    ]
 }
