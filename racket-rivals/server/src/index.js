@@ -11,7 +11,7 @@ import { matchRouter } from "./routes/matchs.js";
 
 let originCors = process.env.CLIENT_URL_DEV;
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   dotenv.config();
   originCors = process.env.CLIENT_URL_PROD;
 }

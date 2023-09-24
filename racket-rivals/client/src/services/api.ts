@@ -6,9 +6,13 @@ import type {
 } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store/store";
 import { logout, setCredentials } from "../store/slice/auth";
-// import.meta.env.VITE_API_URL
+
+const isProduction = import.meta.env.MODE === "production";
+
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://racket-rivals-dl6t.vercel.app/api',
+  baseUrl: isProduction
+    ? import.meta.env.VITE_API_URL_PROD
+    : import.meta.env.VITE_API_URL_DEV,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
