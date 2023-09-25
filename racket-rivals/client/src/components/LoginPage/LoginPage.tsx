@@ -41,7 +41,13 @@ export const Login: FC = () => {
       <div className={styles["login-box"]}>
         <form>
           <div className={styles["user-box"]}>
-            <input onChange={handleChange} type="text" name="email" required />
+            <input
+              onChange={handleChange}
+              type="text"
+              name="email"
+              required
+              autoComplete="off"
+            />
             <label>Email</label>
           </div>
           <div className={styles["user-box"]}>

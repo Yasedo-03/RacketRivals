@@ -1,10 +1,10 @@
 import { useLayoutEffect, useRef } from "react";
 import { CreateTournamentForm } from "../../../CreateTournamentForm";
-import styles from "./CreateTournamentCard.module.scss";
 import { CreateTournamentFormModal } from "../../../Modals/ModalsContent";
 import { ModalTemplate } from "../../../Modals";
 import { useAppSelector } from "../../../../hooks/store/useStore";
 import { RootState } from "../../../../store/store";
+import styles from "./CreateTournamentCard.module.scss";
 
 export const CreateTournamentCard = () => {
   const cardRef = useRef<HTMLDivElement>(null);
