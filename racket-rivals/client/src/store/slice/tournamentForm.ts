@@ -11,8 +11,8 @@ const initialState: ITournamentInput = {
   location: "",
   format: "Round Robin",
   description: "",
-  number_of_participants: 0,
-  accesibility: "",
+  number_of_participants: 8,
+  accesibility: "public",
   price: 0,
   contact: {
     email: "",

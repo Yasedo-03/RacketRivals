@@ -192,9 +192,7 @@ export const newTournament = async (req, res) => {
       await newTournament.save();
     }
 
-    res
-      .status(201)
-      .json({ message: "Tournoi créé avec succès", tournament: newTournament });
+    res.status(201).json(newTournament);
   } catch (err) {
     console.error(err);
     res.status(500).json({

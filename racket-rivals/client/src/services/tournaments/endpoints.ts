@@ -1,5 +1,6 @@
 import { updateTournamentForm } from "../../store/slice/tournamentForm";
 import {
+  addTournamentToMyTournaments,
   setMyTournaments,
   setTournament,
   setTournaments,
@@ -45,13 +46,13 @@ export const tournamentsEndpoints = racketRivalsApi.injectEndpoints({
         }
       },
     }),
-    getMyTournaments: builder.query<[ITournament], void>({
+    getMyTournaments: builder.query<ITournament[], void>({
       query: () => ({
         url: "/tournament/myTournaments",
         method: "GET",
         credentials: "include",
       }),
-      transformResponse: (result: [ITournament]) => result ?? null,
+      transformResponse: (result: ITournament[]) => result ?? null,
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
@@ -68,6 +69,15 @@ export const tournamentsEndpoints = racketRivalsApi.injectEndpoints({
         body: data,
         credentials: "include",
       }),
+      transformResponse: (result: ITournament) => result ?? null,
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(addTournamentToMyTournaments(data));
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
     registerToTournament: builder.mutation<
       ITournament,
