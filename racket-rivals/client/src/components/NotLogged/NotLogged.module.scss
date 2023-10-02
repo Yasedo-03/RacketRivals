@@ -1,17 +1,7 @@
 @import "src/styles/mixins.scss";
 @import "src/styles/globals.scss";
 
-.animatedContainer {
-  height: 100%;
-  position: relative;
-  left: 500px;
-  transition: left 800ms ease;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-}
-
+.animatedContainer,
 .container {
   height: 100%;
   position: relative;
@@ -21,8 +11,13 @@
   align-items: center;
 }
 
+.animatedContainer {
+  right: -500px;
+  transition: right 800ms ease;
+}
+
 .containerInPlace {
-  left: 0;
+  right: 0;
 }
 
 .loginButton {
