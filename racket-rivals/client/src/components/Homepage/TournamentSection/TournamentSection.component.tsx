@@ -77,7 +77,7 @@ export const TournamentSection = ({ index }: TournamentSectionProps) => {
       classNames: "page-left",
     },
     {
-      component: me ? <CreateTournamentCard /> : <NotLogged />,
+      component: me ? <CreateTournamentCard /> : <NotLogged animated={true} />,
       route: TOURNAMENT_ROUTES.CREATE,
       timeout: 800,
       classNames: "page-right",
