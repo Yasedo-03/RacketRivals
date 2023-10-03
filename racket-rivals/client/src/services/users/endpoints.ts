@@ -1,4 +1,8 @@
-import { setUser } from "../../store/slice/user";
+import {
+  setSearchQueryUsers,
+  setSearchTermUsers,
+} from "../../store/slice/searchSlice";
+import { setUser, setUserList } from "../../store/slice/user";
 import { racketRivalsApi } from "../api";
 import { User } from "./interfaces/usersInterfaces";
 
@@ -21,15 +25,30 @@ export const usersEndpoints = racketRivalsApi.injectEndpoints({
         }
       },
     }),
-    getUsers: builder.query<[User], void>({
-      query() {
+    searchUsers: builder.query<User[], string>({
+      query: (searchTerm) => {
         return {
-          url: `users`,
+          url: `/users?search=${
+            searchTerm ? encodeURIComponent(searchTerm) : ""
+          }`,
+          method: "GET",
         };
+      },
+      providesTags: (_) => ["Users"],
+      transformResponse: (result: User[]) => result ?? null,
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setSearchQueryUsers(""));
+          dispatch(setSearchTermUsers(""));
+          dispatch(setUserList(data));
+        } catch (error) {
+          console.log(error);
+        }
       },
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetMeQuery, useGetUsersQuery } = usersEndpoints;
+export const { useGetMeQuery, useSearchUsersQuery } = usersEndpoints;

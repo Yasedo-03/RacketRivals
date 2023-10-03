@@ -272,3 +272,29 @@ export const launchTournament = async (req, res) => {
     res.status(500).json({ message: "Erreur lors du lancement du tournoi." });
   }
 };
+
+export const searchTournaments = async (req, res) => {
+  try {
+    const { query } = req.query;
+
+    let searchCriteria = {};
+
+    if (query) {
+      searchCriteria = {
+        $or: [
+          { location: new RegExp(query, "i") },
+          { uniqueCode: query },
+          { name: new RegExp(query, "i") },
+        ],
+      };
+    }
+
+    const tournaments = await TournamentModel.find(searchCriteria);
+
+    res.status(200).send(tournaments);
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: "Erreur lors de la recherche des tournois." });
+  }
+};

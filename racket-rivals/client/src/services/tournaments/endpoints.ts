@@ -1,3 +1,8 @@
+import { TournamentListViews } from "../../components/Homepage/TournamentSection/TournamentCard";
+import {
+  setSearchQueryTournaments,
+  setSearchTermTournaments,
+} from "../../store/slice/searchSlice";
 import { updateTournamentForm } from "../../store/slice/tournamentForm";
 import {
   addTournamentToMyTournaments,
@@ -155,6 +160,33 @@ export const tournamentsEndpoints = racketRivalsApi.injectEndpoints({
         }
       },
     }),
+    searchTournament: builder.query<
+      ITournament[],
+      { searchTerm: string; currentView: TournamentListViews }
+    >({
+      query: ({ searchTerm, currentView }) => ({
+        url: `/tournament/search?query=${
+          searchTerm ? encodeURIComponent(searchTerm) : ""
+        }`,
+        method: "GET",
+      }),
+      providesTags: (_) => ["Tournaments"],
+      transformResponse: (result: ITournament[]) => result ?? null,
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setSearchQueryTournaments(""));
+          dispatch(setSearchTermTournaments(""));
+          if (args.currentView === TournamentListViews.MyTournaments) {
+            dispatch(setMyTournaments(data));
+          } else {
+            dispatch(setTournaments(data));
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    }),
   }),
   overrideExisting: false,
 });
@@ -168,4 +200,5 @@ export const {
   useUnregisterToTournamentMutation,
   useUpdateTournamentMutation,
   useLaunchEliminationTournamentMutation,
+  useSearchTournamentQuery,
 } = tournamentsEndpoints;

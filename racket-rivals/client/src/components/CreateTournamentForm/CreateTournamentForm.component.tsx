@@ -27,7 +27,7 @@ export const CreateTournamentForm: FC = () => {
   return (
     <form className={styles.createFormTournament} onSubmit={handleSubmit}>
       <label>
-        Name:
+        Nom:
         <input
           required
           type="text"
@@ -37,7 +37,7 @@ export const CreateTournamentForm: FC = () => {
         />
       </label>
       <label>
-        Start Date:
+        Date de début:
         <input
           required
           type="date"
@@ -47,7 +47,7 @@ export const CreateTournamentForm: FC = () => {
         />
       </label>
       <label>
-        End Date:
+        Date de fin:
         <input
           required
           type="date"
@@ -57,7 +57,7 @@ export const CreateTournamentForm: FC = () => {
         />
       </label>
       <label>
-        Start Hour:
+        Heure de début:
         <input
           required
           type="time"
@@ -67,7 +67,7 @@ export const CreateTournamentForm: FC = () => {
         />
       </label>
       <label>
-        Location:
+        Lieu:
         <input
           required
           type="text"
@@ -96,7 +96,7 @@ export const CreateTournamentForm: FC = () => {
         />
       </label>
       <label>
-        Number of Participants:
+        Nombre de participants:
         <select
           required
           name="number_of_participants"
@@ -108,7 +108,7 @@ export const CreateTournamentForm: FC = () => {
         </select>
       </label>
       <label>
-        Accessibility:
+        Accessibilité:
         <select
           required
           name="accesibility"
@@ -120,7 +120,7 @@ export const CreateTournamentForm: FC = () => {
         </select>
       </label>
       <label>
-        Price:
+        Prix:
         <input
           required
           type="number"

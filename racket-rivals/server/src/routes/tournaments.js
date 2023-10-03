@@ -9,6 +9,7 @@ import {
   unregisterFromTournament,
   updateTournament,
   launchTournament,
+  searchTournaments,
 } from "../controllers/tournamentsController.js";
 
 const router = express.Router();
@@ -18,6 +19,7 @@ router.patch("/register", verifyToken, registerToTournament);
 router.patch("/unregister", verifyToken, unregisterFromTournament);
 router.patch("/:tournamentId/update", verifyToken, updateTournament);
 router.patch("/:tournamentId/launch_tournament", verifyToken, launchTournament);
+router.get("/search", searchTournaments);
 router.get("/myTournaments", verifyToken, getMyTournaments);
 router.get("/:tournamentId", getTournament);
 router.get("/", getTournaments);

@@ -12,9 +12,26 @@ export const getUser = async (req, res) => {
 
 export const getUsers = async (req, res) => {
   try {
-    const result = await UserModel.find();
-    res.status(200).json(result);
-  } catch (err) {
-    res.status(500).json(err);
+    const { search } = req.query;
+
+    let searchCriteria = {};
+
+    if (search) {
+      searchCriteria = {
+        $or: [
+          { firstName: new RegExp(search, "i") },
+          { lastName: new RegExp(search, "i") },
+          { club: new RegExp(search, "i") },
+        ],
+      };
+    }
+
+    const users = await UserModel.find(searchCriteria);
+
+    res.status(200).send(users);
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: "Erreur lors de la recherche des joueurs." });
   }
 };
