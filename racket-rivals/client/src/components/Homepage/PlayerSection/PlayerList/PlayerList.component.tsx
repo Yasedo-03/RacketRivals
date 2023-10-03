@@ -1,10 +1,13 @@
 import { FC } from "react";
 import { User } from "../../../../services/users/interfaces/usersInterfaces";
-import { useGetUsersQuery } from "../../../../services/users/endpoints";
+import { useAppSelector } from "../../../../hooks/store/useStore";
+import { useSearchUsersQuery } from "../../../../services/users/endpoints";
 import styles from "./PlayerList.module.scss";
 
 export const PlayerList: FC = () => {
-  const { data: players } = useGetUsersQuery();
+  const { data: users, error: errorSearchUsersQuery } =
+    useSearchUsersQuery(null);
+  const players = useAppSelector((state) => state.user.usersList);
 
   return (
     <div className={styles.list}>

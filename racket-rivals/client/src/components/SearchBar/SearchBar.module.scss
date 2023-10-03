@@ -91,3 +91,16 @@
   width: 1px;
   overflow: hidden;
 }
+
+.resetSearch {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  right: -30px;
+  top: 10px;
+  cursor: pointer;
+
+  path {
+    stroke: white;
+  }
+}

@@ -1,8 +1,14 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { Pagination } from "../../../Pagination";
 import { SearchBar } from "../../../SearchBar";
 import { TournamentList } from "../TournamentList";
 import { MenuTournamentCard } from "../MenuTournamentCard/MenuTournamentCard.component";
+import {
+  setSearchQueryTournaments,
+  setSearchTermTournaments,
+} from "../../../../store/slice/searchSlice";
+import { useDispatch } from "react-redux";
+import { racketRivalsApi } from "../../../../services/api";
 import styles from "./TournamentCard.module.scss";
 
 export enum TournamentListViews {
@@ -11,9 +17,8 @@ export enum TournamentListViews {
 }
 
 export const TournamentCard = () => {
+  const dispatch = useDispatch();
   const cardRef = useRef<HTMLDivElement>(null);
-  const [tournamentListView, setTournamentListView] =
-    useState<TournamentListViews>(TournamentListViews.MyTournaments);
 
   useLayoutEffect(() => {
     const timer = setTimeout(() => {
@@ -27,12 +32,17 @@ export const TournamentCard = () => {
 
   return (
     <div className={styles.container} ref={cardRef}>
-      <SearchBar />
-      <MenuTournamentCard
-        tournamentListView={tournamentListView}
-        setTournamentListView={setTournamentListView}
+      <SearchBar
+        context="tournaments"
+        onSearch={(query) => {
+          dispatch(setSearchTermTournaments(query));
+        }}
+        onReset={() => {
+          dispatch(racketRivalsApi.util.invalidateTags(["Tournaments"]));
+        }}
       />
-      <TournamentList tournamentListView={tournamentListView} />
+      <MenuTournamentCard />
+      <TournamentList />
       <Pagination />
     </div>
   );

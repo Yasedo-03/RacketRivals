@@ -8,21 +8,19 @@ import {
 import { ITournament } from "../../../../services/tournaments/interfaces/tournamentInterface";
 import { useGetUser } from "../../../../hooks/store/user";
 import { NotLogged } from "../../../NotLogged";
+import { useAppSelector } from "../../../../hooks/store/useStore";
 import styles from "./TournamentList.module.scss";
 
-type TournamentListProps = {
-  tournamentListView: TournamentListViews;
-};
-
-export const TournamentList: FC<TournamentListProps> = ({
-  tournamentListView,
-}) => {
+export const TournamentList: FC = () => {
   const me = useGetUser();
   const tournaments = useTournaments();
   const myTournaments = useMyTournaments();
+  const currentView = useAppSelector(
+    (state) => state.tournamentView.currentView
+  );
 
   const tournamentListToMap: Array<ITournament> | null =
-    tournamentListView === TournamentListViews.MyTournaments
+    currentView === TournamentListViews.MyTournaments
       ? myTournaments
       : tournaments;
 
