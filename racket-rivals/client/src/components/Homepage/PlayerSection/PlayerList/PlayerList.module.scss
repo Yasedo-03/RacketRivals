@@ -21,4 +21,10 @@
     width: 80px;
     padding: 0 10px;
   }
+
+  .playerClub {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

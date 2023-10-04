@@ -26,6 +26,7 @@ const port = process.env.PORT || 5000;
 const corsOptions = {
   origin: clientURL,
   credentials: true,
+  exposedHeaders: ["Content-Range"],
 };
 
 app.use(express.json());
@@ -33,7 +34,7 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
-app.use("/api", userRouter);
+app.use("/api/user", userRouter);
 app.use("/api/tournament", tournamentRouter);
 app.use("/api/match", matchRouter);
 

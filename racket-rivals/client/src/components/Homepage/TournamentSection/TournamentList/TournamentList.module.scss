@@ -15,4 +15,11 @@
   align-items: center;
   font-size: 14px;
   cursor: pointer;
+
+  .tournamentName {
+    width: 70%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

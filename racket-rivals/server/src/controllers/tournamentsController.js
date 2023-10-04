@@ -6,10 +6,22 @@ import { updateEliminationMatchesWithParticipants } from "../utils/updateElimina
 
 export const getTournaments = async (req, res) => {
   try {
-    const result = await TournamentModel.find().select(
-      "name uniqueCode start_date _id",
-    );
-    res.status(200).json(result);
+    const page = parseInt(req.query.page || "1");
+    const pageSize = parseInt(req.query.pageSize || "10");
+
+    const totalTournaments = await TournamentModel.countDocuments();
+
+    const skip = (page - 1) * pageSize;
+
+    const tournaments = await TournamentModel.find()
+      .select("name uniqueCode start_date _id")
+      .skip(skip)
+      .limit(pageSize);
+
+    const endItem = skip + tournaments.length - 1;
+    res.setHeader("Content-Range", `${skip}-${endItem}/${totalTournaments}`);
+
+    res.status(200).json(tournaments);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -90,14 +102,28 @@ export const unregisterFromTournament = async (req, res) => {
 export const getMyTournaments = async (req, res) => {
   try {
     const userId = req.user.id;
-    const result = await TournamentModel.find({
+    const page = Number(req.query.page) || 1;
+    const pageSize = Number(req.query.pageSize) || 10;
+    const skip = (page - 1) * pageSize;
+
+    const tournaments = await TournamentModel.find({
       $or: [{ organizer: userId }, { participants: userId }],
     })
-      .populate("organizer", "email firstName lastName club")
-      .populate("participants", "firstName lastName club rank");
+      .select("name uniqueCode start_date _id")
+      .skip(skip)
+      .limit(pageSize);
 
-    if (result.length > 0) {
-      res.status(200).json(result);
+    const totalTournaments = await TournamentModel.countDocuments({
+      $or: [{ organizer: userId }, { participants: userId }],
+    });
+
+    const contentRange = `tournaments ${skip}-${
+      skip + tournaments.length - 1
+    }/${totalTournaments}`;
+    res.setHeader("Content-Range", contentRange);
+
+    if (tournaments.length > 0) {
+      res.status(200).json(tournaments);
     } else {
       res.status(404).json({ message: "Aucun tournoi trouvé" });
     }
@@ -275,7 +301,7 @@ export const launchTournament = async (req, res) => {
 
 export const searchTournaments = async (req, res) => {
   try {
-    const { query } = req.query;
+    const { query, page = 1, pageSize = 10 } = req.query;
 
     let searchCriteria = {};
 
@@ -289,8 +315,19 @@ export const searchTournaments = async (req, res) => {
       };
     }
 
-    const tournaments = await TournamentModel.find(searchCriteria);
+    const skip = (page - 1) * pageSize;
 
+    const tournaments = await TournamentModel.find(searchCriteria)
+      .skip(skip)
+      .limit(Number(pageSize));
+
+    const totalTournaments =
+      await TournamentModel.countDocuments(searchCriteria);
+
+    res.header(
+      "Content-Range",
+      `${skip}-${skip + tournaments.length}/${totalTournaments}`,
+    );
     res.status(200).send(tournaments);
   } catch (error) {
     res

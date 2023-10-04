@@ -7,12 +7,16 @@ interface ITournamentsState {
   tournaments: ITournament[] | null;
   myTournaments: ITournament[] | null;
   tournament: ITournament | null;
+  activePage: number;
+  totalTournaments: number;
 }
 
 const initialState: ITournamentsState = {
   tournaments: null,
   myTournaments: null,
   tournament: null,
+  activePage: 1,
+  totalTournaments: 0,
 };
 
 const slice = createSlice({
@@ -38,6 +42,12 @@ const slice = createSlice({
         state.myTournaments = [action.payload];
       }
     },
+    setActivePage: (state, action: PayloadAction<number>) => {
+      state.activePage = action.payload;
+    },
+    setTotalTournaments: (state, action) => {
+      state.totalTournaments = action.payload;
+    },
   },
   extraReducers: (builder) => {},
 });
@@ -47,6 +57,8 @@ export const {
   setMyTournaments,
   setTournament,
   addTournamentToMyTournaments,
+  setActivePage,
+  setTotalTournaments,
 } = slice.actions;
 
 export default slice.reducer;

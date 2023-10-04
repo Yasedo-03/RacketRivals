@@ -1,51 +1,70 @@
-import { useSearchTournamentQuery } from "../../services/tournaments/endpoints";
+import { tournamentsEndpoints } from "../../services/tournaments/endpoints";
 import { GrPowerReset } from "react-icons/gr";
-import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../hooks/store/useStore";
+import { useAppDispatch, useAppSelector } from "../../hooks/store/useStore";
 import {
   setSearchQueryUsers,
   setSearchQueryTournaments,
 } from "../../store/slice/searchSlice";
-import { useSearchUsersQuery } from "../../services/users/endpoints";
+import { usersEndpoints } from "../../services/users/endpoints";
 import styles from "./SearchBar.module.scss";
+import { racketRivalsApi } from "../../services/api";
 
 interface SearchBarProps {
   context: "tournaments" | "users";
-  onSearch: (query: string) => void;
-  onReset: () => void;
 }
 
-export const SearchBar: React.FC<SearchBarProps> = ({
-  onSearch,
-  onReset,
-  context,
-}) => {
-  const dispatch = useDispatch();
+export const SearchBar: React.FC<SearchBarProps> = ({ context }) => {
+  const dispatch = useAppDispatch();
 
   const searchQuery = useAppSelector(
     (state) => state.search[context].searchQuery
-  );
-  const searchTerm = useAppSelector(
-    (state) => state.search[context].searchTerm
   );
   const currentView = useAppSelector(
     (state) => state.tournamentView.currentView
   );
 
-  const { data, error } =
-    context === "tournaments"
-      ? useSearchTournamentQuery({ searchTerm, currentView })
-      : useSearchUsersQuery(searchTerm, {
-          skip: searchTerm === "",
-        });
-
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (onSearch) onSearch(searchQuery);
+
+    if (context === "tournaments") {
+      dispatch(
+        racketRivalsApi.util.invalidateTags([
+          { type: "Tournaments", id: `SEARCH_${searchQuery}` },
+        ])
+      );
+      dispatch(
+        tournamentsEndpoints.endpoints.searchTournament.initiate({
+          searchQuery,
+          currentView,
+        })
+      );
+    } else if (context === "users") {
+      dispatch(
+        racketRivalsApi.util.invalidateTags([
+          { type: "Users", id: `SEARCH_${searchQuery}` },
+        ])
+      );
+      dispatch(usersEndpoints.endpoints.searchUsers.initiate({ searchQuery }));
+    }
   };
 
   const handleReset = () => {
-    if (onReset) onReset();
+    if (context === "tournaments") {
+      dispatch(
+        racketRivalsApi.util.invalidateTags([
+          { type: "Tournaments", id: "SEARCH_" },
+        ])
+      );
+      dispatch(
+        tournamentsEndpoints.endpoints.searchTournament.initiate({
+          currentView,
+        })
+      );
+    } else if (context === "users") {
+      dispatch(
+        racketRivalsApi.util.invalidateTags([{ type: "Users", id: "SEARCH_" }])
+      );
+    }
   };
 
   return (

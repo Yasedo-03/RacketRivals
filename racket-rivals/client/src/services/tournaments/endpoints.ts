@@ -1,12 +1,10 @@
 import { TournamentListViews } from "../../components/Homepage/TournamentSection/TournamentCard";
-import {
-  setSearchQueryTournaments,
-  setSearchTermTournaments,
-} from "../../store/slice/searchSlice";
+import { setSearchQueryTournaments } from "../../store/slice/searchSlice";
 import { updateTournamentForm } from "../../store/slice/tournamentForm";
 import {
   addTournamentToMyTournaments,
   setMyTournaments,
+  setTotalTournaments,
   setTournament,
   setTournaments,
 } from "../../store/slice/tournaments";
@@ -21,15 +19,31 @@ import {
 
 export const tournamentsEndpoints = racketRivalsApi.injectEndpoints({
   endpoints: (builder) => ({
-    getTournaments: builder.query<[ITournament], void>({
-      query: () => ({
-        url: "/tournament",
+    getTournaments: builder.query<
+      [ITournament],
+      { page: number; pageSize: number }
+    >({
+      query: ({ page, pageSize }) => ({
+        url: `/tournament?page=${page}&pageSize=${pageSize}`,
         method: "GET",
+        credentials: "include",
       }),
+      providesTags: (result, error, { page, pageSize }) => [
+        { type: "Tournaments", id: `GET_${page}_${pageSize}` },
+      ],
       transformResponse: (result: [ITournament]) => result ?? null,
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
-          const { data } = await queryFulfilled;
+          const { data, meta } = await queryFulfilled;
+
+          const contentRange = (meta as any)?.response?.headers.get(
+            "content-range"
+          );
+
+          if (contentRange) {
+            const total = parseInt(contentRange.split("/")[1]);
+            dispatch(setTotalTournaments(total));
+          }
           dispatch(setTournaments(data));
         } catch (error) {
           console.log(error);
@@ -51,16 +65,32 @@ export const tournamentsEndpoints = racketRivalsApi.injectEndpoints({
         }
       },
     }),
-    getMyTournaments: builder.query<ITournament[], void>({
-      query: () => ({
-        url: "/tournament/myTournaments",
+    getMyTournaments: builder.query<
+      ITournament[],
+      { page: number; pageSize: number }
+    >({
+      query: ({ page, pageSize }) => ({
+        url: `/tournament/myTournaments?page=${page}&pageSize=${pageSize}`,
         method: "GET",
         credentials: "include",
       }),
+      providesTags: (result, error, { page, pageSize }) => [
+        { type: "Tournaments", id: `GET_MY_${page}_${pageSize}` },
+      ],
       transformResponse: (result: ITournament[]) => result ?? null,
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
-          const { data } = await queryFulfilled;
+          const { data, meta } = await queryFulfilled;
+
+          const contentRange = (meta as any)?.response?.headers.get(
+            "content-range"
+          );
+
+          if (contentRange) {
+            const total = parseInt(contentRange.split("/")[1]);
+            dispatch(setTotalTournaments(total));
+          }
+
           dispatch(setMyTournaments(data));
         } catch (error) {
           console.log(error);
@@ -162,21 +192,34 @@ export const tournamentsEndpoints = racketRivalsApi.injectEndpoints({
     }),
     searchTournament: builder.query<
       ITournament[],
-      { searchTerm: string; currentView: TournamentListViews }
+      { searchQuery?: string; currentView: TournamentListViews }
     >({
-      query: ({ searchTerm, currentView }) => ({
-        url: `/tournament/search?query=${
-          searchTerm ? encodeURIComponent(searchTerm) : ""
-        }`,
-        method: "GET",
-      }),
-      providesTags: (_) => ["Tournaments"],
+      query: ({ searchQuery, currentView }) => {
+        return {
+          url: `/tournament/search?query=${
+            searchQuery ? encodeURIComponent(searchQuery) : ""
+          }`,
+          method: "GET",
+        };
+      },
+      providesTags: (result, error, { searchQuery }) => [
+        { type: "Tournaments", id: `SEARCH_${searchQuery || ""}` },
+      ],
       transformResponse: (result: ITournament[]) => result ?? null,
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
-          const { data } = await queryFulfilled;
+          const { data, meta } = await queryFulfilled;
+
           dispatch(setSearchQueryTournaments(""));
-          dispatch(setSearchTermTournaments(""));
+
+          const contentRange = (meta as any)?.response?.headers.get(
+            "content-range"
+          );
+          if (contentRange) {
+            const total = parseInt(contentRange.split("/")[1]);
+            dispatch(setTotalTournaments(total));
+          }
+
           if (args.currentView === TournamentListViews.MyTournaments) {
             dispatch(setMyTournaments(data));
           } else {
