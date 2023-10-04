@@ -35,15 +35,16 @@ export const tournamentsEndpoints = racketRivalsApi.injectEndpoints({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { data, meta } = await queryFulfilled;
-          dispatch(setTournaments(data));
 
           const contentRange = (meta as any)?.response?.headers.get(
             "content-range"
           );
+
           if (contentRange) {
             const total = parseInt(contentRange.split("/")[1]);
             dispatch(setTotalTournaments(total));
           }
+          dispatch(setTournaments(data));
         } catch (error) {
           console.log(error);
         }
@@ -64,16 +65,32 @@ export const tournamentsEndpoints = racketRivalsApi.injectEndpoints({
         }
       },
     }),
-    getMyTournaments: builder.query<ITournament[], void>({
-      query: () => ({
-        url: "/tournament/myTournaments",
+    getMyTournaments: builder.query<
+      ITournament[],
+      { page: number; pageSize: number }
+    >({
+      query: ({ page, pageSize }) => ({
+        url: `/tournament/myTournaments?page=${page}&pageSize=${pageSize}`,
         method: "GET",
         credentials: "include",
       }),
+      providesTags: (result, error, { page, pageSize }) => [
+        { type: "Tournaments", id: `GET_MY_${page}_${pageSize}` },
+      ],
       transformResponse: (result: ITournament[]) => result ?? null,
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
-          const { data } = await queryFulfilled;
+          const { data, meta } = await queryFulfilled;
+
+          const contentRange = (meta as any)?.response?.headers.get(
+            "content-range"
+          );
+
+          if (contentRange) {
+            const total = parseInt(contentRange.split("/")[1]);
+            dispatch(setTotalTournaments(total));
+          }
+
           dispatch(setMyTournaments(data));
         } catch (error) {
           console.log(error);

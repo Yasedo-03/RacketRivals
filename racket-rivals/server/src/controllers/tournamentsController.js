@@ -109,8 +109,7 @@ export const getMyTournaments = async (req, res) => {
     const tournaments = await TournamentModel.find({
       $or: [{ organizer: userId }, { participants: userId }],
     })
-      .populate("organizer", "email firstName lastName club")
-      .populate("participants", "firstName lastName club rank")
+      .select("name uniqueCode start_date _id")
       .skip(skip)
       .limit(pageSize);
 

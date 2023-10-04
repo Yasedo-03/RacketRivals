@@ -35,12 +35,21 @@ export const TournamentCard = () => {
   }, []);
 
   const handlePageChange = (newPage: number) => {
-    dispatch(
-      tournamentsEndpoints.endpoints.getTournaments.initiate({
-        page: newPage,
-        pageSize: 10,
-      })
-    );
+    if (currentView === TournamentListViews.MyTournaments) {
+      dispatch(
+        tournamentsEndpoints.endpoints.getMyTournaments.initiate({
+          page: newPage,
+          pageSize: 10,
+        })
+      );
+    } else if (currentView === TournamentListViews.TournamentList) {
+      dispatch(
+        tournamentsEndpoints.endpoints.getTournaments.initiate({
+          page: newPage,
+          pageSize: 10,
+        })
+      );
+    }
   };
 
   return (
@@ -49,7 +58,11 @@ export const TournamentCard = () => {
       <MenuTournamentCard />
       <TournamentList me={me} currentView={currentView} />
       {(currentView === TournamentListViews.TournamentList || me) && (
-        <Pagination context="tournaments" onPageChange={handlePageChange} />
+        <Pagination
+          context="tournaments"
+          onPageChange={handlePageChange}
+          currentView={currentView}
+        />
       )}
     </div>
   );

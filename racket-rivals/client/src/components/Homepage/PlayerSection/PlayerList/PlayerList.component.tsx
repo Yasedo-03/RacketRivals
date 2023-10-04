@@ -5,7 +5,7 @@ import { useSearchUsersQuery } from "../../../../services/users/endpoints";
 import styles from "./PlayerList.module.scss";
 
 export const PlayerList: FC = () => {
-  const { data: users, error: errorSearchUsersQuery } = useSearchUsersQuery("");
+  const { data: users, error: errorSearchUsersQuery } = useSearchUsersQuery({});
   const players = useAppSelector((state) => state.user.usersList);
 
   return (

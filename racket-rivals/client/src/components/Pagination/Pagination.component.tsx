@@ -3,14 +3,20 @@ import { useAppDispatch, useAppSelector } from "../../hooks/store/useStore";
 import { racketRivalsApi } from "../../services/api";
 import { setActivePage } from "../../store/slice/tournaments";
 import { RootState } from "../../store/store";
+import { TournamentListViews } from "../Homepage/TournamentSection/TournamentCard";
 import styles from "./Pagination.module.scss";
 
 interface PaginationProps {
   context: "users" | "tournaments";
   onPageChange: (pageNumber: number) => void;
+  currentView: TournamentListViews;
 }
 
-export const Pagination: FC<PaginationProps> = ({ onPageChange, context }) => {
+export const Pagination: FC<PaginationProps> = ({
+  onPageChange,
+  context,
+  currentView,
+}) => {
   const dispatch = useAppDispatch();
 
   const config = {
@@ -43,14 +49,31 @@ export const Pagination: FC<PaginationProps> = ({ onPageChange, context }) => {
   ) => {
     event.preventDefault();
     dispatch(setActivePage(pageNumber));
-    dispatch(
-      racketRivalsApi.util.invalidateTags([
-        { type: config.type, id: `GET_${pageNumber}_${config.pageSize}` },
-      ])
-    );
+
+    if (
+      currentView === TournamentListViews.MyTournaments &&
+      context === "tournaments"
+    ) {
+      dispatch(
+        racketRivalsApi.util.invalidateTags([
+          {
+            type: "Tournaments",
+            id: `GET_MY_${pageNumber}_${config.pageSize}`,
+          },
+        ])
+      );
+    } else {
+      dispatch(
+        racketRivalsApi.util.invalidateTags([
+          { type: config.type, id: `GET_${pageNumber}_${config.pageSize}` },
+        ])
+      );
+    }
+
     dispatch(
       racketRivalsApi.util.invalidateTags([{ type: config.type, id: "SEARCH" }])
     );
+
     onPageChange(pageNumber);
   };
 

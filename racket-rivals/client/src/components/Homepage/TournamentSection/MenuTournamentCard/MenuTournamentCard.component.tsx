@@ -5,7 +5,19 @@ import {
   useAppSelector,
 } from "../../../../hooks/store/useStore";
 import { setTournamentView } from "../../../../store/slice/tournamentView";
+import { setActivePage } from "../../../../store/slice/tournaments";
+import { racketRivalsApi } from "../../../../services/api";
 import styles from "./MenuTournamentCard.module.scss";
+
+interface IPaginationDefault {
+  pageNumber: number;
+  pageSize: number;
+}
+
+const paginationDefault: IPaginationDefault = {
+  pageNumber: 1,
+  pageSize: 10,
+};
 
 export const MenuTournamentCard: FC = () => {
   const dispatch = useAppDispatch();
@@ -23,6 +35,15 @@ export const MenuTournamentCard: FC = () => {
         }
         onClick={() => {
           dispatch(setTournamentView(TournamentListViews.MyTournaments));
+          dispatch(setActivePage(1));
+          dispatch(
+            racketRivalsApi.util.invalidateTags([
+              {
+                type: "Tournaments",
+                id: `GET_MY_${paginationDefault.pageNumber}_${paginationDefault.pageSize}`,
+              },
+            ])
+          );
         }}
       >
         <span>Mes Tournois</span>
@@ -35,6 +56,15 @@ export const MenuTournamentCard: FC = () => {
         }
         onClick={() => {
           dispatch(setTournamentView(TournamentListViews.TournamentList));
+          dispatch(setActivePage(1));
+          dispatch(
+            racketRivalsApi.util.invalidateTags([
+              {
+                type: "Tournaments",
+                id: `GET_${paginationDefault.pageNumber}_${paginationDefault.pageSize}`,
+              },
+            ])
+          );
         }}
       >
         <span>Liste des tournois</span>
