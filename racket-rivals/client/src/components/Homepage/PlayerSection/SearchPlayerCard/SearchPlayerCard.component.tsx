@@ -3,12 +3,15 @@ import { Pagination } from "../../../Pagination";
 import { SearchBar } from "../../../SearchBar";
 import { PlayerList } from "../PlayerList";
 import { usersEndpoints } from "../../../../services/users/endpoints";
-import { useAppDispatch } from "../../../../hooks/store/useStore";
+import { useAppDispatch, useAppSelector } from "../../../../hooks/store/useStore";
 import styles from "./SearchPlayerCard.module.scss";
 
 export const SearchPlayerCard = () => {
   const dispatch = useAppDispatch();
   const cardRef = useRef<HTMLDivElement>(null);
+  const currentView = useAppSelector(
+    (state) => state.tournamentView.currentView
+  );
 
   useLayoutEffect(() => {
     const timer = setTimeout(() => {
@@ -30,7 +33,7 @@ export const SearchPlayerCard = () => {
     <div className={styles.container} ref={cardRef}>
       <SearchBar context="users" />
       <PlayerList />
-      <Pagination context="users" onPageChange={handlePageChange} />
+      <Pagination context="users" onPageChange={handlePageChange} currentView={currentView} />
     </div>
   );
 };
