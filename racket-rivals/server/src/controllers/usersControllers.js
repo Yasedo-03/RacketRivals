@@ -12,7 +12,32 @@ export const getUser = async (req, res) => {
 
 export const getUsers = async (req, res) => {
   try {
+    const page = parseInt(req.query.page || "1");
+    const pageSize = parseInt(req.query.pageSize || "7");
+
+    const totalUsers = await UserModel.countDocuments();
+
+    const skip = (page - 1) * pageSize;
+
+    const users = await UserModel.find()
+      .select("firstName lastName _id rank club")
+      .skip(skip)
+      .limit(pageSize);
+
+    const endItem = skip + users.length - 1;
+    res.setHeader("Content-Range", `${skip}-${endItem}/${totalUsers}`);
+
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+export const searchUsers = async (req, res) => {
+  try {
     const { search } = req.query;
+    const page = parseInt(req.query.page || "1");
+    const pageSize = parseInt(req.query.pageSize || "7");
 
     let searchCriteria = {};
 
@@ -26,7 +51,21 @@ export const getUsers = async (req, res) => {
       };
     }
 
-    const users = await UserModel.find(searchCriteria);
+    const totalUsersWithSearchCriteria =
+      await UserModel.countDocuments(searchCriteria);
+
+    const skip = (page - 1) * pageSize;
+
+    const users = await UserModel.find(searchCriteria)
+      .select("firstName lastName _id rank club")
+      .skip(skip)
+      .limit(pageSize);
+
+    const endItem = skip + users.length - 1;
+    res.setHeader(
+      "Content-Range",
+      `${skip}-${endItem}/${totalUsersWithSearchCriteria}`,
+    );
 
     res.status(200).send(users);
   } catch (error) {

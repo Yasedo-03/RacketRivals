@@ -6,18 +6,21 @@ import {
   useTournaments,
 } from "../../../../hooks/store/tournaments";
 import { ITournament } from "../../../../services/tournaments/interfaces/tournamentInterface";
-import { useGetUser } from "../../../../hooks/store/user";
 import { NotLogged } from "../../../NotLogged";
-import { useAppSelector } from "../../../../hooks/store/useStore";
+import { User } from "../../../../services/users/interfaces/usersInterfaces";
 import styles from "./TournamentList.module.scss";
 
-export const TournamentList: FC = () => {
-  const me = useGetUser();
+interface TournamentListProps {
+  me: User | null;
+  currentView: TournamentListViews;
+}
+
+export const TournamentList: FC<TournamentListProps> = ({
+  me,
+  currentView,
+}) => {
   const tournaments = useTournaments();
   const myTournaments = useMyTournaments();
-  const currentView = useAppSelector(
-    (state) => state.tournamentView.currentView
-  );
 
   const tournamentListToMap: Array<ITournament> | null =
     currentView === TournamentListViews.MyTournaments
@@ -35,7 +38,7 @@ export const TournamentList: FC = () => {
             className={styles.listItem}
             to={`/tournament/${tournament._id}/details`}
           >
-            <span>{tournament.name} </span>
+            <span className={styles.tournamentName}>{tournament.name} </span>
             <span>{tournament.uniqueCode}</span>
           </Link>
         ))

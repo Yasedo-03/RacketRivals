@@ -2,13 +2,12 @@ import { useLayoutEffect, useRef } from "react";
 import { Pagination } from "../../../Pagination";
 import { SearchBar } from "../../../SearchBar";
 import { PlayerList } from "../PlayerList";
-import { useDispatch } from "react-redux";
-import { setSearchTermUsers } from "../../../../store/slice/searchSlice";
-import { racketRivalsApi } from "../../../../services/api";
+import { usersEndpoints } from "../../../../services/users/endpoints";
+import { useAppDispatch } from "../../../../hooks/store/useStore";
 import styles from "./SearchPlayerCard.module.scss";
 
 export const SearchPlayerCard = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const cardRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -21,19 +20,17 @@ export const SearchPlayerCard = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  const handlePageChange = (newPage: number) => {
+    dispatch(
+      usersEndpoints.endpoints.getUsers.initiate({ page: newPage, pageSize: 7 })
+    );
+  };
+
   return (
     <div className={styles.container} ref={cardRef}>
-      <SearchBar
-        context="users"
-        onSearch={(query) => {
-          dispatch(setSearchTermUsers(query));
-        }}
-        onReset={() => {
-          dispatch(racketRivalsApi.util.invalidateTags(["Users"]));
-        }}
-      />
+      <SearchBar context="users" />
       <PlayerList />
-      <Pagination />
+      <Pagination context="users" onPageChange={handlePageChange} />
     </div>
   );
 };

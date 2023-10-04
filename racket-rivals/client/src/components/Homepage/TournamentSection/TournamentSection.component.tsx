@@ -36,7 +36,7 @@ export type Page = {
 
 export const TournamentSection = ({ index }: TournamentSectionProps) => {
   const me = useGetUser();
-  useGetTournamentsQuery();
+  useGetTournamentsQuery({ page: 1, pageSize: 10 });
   useGetMyTournamentsQuery(undefined, {
     skip: !me,
   });

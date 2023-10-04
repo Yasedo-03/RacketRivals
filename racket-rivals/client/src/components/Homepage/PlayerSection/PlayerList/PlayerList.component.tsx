@@ -5,8 +5,7 @@ import { useSearchUsersQuery } from "../../../../services/users/endpoints";
 import styles from "./PlayerList.module.scss";
 
 export const PlayerList: FC = () => {
-  const { data: users, error: errorSearchUsersQuery } =
-    useSearchUsersQuery("");
+  const { data: users, error: errorSearchUsersQuery } = useSearchUsersQuery("");
   const players = useAppSelector((state) => state.user.usersList);
 
   return (
@@ -16,7 +15,7 @@ export const PlayerList: FC = () => {
           <span>
             {player.firstName} {player.lastName}{" "}
           </span>
-          <span>{player.club}</span>
+          <span className={styles.playerClub}>{player.club}</span>
           <span>{player.rank}</span>
         </a>
       ))}
