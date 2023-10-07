@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
 import { MatchBoard } from "./MatchBoard";
-import { useGetMatchsQuery } from "../services/matchs/endpoints";
+import { useGetMatchsQuery } from "../../services/matchs/endpoints";
 import styles from "./DashBoardMatchs.module.scss";
 
 enum RoundNames {
