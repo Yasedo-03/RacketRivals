@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { DashboardMatchs } from "../DashboardMatchs";
+import { DashboardMatchs } from "../components/DashboardMatchs";
 
 const DashboardMatchsPage: FC = () => {
   return <DashboardMatchs />;
