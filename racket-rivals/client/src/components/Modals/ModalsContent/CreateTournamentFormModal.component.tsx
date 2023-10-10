@@ -6,6 +6,7 @@ import {
 } from "../../../store/slice/tournamentForm";
 import { useNewTournamentMutation } from "../../../services/tournaments/endpoints";
 import { setModal } from "../../../store/slice/modals";
+import { useNavigate } from "react-router-dom";
 import styles from "./CreateTournamentFormModal.module.scss";
 
 interface ContactFormModalProps {
@@ -14,6 +15,7 @@ interface ContactFormModalProps {
 }
 
 export const CreateTournamentFormModal: FC = () => {
+  const navigate = useNavigate();
   const storedFormData = useAppSelector((state) => state.tournamentForm);
   const dispatch = useAppDispatch();
   const [data, setData] = useState<ContactFormModalProps>({
@@ -35,9 +37,10 @@ export const CreateTournamentFormModal: FC = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      await createTournament(storedFormData).unwrap();
+      const payload = await createTournament(storedFormData).unwrap();
       dispatch(clearTournamentForm());
       dispatch(setModal({ name: "", visible: false }));
+      navigate(`/tournament/${payload._id}/details`);
     } catch (err) {
       console.error("Erreur lors de la création du tournoi:", err);
     }
