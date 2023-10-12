@@ -5,7 +5,10 @@ import { VscChromeMinimize } from "react-icons/vsc";
 import { Match } from "../../../services/matchs/interfaces/matchInterface";
 import { useAppDispatch, useAppSelector } from "../../../hooks/store/useStore";
 import { useUpdateMatchMutation } from "../../../services/matchs/endpoints";
-import { determineMatchStatus, determineWinner } from "../../../utils/matchUtils";
+import {
+  determineMatchStatus,
+  determineWinner,
+} from "../../../utils/matchUtils";
 import { updateMatchForm } from "../../../store/slice/matchForm";
 import styles from "./MatchBoard.module.scss";
 
@@ -27,10 +30,10 @@ export const MatchBoard: FC<MatchBoardProps> = ({ match }) => {
   const winnerPlayer =
     currentMatchData?.player1 && currentMatchData?.player2
       ? determineWinner(
-        currentWinnerId ?? null,
-        currentMatchData?.player1?._id ?? null,
-        currentMatchData?.player2?._id ?? null
-      )
+          currentWinnerId ?? null,
+          currentMatchData?.player1?._id ?? null,
+          currentMatchData?.player2?._id ?? null
+        )
       : undefined;
 
   const score = match.score || { player1: 0, player2: 0 };
@@ -129,11 +132,12 @@ export const MatchBoard: FC<MatchBoardProps> = ({ match }) => {
               />
             </div>
             <FaTrophy
-              className={`${styles.scoreBtnWin} ${displayData?.player1 &&
-                  winnerPlayer === displayData?.player1._id
+              className={`${styles.scoreBtnWin} ${
+                displayData?.player1 &&
+                winnerPlayer === displayData?.player1._id
                   ? styles.winner
                   : ""
-                }`}
+              }`}
               onClick={() =>
                 displayData?.player1 &&
                 handleWinnerUpdate(displayData?.player1._id)
@@ -174,11 +178,12 @@ export const MatchBoard: FC<MatchBoardProps> = ({ match }) => {
               />
             </div>
             <FaTrophy
-              className={`${styles.scoreBtnWin} ${displayData?.player2 &&
-                  winnerPlayer === displayData?.player2._id
+              className={`${styles.scoreBtnWin} ${
+                displayData?.player2 &&
+                winnerPlayer === displayData?.player2._id
                   ? styles.winner
                   : ""
-                }`}
+              }`}
               onClick={() =>
                 displayData?.player2 &&
                 handleWinnerUpdate(displayData?.player2._id)

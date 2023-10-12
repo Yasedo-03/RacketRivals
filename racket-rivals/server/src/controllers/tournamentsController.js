@@ -31,38 +31,68 @@ export const registerToTournament = async (req, res) => {
   try {
     const tournamentId = req.body.tournamentId;
     const userId = req.body.userId;
+    const result = await TournamentModel.findById(tournamentId)
+      .populate("organizer", "email firstName lastName club")
+      .populate({
+        path: "participants",
+        select: "firstName lastName club rank",
+        options: { sort: { rank: -1 } },
+      })
+      .populate("matchs", "round player1 player2 score winner nextMatchId");
 
-    const tournament = await TournamentModel.findById(tournamentId);
-
-    if (!tournament) {
+    if (!result) {
       return res.status(404).json({ message: "Tournoi introuvable." });
     }
 
-    if (tournament.organizer._id === userId) {
+    if (result.organizer._id === userId) {
       return res
         .status(400)
         .json({ message: "L'organisateur ne peut pas participer au tournoi." });
     }
 
-    if (tournament.participants.includes(userId)) {
+    if (result.participants.includes(userId)) {
       return res
         .status(400)
         .json({ message: "Utilisateur déjà inscrit au tournoi." });
     }
 
-    if (tournament.participants.length >= tournament.number_of_participants) {
+    if (result.participants.length >= result.number_of_participants) {
       return res
         .status(400)
         .json({ message: "Le tournoi a atteint sa limite de participants." });
     }
 
-    tournament.participants.push(userId);
+    if (result) {
+      result.participants.push(userId);
+      const sortedParticipants = [...result.participants].sort(
+        (a, b) => b.rank - a.rank,
+      );
 
-    await tournament.save();
+      result.seeds = sortedParticipants.map((participant) => participant._id);
 
-    res.status(200).json(tournament);
+      await result.save();
+
+      const updatedTournament = await TournamentModel.findById(tournamentId)
+        .populate("organizer", "email firstName lastName club")
+        .populate({
+          path: "participants",
+          select: "firstName lastName club rank",
+          options: { sort: { rank: -1 } },
+        })
+        .populate("matchs", "round player1 player2 score winner nextMatchId");
+
+      if (updatedTournament) {
+        res.status(200).json(updatedTournament);
+      } else {
+        res
+          .status(404)
+          .json({ message: "Tournoi non trouvé après mise à jour" });
+      }
+    } else {
+      res.status(404).json({ message: "Tournoi non trouvé" });
+    }
   } catch (err) {
-    console.error(err);
+    console.log(err);
     res
       .status(500)
       .json({ message: "Une erreur est survenue lors de l'inscription." });
@@ -122,11 +152,7 @@ export const getMyTournaments = async (req, res) => {
     }/${totalTournaments}`;
     res.setHeader("Content-Range", contentRange);
 
-    if (tournaments.length > 0) {
-      res.status(200).json(tournaments);
-    } else {
-      res.status(404).json({ message: "Aucun tournoi trouvé" });
-    }
+    res.status(200).json(tournaments);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -282,9 +308,29 @@ export const launchTournament = async (req, res) => {
     tournament.matchs = updatedTournament.matchs.map((match) => match._id);
     await tournament.save();
 
-    res
-      .status(200)
-      .json({ message: "Le tournoi a été lancé avec succès!", tournament });
+    const populatedTournament = await TournamentModel.findById(tournamentId)
+      .populate("organizer", "email firstName lastName club")
+      .populate({
+        path: "participants",
+        select: "firstName lastName club rank",
+        options: { sort: { rank: -1 } },
+      })
+      .populate({
+        path: "matchs",
+        select: "score _id tournamentId round status nextMatchId",
+        populate: [
+          {
+            path: "player1",
+            select: "_id firstName lastName",
+          },
+          {
+            path: "player2",
+            select: "_id firstName lastName",
+          },
+        ],
+      });
+
+    res.status(200).json(populatedTournament);
   } catch (err) {
     console.error(err);
 

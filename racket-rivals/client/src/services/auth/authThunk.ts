@@ -3,6 +3,7 @@ import { usersEndpoints } from "../users/endpoints";
 import { LoginRequest } from "./interfaces/authInterfaces";
 import { authEndpoints } from "./endpoints";
 import { setCredentials } from "../../store/slice/auth";
+import { racketRivalsApi } from "../api";
 
 export const authenticateAndFetchUser = createAsyncThunk(
   "auth/authenticateAndFetchUser",
@@ -25,6 +26,10 @@ export const authenticateAndFetchUser = createAsyncThunk(
       const { userID, accessToken } = authAction.data;
 
       dispatch(setCredentials({ userID, accessToken }));
+
+      dispatch(
+        racketRivalsApi.util.invalidateTags([{ type: "Users", id: "CURRENT" }])
+      );
 
       await dispatch(usersEndpoints.endpoints.getMe.initiate());
     }

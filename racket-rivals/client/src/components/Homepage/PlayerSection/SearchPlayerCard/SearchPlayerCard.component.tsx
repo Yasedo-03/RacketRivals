@@ -3,7 +3,10 @@ import { Pagination } from "../../../Pagination";
 import { SearchBar } from "../../../SearchBar";
 import { PlayerList } from "../PlayerList";
 import { usersEndpoints } from "../../../../services/users/endpoints";
-import { useAppDispatch, useAppSelector } from "../../../../hooks/store/useStore";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../hooks/store/useStore";
 import styles from "./SearchPlayerCard.module.scss";
 
 export const SearchPlayerCard = () => {
@@ -33,7 +36,11 @@ export const SearchPlayerCard = () => {
     <div className={styles.container} ref={cardRef}>
       <SearchBar context="users" />
       <PlayerList />
-      <Pagination context="users" onPageChange={handlePageChange} currentView={currentView} />
+      <Pagination
+        context="users"
+        onPageChange={handlePageChange}
+        currentView={currentView}
+      />
     </div>
   );
 };
