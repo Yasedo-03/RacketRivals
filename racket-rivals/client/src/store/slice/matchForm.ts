@@ -41,7 +41,6 @@ const slice = createSlice({
       }
     },
     setMatchFromAPI: (state, action: PayloadAction<Match>) => {
-      console.log("updateMatchForm called with:", action.payload);
       const match = action.payload;
       state[match._id] = match;
     },

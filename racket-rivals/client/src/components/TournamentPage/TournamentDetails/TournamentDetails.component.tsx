@@ -54,7 +54,7 @@ export const TournamentDetails: FC = () => {
     if (isUserOrganizer) {
       setButtonSubmitLabel("Dashboard");
     } else if (isUserRegistered || isRegisterSuccess) {
-      setButtonSubmitLabel("Dashboard");
+      setButtonSubmitLabel("Déjà inscrit");
     } else {
       setButtonSubmitLabel("S'inscrire");
     }

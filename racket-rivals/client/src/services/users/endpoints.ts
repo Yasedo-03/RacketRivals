@@ -12,6 +12,7 @@ export const usersEndpoints = racketRivalsApi.injectEndpoints({
           credentials: "include",
         };
       },
+      providesTags: (result) => [{ type: "Users", id: "CURRENT" }],
       transformResponse: (result: User) => result ?? null,
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {

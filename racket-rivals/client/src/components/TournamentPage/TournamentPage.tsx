@@ -7,8 +7,8 @@ import { AnimatedViewsTournament } from "./AnimatedViewsTournament";
 import { TournamentPlayersList } from "./TournamentPlayersList";
 import { TournamentBracket } from "./TournamentBracket";
 import { useGetTournamentQuery } from "../../services/tournaments/endpoints";
-import styles from "./TournamentPage.module.scss";
 import { useGetMatchsQuery } from "../../services/matchs/endpoints";
+import styles from "./TournamentPage.module.scss";
 
 export enum labelsMenuTournamentPageNavigation {
   DETAILS = "Informations",

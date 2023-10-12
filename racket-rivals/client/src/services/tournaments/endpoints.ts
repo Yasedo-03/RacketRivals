@@ -1,4 +1,5 @@
 import { TournamentListViews } from "../../components/Homepage/TournamentSection/TournamentCard";
+import { setMatchs } from "../../store/slice/matchs";
 import { setSearchQueryTournaments } from "../../store/slice/searchSlice";
 import { updateTournamentForm } from "../../store/slice/tournamentForm";
 import {
@@ -184,6 +185,7 @@ export const tournamentsEndpoints = racketRivalsApi.injectEndpoints({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
+          dispatch(setMatchs(data.matchs));
           dispatch(setTournament(data));
         } catch (error) {
           console.log(error);

@@ -38,8 +38,14 @@ export const Register: FC = () => {
 
   const handleChange = ({
     target: { name, value },
-  }: React.ChangeEvent<HTMLInputElement>) =>
+  }: React.ChangeEvent<HTMLInputElement>) => {
     setFormRegister((prev) => ({ ...prev, [name]: value }));
+    if (value) {
+      document.getElementById(name)?.classList.add(styles.filled);
+    } else {
+      document.getElementById(name)?.classList.remove(styles.filled);
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -86,7 +92,7 @@ export const Register: FC = () => {
           </div>
           <div className={styles["user-box"]}>
             <input
-              id="lpassword"
+              id="password"
               onChange={handleChange}
               type="password"
               name="password"
