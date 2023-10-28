@@ -68,8 +68,8 @@ export const Ro8Bracket: FC<Ro8BracketProps> = ({ tournament }) => {
           <div className={styles.matchups}>
             <Match
               participantIds={[
-                ro8Matches[0]?.player1?._id!,
-                ro8Matches[0]?.player2?._id!,
+                ro8Matches[0]?.player1?._id || "",
+                ro8Matches[0]?.player2?._id || "",
               ]}
               participants={tournament.participants || []}
               score={ro8Matches[0]?.score}
@@ -77,8 +77,8 @@ export const Ro8Bracket: FC<Ro8BracketProps> = ({ tournament }) => {
             />
             <Match
               participantIds={[
-                ro8Matches[1]?.player1?._id!,
-                ro8Matches[1]?.player2?._id!,
+                ro8Matches[1]?.player1?._id || "",
+                ro8Matches[1]?.player2?._id || "",
               ]}
               participants={tournament.participants || []}
               score={ro8Matches[1]?.score}
@@ -94,8 +94,8 @@ export const Ro8Bracket: FC<Ro8BracketProps> = ({ tournament }) => {
           <div className={styles.matchups}>
             <Match
               participantIds={[
-                ro8Matches[2]?.player1?._id!,
-                ro8Matches[2]?.player2?._id!,
+                ro8Matches[2]?.player1?._id || "",
+                ro8Matches[2]?.player2?._id || "",
               ]}
               participants={tournament.participants || []}
               score={ro8Matches[2]?.score}
@@ -103,8 +103,8 @@ export const Ro8Bracket: FC<Ro8BracketProps> = ({ tournament }) => {
             />
             <Match
               participantIds={[
-                ro8Matches[3]?.player1?._id!,
-                ro8Matches[3]?.player2?._id!,
+                ro8Matches[3]?.player1?._id || "",
+                ro8Matches[3]?.player2?._id || "",
               ]}
               participants={tournament.participants || []}
               score={ro8Matches[3]?.score}
@@ -123,7 +123,10 @@ export const Ro8Bracket: FC<Ro8BracketProps> = ({ tournament }) => {
             {ro4Matches.map((match, index) => (
               <Match
                 key={index}
-                participantIds={[match.player1?._id!, match.player2?._id!]}
+                participantIds={[
+                  match.player1?._id || "",
+                  match.player2?._id || "",
+                ]}
                 participants={tournament.participants || []}
                 score={match.score}
                 winner={match.winner}
@@ -142,8 +145,8 @@ export const Ro8Bracket: FC<Ro8BracketProps> = ({ tournament }) => {
             {finalsMatch && (
               <Match
                 participantIds={[
-                  finalsMatch.player1?._id!,
-                  finalsMatch.player2?._id!,
+                  finalsMatch.player1?._id || "",
+                  finalsMatch.player2?._id || "",
                 ]}
                 participants={tournament.participants || []}
                 score={finalsMatch.score}
