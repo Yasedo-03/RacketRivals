@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { FC, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
@@ -48,7 +49,7 @@ export const Login: FC = () => {
               required
               autoComplete="off"
             />
-            <label>Email</label>
+            <label htmlFor="email">Email</label>
           </div>
           <div className={styles["user-box"]}>
             <input
@@ -57,7 +58,7 @@ export const Login: FC = () => {
               name="password"
               required
             />
-            <label>Mot de passe</label>
+            <label htmlFor="password">Mot de passe</label>
           </div>
           <a onClick={handleLogin} href="#">
             <span></span>
