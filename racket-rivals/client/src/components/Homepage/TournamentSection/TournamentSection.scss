@@ -7,7 +7,7 @@
 }
 
 .page-left-enter {
-  transform: translateX(-500px);
+  transform: translateX(-100vw);
   transition: transform 0.8s;
 }
 
@@ -22,12 +22,12 @@
 }
 
 .page-left-exit-active {
-  transform: translateX(-500px);
+  transform: translateX(-100vw);
   transition: transform 0.8s;
 }
 
 .page-right-enter {
-  transform: translateX(500px);
+  transform: translateX(100vw);
   transition: transform 0.8s;
 }
 
@@ -41,7 +41,7 @@
 }
 
 .page-right-exit-active {
-  transform: translateX(500px);
+  transform: translateX(100vw);
   transition: transform 0.8s;
 }
 

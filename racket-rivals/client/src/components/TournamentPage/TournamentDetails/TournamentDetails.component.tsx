@@ -1,73 +1,108 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { useTournament } from "../../../hooks/store/tournaments";
+import { FC, useEffect, useLayoutEffect, useRef } from "react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import {
-  useGetTournamentQuery,
-  useLaunchEliminationTournamentMutation,
-  useRegisterToTournamentMutation,
-  useUnregisterToTournamentMutation,
-} from "../../../services/tournaments/endpoints";
-import {
-  ITournament,
-  RegisterToTournamentBody,
-} from "../../../services/tournaments/interfaces/tournamentInterface";
+import { useGetTournamentQuery } from "../../../services/tournaments/endpoints";
+import { ITournament } from "../../../services/tournaments/interfaces/tournamentInterface";
 import { useGetUser } from "../../../hooks/store/user";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Loader } from "../../Loader";
+import { useTournamentLogic } from "./hooks/useTournamentLogic";
 import styles from "./TournamentDetails.module.scss";
 interface TournamentDetailsProps {
   isTournamentLoading: boolean;
 }
 
+export const TournamentHeader: FC<{
+  tournament: ITournament;
+  formattedStartTournamentDate: string;
+}> = ({ tournament, formattedStartTournamentDate }) => {
+  return (
+    <>
+      <h1 className={styles.name}>{tournament.name}</h1>
+      <p
+        className={styles.date}
+      >{`${formattedStartTournamentDate} à ${tournament.start_hour}`}</p>
+      <p className={styles.location}>{tournament.location}</p>
+      <div>
+        <p className={styles.format}>Format: {tournament.format}</p>
+        <p className={styles.nbPlayers}>
+          {tournament.number_of_participants} joueurs
+        </p>
+      </div>
+      <p className={styles.accesibility}>{tournament.accesibility}</p>
+      <p className={styles.prize}>Prize Money: {tournament.price}€</p>
+      <p className={styles.description}>{tournament.description}</p>
+    </>
+  );
+};
+
+export const RegistrationButton: FC<{
+  handleSubmit: () => void;
+  buttonSubmitLabel: string;
+  isUserRegistered: boolean;
+}> = ({ handleSubmit, buttonSubmitLabel, isUserRegistered }) => {
+  return (
+    <button
+      onClick={handleSubmit}
+      className={styles.registrationTournament}
+      type="submit"
+      disabled={isUserRegistered}
+    >
+      {buttonSubmitLabel}
+    </button>
+  );
+};
+
+export const CancelButton: FC<{ handleCancel: () => void }> = ({
+  handleCancel,
+}) => {
+  return (
+    <span onClick={handleCancel} className={styles.cancel}>
+      Annuler
+    </span>
+  );
+};
+
+export const GenerateTreeButton: FC<{ handleGenerate: () => void }> = ({
+  handleGenerate,
+}) => {
+  return (
+    <button
+      onClick={handleGenerate}
+      className={styles.generateTournament}
+      type="submit"
+    >
+      Générer l'arbre
+    </button>
+  );
+};
+
 export const TournamentDetails: FC<TournamentDetailsProps> = ({
   isTournamentLoading,
 }) => {
   const { tournamentId } = useParams();
-  const navigate = useNavigate();
-  const [buttonSubmitLabel, setButtonSubmitLabel] = useState<string>("");
-  const [registerToTournamentBody, setRegisterToTournamentBody] =
-    useState<RegisterToTournamentBody>({
-      tournamentId: null,
-      userId: null,
-    });
-  const [formattedStartTournamentDate, setFormattedStartTournamentDate] =
-    useState<string>("");
-  const [isUserRegistered, setIsUserRegistered] = useState<boolean>(false);
-  const [isUserOrganizer, setIsUserOrganizer] = useState<boolean>(false);
-  const [registerToTournament, { isSuccess: isRegisterSuccess }] =
-    useRegisterToTournamentMutation();
-  const [unregisterToTournament, { isSuccess: isUnregisterSuccess }] =
-    useUnregisterToTournamentMutation();
-  const [
-    launchEliminationTournamentMutation,
-    { isSuccess: isTournamentLaunched },
-  ] = useLaunchEliminationTournamentMutation();
+  const { data: tournament } = useGetTournamentQuery({ tournamentId });
   const me = useGetUser();
-  const { data: tournament, isLoading: getTournamentLoading } =
-    useGetTournamentQuery({ tournamentId });
   const cardRef = useRef<HTMLDivElement>(null);
-  const buttonDisabled = isUserRegistered || isRegisterSuccess;
 
-  const checkIfUserIsRegistered = (tournament: ITournament): boolean => {
-    return (
-      tournament.participants?.some(
-        (participant) => participant._id === me?._id
-      ) || false
-    );
-  };
-
-  useEffect(() => {
-    if (isUserOrganizer) {
-      setButtonSubmitLabel("Dashboard");
-    } else if (isUserRegistered || isRegisterSuccess) {
-      setButtonSubmitLabel("Déjà inscrit");
-    } else {
-      setButtonSubmitLabel("S'inscrire");
-    }
-  }, [isUserRegistered, isRegisterSuccess, isUserOrganizer]);
+  const {
+    buttonSubmitLabel,
+    isUserRegistered,
+    handleCancel,
+    handleSubmit,
+    handleGenerate,
+    formattedStartTournamentDate,
+    setIsUserOrganizer,
+    setIsUserRegistered,
+    setFormattedStartTournamentDate,
+    setRegisterToTournamentBody,
+    isUnregisterSuccess,
+    isRegisterSuccess,
+    isUserOrganizer,
+    checkIfUserIsRegistered,
+  } = useTournamentLogic(tournament, me);
 
   useEffect(() => {
     if (tournament && me) {
@@ -98,47 +133,7 @@ export const TournamentDetails: FC<TournamentDetailsProps> = ({
     }, 0);
 
     return () => clearTimeout(timer);
-  }, []);
-
-  const handleSubmit = async () => {
-    try {
-      if (!me) {
-        navigate("/login");
-      }
-      if (isUserOrganizer) {
-        navigate(`/dashboard/${tournament?._id}`);
-      } else {
-        await registerToTournament(registerToTournamentBody).unwrap();
-        setIsUserRegistered(true);
-      }
-    } catch (err) {
-      console.log("Erreur lors de l'inscription:", err);
-    }
-  };
-
-  const handleCancel = async () => {
-    try {
-      await unregisterToTournament(registerToTournamentBody).unwrap();
-      setIsUserRegistered(false);
-    } catch (err) {
-      console.error("Erreur lors de l'annulation de l'inscription:", err);
-    }
-  };
-
-  const handleGenerate = async () => {
-    try {
-      if (
-        tournament &&
-        tournament?.participants?.length === tournament?.number_of_participants
-      ) {
-        await launchEliminationTournamentMutation({
-          tournamentId: tournament._id,
-        }).unwrap();
-      }
-    } catch (err) {
-      console.error("Erreur lors du lancement du tournoi:", err);
-    }
-  };
+  }, [tournament]);
 
   if (isTournamentLoading) {
     return (
@@ -152,43 +147,22 @@ export const TournamentDetails: FC<TournamentDetailsProps> = ({
     <div className={styles.details} ref={cardRef}>
       {tournament && (
         <>
-          <h1 className={styles.name}>{tournament.name}</h1>
-          <p
-            className={styles.date}
-          >{`${formattedStartTournamentDate} à ${tournament.start_hour}`}</p>
-          <p className={styles.location}>{tournament.location}</p>
-          <div>
-            <p className={styles.format}>Format: {tournament.format}</p>
-            <p className={styles.nbPlayers}>
-              {tournament.number_of_participants} joueurs
-            </p>
-          </div>
-          <p className={styles.accesibility}>{tournament.accesibility}</p>
-          <p className={styles.prize}>Prize Money: {tournament.price}€</p>
-          <p className={styles.description}>{tournament.description}</p>
-          <button
-            onClick={handleSubmit}
-            className={styles.registrationTournament}
-            type="submit"
-            disabled={buttonDisabled}
-          >
-            {buttonSubmitLabel}
-          </button>
+          <TournamentHeader
+            tournament={tournament}
+            formattedStartTournamentDate={formattedStartTournamentDate}
+          />
+          <RegistrationButton
+            handleSubmit={handleSubmit}
+            buttonSubmitLabel={buttonSubmitLabel}
+            isUserRegistered={isUserRegistered}
+          />
           {isUserRegistered && !isUserOrganizer && (
-            <span onClick={handleCancel} className={styles.cancel}>
-              Annuler
-            </span>
+            <CancelButton handleCancel={handleCancel} />
+          )}
+          {isUserOrganizer && (
+            <GenerateTreeButton handleGenerate={handleGenerate} />
           )}
           <span className={styles.codeTournament}>{tournament.uniqueCode}</span>
-          {isUserOrganizer && (
-            <button
-              onClick={handleGenerate}
-              className={styles.generateTournament}
-              type="submit"
-            >
-              Générer l'arbre
-            </button>
-          )}
         </>
       )}
     </div>

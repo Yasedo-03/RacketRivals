@@ -6,14 +6,15 @@ import {
   setSearchQueryTournaments,
 } from "../../store/slice/searchSlice";
 import { usersEndpoints } from "../../services/users/endpoints";
-import styles from "./SearchBar.module.scss";
 import { racketRivalsApi } from "../../services/api";
+import { FC } from "react";
+import styles from "./SearchBar.module.scss";
 
 interface SearchBarProps {
   context: "tournaments" | "users";
 }
 
-export const SearchBar: React.FC<SearchBarProps> = ({ context }) => {
+export const SearchBar: FC<SearchBarProps> = ({ context }) => {
   const dispatch = useAppDispatch();
 
   const searchQuery = useAppSelector(
@@ -75,7 +76,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({ context }) => {
           id={styles.search}
           type="search"
           placeholder="Rechercher..."
-          autoFocus
           required
           value={searchQuery}
           onChange={(e) => {

@@ -12,8 +12,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 export const Home: FC = () => {
   const navigate = useNavigate();
-  let panels = useRef<(HTMLDivElement | null)[]>([]);
-  let scrollTween = useRef<gsap.core.Tween | null>(null);
+  const panels = useRef<(HTMLDivElement | null)[]>([]);
+  const scrollTween = useRef<gsap.core.Tween | null>(null);
 
   useLayoutEffect(() => {
     const cleanup = createScrollAnimation(
