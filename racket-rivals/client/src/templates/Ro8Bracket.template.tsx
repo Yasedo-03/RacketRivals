@@ -53,10 +53,6 @@ export const Match: FC<{
 export const Ro8Bracket: FC<Ro8BracketProps> = ({ tournament }) => {
   const matchs = useAppSelector(selectAllMatchs);
 
-  if (!matchs) {
-    return <div>Loading...</div>;
-  }
-
   const ro8Matches = matchs.filter((match) => match.round === "Ro8");
   const ro4Matches = matchs.filter((match) => match.round === "Ro4");
   const finalsMatch = matchs.find((match) => match.round === "Ro2");
