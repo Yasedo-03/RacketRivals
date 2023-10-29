@@ -1,12 +1,28 @@
 import { FC } from "react";
 import { User } from "../../../../services/users/interfaces/usersInterfaces";
+import {
+  useGetUsersQuery,
+  useSearchUsersQuery,
+} from "../../../../services/users/endpoints";
+import { Loader } from "../../../Loader";
 import { useAppSelector } from "../../../../hooks/store/useStore";
-import { useSearchUsersQuery } from "../../../../services/users/endpoints";
 import styles from "./PlayerList.module.scss";
 
 export const PlayerList: FC = () => {
-  const { data: users, error: errorSearchUsersQuery } = useSearchUsersQuery({});
+  const { isLoading: searchUserLoading } = useSearchUsersQuery({});
+  const { isLoading: getUserLoading } = useGetUsersQuery({
+    page: 1,
+    pageSize: 7,
+  });
   const players = useAppSelector((state) => state.user.usersList);
+
+  if (searchUserLoading || getUserLoading) {
+    return (
+      <div className={styles.loaderCentered}>
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.list}>

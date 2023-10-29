@@ -7,7 +7,6 @@ import { SearchPlayerCard } from "./SearchPlayerCard";
 import { useGetUser } from "../../../hooks/store/user";
 import { NotLogged } from "../../NotLogged";
 import styles from "./PlayerSection.module.scss";
-import { useGetUsersQuery } from "../../../services/users/endpoints";
 
 type PlayerSectionProps = {
   index: number;
@@ -25,7 +24,6 @@ enum PLAYER_ROUTES {
 
 export const PlayerSection = ({ index }: PlayerSectionProps) => {
   const me = useGetUser();
-  useGetUsersQuery({ page: 1, pageSize: 7 });
   const menuItems = [
     { label: labelsMenuPlayerNavigation.SEARCH_PLAYER, to: PLAYER_ROUTES.LIST },
     { label: labelsMenuPlayerNavigation.MY_PROFIL, to: PLAYER_ROUTES.ME },

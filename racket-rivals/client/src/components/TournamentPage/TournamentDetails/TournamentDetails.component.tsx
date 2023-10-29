@@ -5,6 +5,7 @@ import { useTournament } from "../../../hooks/store/tournaments";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import {
+  useGetTournamentQuery,
   useLaunchEliminationTournamentMutation,
   useRegisterToTournamentMutation,
   useUnregisterToTournamentMutation,
@@ -14,10 +15,17 @@ import {
   RegisterToTournamentBody,
 } from "../../../services/tournaments/interfaces/tournamentInterface";
 import { useGetUser } from "../../../hooks/store/user";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { Loader } from "../../Loader";
 import styles from "./TournamentDetails.module.scss";
+interface TournamentDetailsProps {
+  isTournamentLoading: boolean;
+}
 
-export const TournamentDetails: FC = () => {
+export const TournamentDetails: FC<TournamentDetailsProps> = ({
+  isTournamentLoading,
+}) => {
+  const { tournamentId } = useParams();
   const navigate = useNavigate();
   const [buttonSubmitLabel, setButtonSubmitLabel] = useState<string>("");
   const [registerToTournamentBody, setRegisterToTournamentBody] =
@@ -38,8 +46,9 @@ export const TournamentDetails: FC = () => {
     { isSuccess: isTournamentLaunched },
   ] = useLaunchEliminationTournamentMutation();
   const me = useGetUser();
+  const { data: tournament, isLoading: getTournamentLoading } =
+    useGetTournamentQuery({ tournamentId });
   const cardRef = useRef<HTMLDivElement>(null);
-  const tournament = useTournament();
   const buttonDisabled = isUserRegistered || isRegisterSuccess;
 
   const checkIfUserIsRegistered = (tournament: ITournament): boolean => {
@@ -130,6 +139,14 @@ export const TournamentDetails: FC = () => {
       console.error("Erreur lors du lancement du tournoi:", err);
     }
   };
+
+  if (isTournamentLoading) {
+    return (
+      <div className={styles.loaderCentered}>
+        <Loader color="black" />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.details} ref={cardRef}>

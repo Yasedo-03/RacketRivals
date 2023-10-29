@@ -6,8 +6,8 @@ import { TournamentDetails } from "./TournamentDetails";
 import { AnimatedViewsTournament } from "./AnimatedViewsTournament";
 import { TournamentPlayersList } from "./TournamentPlayersList";
 import { TournamentBracket } from "./TournamentBracket";
-import { useGetTournamentQuery } from "../../services/tournaments/endpoints";
 import { useGetMatchsQuery } from "../../services/matchs/endpoints";
+import { useGetTournamentQuery } from "../../services/tournaments/endpoints";
 import styles from "./TournamentPage.module.scss";
 
 export enum labelsMenuTournamentPageNavigation {
@@ -34,7 +34,8 @@ export const Tournament: FC = () => {
   };
 
   const tournamentRoutes = getTournamentRoutes(tournamentId);
-  const { data: tournament } = useGetTournamentQuery({ tournamentId });
+  const { data: tournament, isLoading: getTournamentLoading } =
+    useGetTournamentQuery({ tournamentId });
   useGetMatchsQuery({ tournamentId });
 
   const navItems = [
@@ -54,17 +55,23 @@ export const Tournament: FC = () => {
 
   const views = [
     {
-      component: <TournamentDetails />,
+      component: (
+        <TournamentDetails isTournamentLoading={getTournamentLoading} />
+      ),
       route: tournamentRoutes.DETAILS,
       timeout: 800,
     },
     {
-      component: <TournamentBracket />,
+      component: (
+        <TournamentBracket isTournamentLoading={getTournamentLoading} />
+      ),
       route: tournamentRoutes.BRACKET,
       timeout: 800,
     },
     {
-      component: <TournamentPlayersList />,
+      component: (
+        <TournamentPlayersList isTournamentLoading={getTournamentLoading} />
+      ),
       route: tournamentRoutes.PLAYERS_LIST,
       timeout: 800,
     },

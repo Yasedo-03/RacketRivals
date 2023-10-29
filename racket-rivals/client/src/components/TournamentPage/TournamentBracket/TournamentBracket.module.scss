@@ -11,3 +11,10 @@
     opacity: 1;
   }
 }
+
+.loaderCentered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
