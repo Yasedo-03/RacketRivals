@@ -14,6 +14,7 @@ import {
   useTournaments,
 } from "../../../../hooks/store/tournaments";
 import styles from "./TournamentList.module.scss";
+import { CardFromList } from "../../../CardFromList";
 
 interface TournamentListProps {
   me: User | null;
@@ -26,10 +27,10 @@ export const TournamentList: FC<TournamentListProps> = ({
 }) => {
   const { isLoading: isLoadingTournaments } = useGetTournamentsQuery({
     page: 1,
-    pageSize: 10,
+    pageSize: 3,
   });
   const { isLoading: isLoadingMyTournaments } = useGetMyTournamentsQuery(
-    { page: 1, pageSize: 10 },
+    { page: 1, pageSize: 3 },
     {
       skip: !me,
     }
@@ -59,11 +60,10 @@ export const TournamentList: FC<TournamentListProps> = ({
       {tournamentListToMap?.map((tournament) => (
         <Link
           key={tournament._id}
-          className={styles.listItem}
+          // className={styles.listItem}
           to={`/tournament/${tournament._id}/details`}
         >
-          <span className={styles.tournamentName}>{tournament.name} </span>
-          <span>{tournament.uniqueCode}</span>
+          <CardFromList tournament={tournament} />
         </Link>
       ))}
     </div>

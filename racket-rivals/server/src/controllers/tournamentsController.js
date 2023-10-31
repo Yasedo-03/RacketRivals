@@ -14,7 +14,7 @@ export const getTournaments = async (req, res) => {
     const skip = (page - 1) * pageSize;
 
     const tournaments = await TournamentModel.find()
-      .select("name uniqueCode start_date _id")
+      .select("name location number_of_participants uniqueCode start_date _id")
       .skip(skip)
       .limit(pageSize);
 
