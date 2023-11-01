@@ -7,7 +7,7 @@ import { updateEliminationMatchesWithParticipants } from "../utils/updateElimina
 export const getTournaments = async (req, res) => {
   try {
     const page = parseInt(req.query.page || "1");
-    const pageSize = parseInt(req.query.pageSize || "10");
+    const pageSize = parseInt(req.query.pageSize || "3");
 
     const totalTournaments = await TournamentModel.countDocuments();
 
@@ -133,7 +133,7 @@ export const getMyTournaments = async (req, res) => {
   try {
     const userId = req.user.id;
     const page = Number(req.query.page) || 1;
-    const pageSize = Number(req.query.pageSize) || 10;
+    const pageSize = Number(req.query.pageSize) || 3;
     const skip = (page - 1) * pageSize;
 
     const tournaments = await TournamentModel.find({
@@ -347,7 +347,7 @@ export const launchTournament = async (req, res) => {
 
 export const searchTournaments = async (req, res) => {
   try {
-    const { query, page = 1, pageSize = 10 } = req.query;
+    const { query, page = 1, pageSize = 3 } = req.query;
 
     let searchCriteria = {};
 

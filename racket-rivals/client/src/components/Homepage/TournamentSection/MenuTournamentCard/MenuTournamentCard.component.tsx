@@ -18,7 +18,7 @@ interface IPaginationDefault {
 
 const paginationDefault: IPaginationDefault = {
   pageNumber: 1,
-  pageSize: 10,
+  pageSize: 3,
 };
 
 export const MenuTournamentCard: FC = () => {

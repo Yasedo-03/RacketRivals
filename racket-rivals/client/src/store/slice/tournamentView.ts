@@ -6,7 +6,7 @@ type TournamentViewState = {
 };
 
 const initialState: TournamentViewState = {
-  currentView: TournamentListViews.MyTournaments,
+  currentView: TournamentListViews?.MyTournaments,
 };
 
 const tournamentViewSlice = createSlice({

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { TournamentListViews } from "../TournamentCard";
 import { Link } from "react-router-dom";
 import { NotLogged } from "../../../NotLogged";
@@ -13,8 +13,10 @@ import {
   useMyTournaments,
   useTournaments,
 } from "../../../../hooks/store/tournaments";
-import styles from "./TournamentList.module.scss";
 import { CardFromList } from "../../../CardFromList";
+import { useLaptopMediaQuery } from "../../../../hooks/responsive/useLaptopMediaQuery.hook";
+import { handleCardClick } from "./utils/handleCard";
+import styles from "./TournamentList.module.scss";
 
 interface TournamentListProps {
   me: User | null;
@@ -25,6 +27,11 @@ export const TournamentList: FC<TournamentListProps> = ({
   me,
   currentView,
 }) => {
+  const isLaptop = useLaptopMediaQuery();
+  const [selectedTournamentId, setSelectedTournamentId] = useState<
+    string | null
+  >(null);
+
   const { isLoading: isLoadingTournaments } = useGetTournamentsQuery({
     page: 1,
     pageSize: 3,
@@ -57,15 +64,33 @@ export const TournamentList: FC<TournamentListProps> = ({
 
   return (
     <div className={styles.list}>
-      {tournamentListToMap?.map((tournament) => (
-        <Link
-          key={tournament._id}
-          // className={styles.listItem}
-          to={`/tournament/${tournament._id}/details`}
-        >
-          <CardFromList tournament={tournament} />
-        </Link>
-      ))}
+      {tournamentListToMap?.map(
+        (tournament) =>
+          (!selectedTournamentId || selectedTournamentId === tournament._id) &&
+          (isLaptop ? (
+            <Link
+              className={styles.link}
+              key={tournament._id}
+              to={`/tournament/${tournament._id}/details`}
+            >
+              <CardFromList tournament={tournament} isLaptop={isLaptop} />
+            </Link>
+          ) : (
+            <CardFromList
+              key={tournament._id}
+              tournament={tournament}
+              isLaptop={isLaptop}
+              onClick={() =>
+                handleCardClick(
+                  tournament._id,
+                  setSelectedTournamentId,
+                  isLaptop,
+                  selectedTournamentId
+                )
+              }
+            />
+          ))
+      )}
     </div>
   );
 };

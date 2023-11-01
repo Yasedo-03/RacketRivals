@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/store/useStore";
 import { racketRivalsApi } from "../../services/api";
@@ -27,7 +28,7 @@ export const Pagination: FC<PaginationProps> = ({
       activePageSelector: (state: RootState) => state.user.activePage,
     },
     tournaments: {
-      pageSize: 10,
+      pageSize: 3,
       type: "Tournaments" as const,
       stateSelector: (state: RootState) => state.tournaments.totalTournaments,
       activePageSelector: (state: RootState) => state.tournaments.activePage,

@@ -39,14 +39,14 @@ export const TournamentCard = () => {
       dispatch(
         tournamentsEndpoints.endpoints.getMyTournaments.initiate({
           page: newPage,
-          pageSize: 10,
+          pageSize: 3,
         })
       );
     } else if (currentView === TournamentListViews.TournamentList) {
       dispatch(
         tournamentsEndpoints.endpoints.getTournaments.initiate({
           page: newPage,
-          pageSize: 10,
+          pageSize: 3,
         })
       );
     }
