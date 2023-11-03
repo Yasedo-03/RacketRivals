@@ -15,17 +15,22 @@ interface IPaginationDefault {
   pageNumber: number;
   pageSize: number;
 }
+interface MenuTournamentCardProps {
+  pageSizeResponsive: number;
+}
 
-const paginationDefault: IPaginationDefault = {
-  pageNumber: 1,
-  pageSize: 3,
-};
-
-export const MenuTournamentCard: FC = () => {
+export const MenuTournamentCard: FC<MenuTournamentCardProps> = ({
+  pageSizeResponsive,
+}) => {
   const dispatch = useAppDispatch();
   const currentView = useAppSelector(
     (state) => state.tournamentView.currentView
   );
+
+  const paginationDefault: IPaginationDefault = {
+    pageNumber: 1,
+    pageSize: pageSizeResponsive,
+  };
 
   return (
     <div className={styles.container}>

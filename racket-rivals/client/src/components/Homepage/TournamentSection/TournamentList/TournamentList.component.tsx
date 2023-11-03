@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
 import { TournamentListViews } from "../TournamentCard";
-import { Link } from "react-router-dom";
 import { NotLogged } from "../../../NotLogged";
 import { User } from "../../../../services/users/interfaces/usersInterfaces";
 import {
