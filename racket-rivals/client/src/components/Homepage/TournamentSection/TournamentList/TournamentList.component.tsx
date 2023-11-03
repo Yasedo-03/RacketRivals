@@ -28,16 +28,17 @@ export const TournamentList: FC<TournamentListProps> = ({
   currentView,
 }) => {
   const isLaptop = useLaptopMediaQuery();
+  const pageSizeResponsive = isLaptop ? 8 : 3;
   const [selectedTournamentId, setSelectedTournamentId] = useState<
     string | null
   >(null);
 
   const { isLoading: isLoadingTournaments } = useGetTournamentsQuery({
     page: 1,
-    pageSize: 3,
+    pageSize: pageSizeResponsive,
   });
   const { isLoading: isLoadingMyTournaments } = useGetMyTournamentsQuery(
-    { page: 1, pageSize: 3 },
+    { page: 1, pageSize: pageSizeResponsive },
     {
       skip: !me,
     }
@@ -66,16 +67,8 @@ export const TournamentList: FC<TournamentListProps> = ({
     <div className={styles.list}>
       {tournamentListToMap?.map(
         (tournament) =>
-          (!selectedTournamentId || selectedTournamentId === tournament._id) &&
-          (isLaptop ? (
-            <Link
-              className={styles.link}
-              key={tournament._id}
-              to={`/tournament/${tournament._id}/details`}
-            >
-              <CardFromList tournament={tournament} isLaptop={isLaptop} />
-            </Link>
-          ) : (
+          (!selectedTournamentId ||
+            selectedTournamentId === tournament._id) && (
             <CardFromList
               key={tournament._id}
               tournament={tournament}
@@ -89,7 +82,7 @@ export const TournamentList: FC<TournamentListProps> = ({
                 )
               }
             />
-          ))
+          )
       )}
     </div>
   );

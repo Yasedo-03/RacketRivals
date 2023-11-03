@@ -1,4 +1,10 @@
 @mixin onDevice($device) {
+  @if $device == underLaptop {
+    @media only screen and (max-width: 1023px) {
+      @content;
+    }
+  }
+
   @if $device == tablet {
     @media only screen and (min-width: 768px) {
       @content;

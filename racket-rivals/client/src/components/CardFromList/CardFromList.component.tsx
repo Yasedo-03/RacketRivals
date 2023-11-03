@@ -27,7 +27,7 @@ export const CardFromList: FC<TournamentCardFromListProps> = ({
     setIsActive(!isActive);
   };
 
-  return (
+  const cardContent = (
     <div
       className={`${styles.card} ${isActive ? styles.active : ""} `}
       onClick={() => {
@@ -52,18 +52,21 @@ export const CardFromList: FC<TournamentCardFromListProps> = ({
         <span>{tournament.location}</span>
         <span>{tournament.number_of_participants} joueurs</span>
         <span>{tournament.uniqueCode}</span>
-        {isLaptop ? (
-          <AiFillEye className={styles.eyeLogo} />
-        ) : (
-          <Link
-            key={tournament._id}
-            to={`/tournament/${tournament._id}/details`}
-          >
-            <AiFillEye className={styles.eyeLogo} />
-          </Link>
-        )}
+        <AiFillEye className={styles.eyeLogo} />
       </div>
     </div>
+  );
+
+  return isLaptop ? (
+    <Link
+      key={tournament._id}
+      to={`/tournament/${tournament._id}/details`}
+      className={styles.cardLink}
+    >
+      {cardContent}
+    </Link>
+  ) : (
+    cardContent
   );
 };
 
