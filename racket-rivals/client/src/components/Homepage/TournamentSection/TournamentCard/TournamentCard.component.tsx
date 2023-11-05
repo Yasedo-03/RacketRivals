@@ -9,6 +9,7 @@ import {
   useAppSelector,
 } from "../../../../hooks/store/useStore";
 import { useGetUser } from "../../../../hooks/store/user";
+import { useLaptopMediaQuery } from "../../../../hooks/responsive/useLaptopMediaQuery.hook";
 import styles from "./TournamentCard.module.scss";
 
 export enum TournamentListViews {
@@ -17,6 +18,8 @@ export enum TournamentListViews {
 }
 
 export const TournamentCard = () => {
+  const isLaptop = useLaptopMediaQuery();
+  const pageSizeTournamentResponsive = isLaptop ? 8 : 3;
   const me = useGetUser();
   const dispatch = useAppDispatch();
   const currentView = useAppSelector(
@@ -39,14 +42,14 @@ export const TournamentCard = () => {
       dispatch(
         tournamentsEndpoints.endpoints.getMyTournaments.initiate({
           page: newPage,
-          pageSize: 10,
+          pageSize: pageSizeTournamentResponsive,
         })
       );
     } else if (currentView === TournamentListViews.TournamentList) {
       dispatch(
         tournamentsEndpoints.endpoints.getTournaments.initiate({
           page: newPage,
-          pageSize: 10,
+          pageSize: pageSizeTournamentResponsive,
         })
       );
     }
@@ -55,13 +58,16 @@ export const TournamentCard = () => {
   return (
     <div className={styles.container} ref={cardRef}>
       <SearchBar context="tournaments" />
-      <MenuTournamentCard />
+      <MenuTournamentCard
+        pageSizeTournamentResponsive={pageSizeTournamentResponsive}
+      />
       <TournamentList me={me} currentView={currentView} />
       {(currentView === TournamentListViews.TournamentList || me) && (
         <Pagination
           context="tournaments"
           onPageChange={handlePageChange}
           currentView={currentView}
+          pageSizeTournamentResponsive={pageSizeTournamentResponsive}
         />
       )}
     </div>

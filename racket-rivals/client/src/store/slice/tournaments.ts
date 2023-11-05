@@ -42,7 +42,7 @@ const slice = createSlice({
         state.myTournaments = [action.payload];
       }
     },
-    setActivePage: (state, action: PayloadAction<number>) => {
+    setActivePageTournaments: (state, action: PayloadAction<number>) => {
       state.activePage = action.payload;
     },
     setTotalTournaments: (state, action) => {
@@ -57,7 +57,7 @@ export const {
   setMyTournaments,
   setTournament,
   addTournamentToMyTournaments,
-  setActivePage,
+  setActivePageTournaments,
   setTotalTournaments,
 } = slice.actions;
 
