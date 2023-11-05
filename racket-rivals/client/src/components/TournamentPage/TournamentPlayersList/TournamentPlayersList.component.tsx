@@ -1,8 +1,15 @@
 import { FC, useLayoutEffect, useRef } from "react";
 import { useTournament } from "../../../hooks/store/tournaments";
+import { Loader } from "../../Loader";
 import styles from "./TournamentPlayersList.module.scss";
 
-export const TournamentPlayersList: FC = () => {
+interface TournamentPlayersListProps {
+  isTournamentLoading: boolean;
+}
+
+export const TournamentPlayersList: FC<TournamentPlayersListProps> = ({
+  isTournamentLoading,
+}) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const tournament = useTournament();
 
@@ -15,6 +22,14 @@ export const TournamentPlayersList: FC = () => {
 
     return () => clearTimeout(timer);
   }, []);
+
+  if (isTournamentLoading) {
+    return (
+      <div className={styles.loaderCentered}>
+        <Loader color="black" />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container} ref={cardRef}>

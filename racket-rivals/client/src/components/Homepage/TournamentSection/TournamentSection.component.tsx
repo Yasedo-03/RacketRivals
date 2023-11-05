@@ -4,10 +4,6 @@ import { TournamentCard } from "./TournamentCard";
 import { CreateTournamentCard } from "./CreateTournamentCard";
 import { MenuNavigationSection } from "../../MenuNavigationSection";
 import { AnimatedContainer } from "../../AnimatedContainer";
-import {
-  useGetMyTournamentsQuery,
-  useGetTournamentsQuery,
-} from "../../../services/tournaments/endpoints";
 import { NotLogged } from "../../NotLogged";
 import { useGetUser } from "../../../hooks/store/user";
 import styles from "./TournamentSection.module.scss";
@@ -36,13 +32,6 @@ export type Page = {
 
 export const TournamentSection = ({ index }: TournamentSectionProps) => {
   const me = useGetUser();
-  useGetTournamentsQuery({ page: 1, pageSize: 10 });
-  useGetMyTournamentsQuery(
-    { page: 1, pageSize: 10 },
-    {
-      skip: !me,
-    }
-  );
 
   const menuItems = [
     {

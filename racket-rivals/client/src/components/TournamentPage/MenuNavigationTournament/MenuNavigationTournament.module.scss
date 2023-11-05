@@ -7,14 +7,16 @@
   margin: auto;
   text-align: center;
   border-radius: 10px;
+  border: 2px solid #ff4500;
 
   .navItem {
     display: flex;
     align-items: center;
+    justify-content: center;
     height: 100%;
-    padding: 0 0.5rem;
-    border: 2px solid #ff4500;
+    padding: 0 1rem;
     transition: background-color 0.7s, color 0.7s;
+    width: 35%;
 
     &:hover,
     &.active {
@@ -31,6 +33,7 @@
     &:nth-child(2) {
       border-left: none;
       border-right: none;
+      width: 30%;
     }
 
     &:first-child {

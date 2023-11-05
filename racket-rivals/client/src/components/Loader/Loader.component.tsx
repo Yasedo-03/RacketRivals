@@ -1,10 +1,10 @@
+import { FC } from "react";
 import styles from "./Loader.module.scss";
 
-export const Loader = () => (
-  <div className={styles.containerLoader}>
-    <span className={styles.loaderElement}></span>
-    <span className={styles.loaderElement}></span>
-    <span className={styles.loaderElement}></span>
-    <span className={styles.loaderElement}></span>
-  </div>
+interface LoaderProps {
+  color?: string;
+}
+
+export const Loader: FC<LoaderProps> = ({ color }) => (
+  <span className={`${styles.loader} ${color ? styles[color] : ""}`}></span>
 );

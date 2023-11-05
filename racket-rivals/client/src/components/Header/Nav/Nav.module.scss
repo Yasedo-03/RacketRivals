@@ -113,7 +113,7 @@
     background-size: 0 3px, 100% 3px;
     padding: 10px;
 
-    @include onDevice(desktop) {
+    @include onDevice(laptop) {
       background-size: 0 0, 0 0;
       &:hover {
         background-size: 0 3px, 100% 3px;

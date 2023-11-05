@@ -8,8 +8,11 @@ import {
   useAppSelector,
 } from "../../../../hooks/store/useStore";
 import styles from "./SearchPlayerCard.module.scss";
+import { useLaptopMediaQuery } from "../../../../hooks/responsive/useLaptopMediaQuery.hook";
 
 export const SearchPlayerCard = () => {
+  const isLaptop = useLaptopMediaQuery();
+  const pageSizePlayerResponsive = isLaptop ? 10 : 3;
   const dispatch = useAppDispatch();
   const cardRef = useRef<HTMLDivElement>(null);
   const currentView = useAppSelector(
@@ -28,7 +31,10 @@ export const SearchPlayerCard = () => {
 
   const handlePageChange = (newPage: number) => {
     dispatch(
-      usersEndpoints.endpoints.getUsers.initiate({ page: newPage, pageSize: 7 })
+      usersEndpoints.endpoints.getUsers.initiate({
+        page: newPage,
+        pageSize: pageSizePlayerResponsive,
+      })
     );
   };
 
@@ -40,6 +46,7 @@ export const SearchPlayerCard = () => {
         context="users"
         onPageChange={handlePageChange}
         currentView={currentView}
+        pageSizePlayerResponsive={pageSizePlayerResponsive}
       />
     </div>
   );

@@ -1,23 +1,37 @@
 import { FC } from "react";
 import { User } from "../../../../services/users/interfaces/usersInterfaces";
+import {
+  useGetUsersQuery,
+  useSearchUsersQuery,
+} from "../../../../services/users/endpoints";
+import { Loader } from "../../../Loader";
 import { useAppSelector } from "../../../../hooks/store/useStore";
-import { useSearchUsersQuery } from "../../../../services/users/endpoints";
+import { CardPlayerFromList } from "../../../CardFromList";
+import { useLaptopMediaQuery } from "../../../../hooks/responsive/useLaptopMediaQuery.hook";
 import styles from "./PlayerList.module.scss";
 
 export const PlayerList: FC = () => {
-  const { data: users, error: errorSearchUsersQuery } = useSearchUsersQuery({});
+  const isLaptop = useLaptopMediaQuery();
+  const pageSizePlayerResponsive = isLaptop ? 10 : 3;
+  const { isLoading: searchUserLoading } = useSearchUsersQuery({});
+  const { isLoading: getUserLoading } = useGetUsersQuery({
+    page: 1,
+    pageSize: pageSizePlayerResponsive,
+  });
   const players = useAppSelector((state) => state.user.usersList);
+
+  if (searchUserLoading || getUserLoading) {
+    return (
+      <div className={styles.loaderCentered}>
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.list}>
       {players?.map((player: User) => (
-        <a key={player._id} className={styles.listItem} href={player.club}>
-          <span>
-            {player.firstName} {player.lastName}{" "}
-          </span>
-          <span className={styles.playerClub}>{player.club}</span>
-          <span>{player.rank}</span>
-        </a>
+        <CardPlayerFromList player={player} key={player._id} />
       ))}
     </div>
   );

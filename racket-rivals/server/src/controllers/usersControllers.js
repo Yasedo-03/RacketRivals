@@ -21,6 +21,7 @@ export const getUsers = async (req, res) => {
 
     const users = await UserModel.find()
       .select("firstName lastName _id rank club")
+      .sort({ rank: -1 })
       .skip(skip)
       .limit(pageSize);
 
@@ -58,6 +59,7 @@ export const searchUsers = async (req, res) => {
 
     const users = await UserModel.find(searchCriteria)
       .select("firstName lastName _id rank club")
+      .sort({ rank: -1 })
       .skip(skip)
       .limit(pageSize);
 

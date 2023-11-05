@@ -1,0 +1,33 @@
+.pagination {
+  .amplify-pagination__item-current {
+    color: #ff4500;
+  }
+
+  .amplify-flex {
+    display: flex;
+  }
+
+  button {
+    cursor: pointer;
+    background: transparent;
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+  }
+
+  .amplify-visually-hidden {
+    display: none;
+  }
+
+  li {
+    &:first-child,
+    &:last-child {
+      margin-top: 10px;
+    }
+  }
+
+  svg {
+    width: 30px;
+    height: 30px;
+  }
+}
