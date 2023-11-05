@@ -13,11 +13,10 @@ interface TournamentCardFromListProps {
   tournament: ITournament;
   isLaptop: boolean;
   onClick?: () => void;
-  onMouseEnter?: () => void;
   setSelectedTournamentId?: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-export const CardFromList: FC<TournamentCardFromListProps> = ({
+export const CardTournamentFromList: FC<TournamentCardFromListProps> = ({
   tournament,
   isLaptop,
   onClick,
@@ -70,4 +69,4 @@ export const CardFromList: FC<TournamentCardFromListProps> = ({
   );
 };
 
-CardFromList.displayName = "CardFromList";
+CardTournamentFromList.displayName = "CardTournamentFromList";

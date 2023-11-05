@@ -209,6 +209,11 @@
     transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
     transform-origin: bottom;
 
+    .rank {
+      text-align: end;
+      margin-top: 0.5rem;
+    }
+
     h1 {
       font-size: 1.5em;
       overflow: hidden;
@@ -226,15 +231,38 @@
   .logo {
     position: absolute;
     left: -45px;
-    top: 0;
     height: 90px;
     width: 90px;
     transition: all 0.3s ease-in-out;
+
+    @include onDevice(laptop) {
+      top: 0;
+    }
   }
 
   .date,
   .dateHover {
     font-size: 12px;
+  }
+}
+
+.cardPlayer {
+  @extend .card;
+
+  padding: 10px 0;
+
+  @include onDevice(laptop) {
+    position: relative;
+    background: linear-gradient(#e3d2093d, #ff4500);
+    border-radius: 15px;
+    height: 80px;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: height 0.3s ease-in-out;
+    margin-bottom: 2rem;
   }
 }
 

@@ -7,7 +7,7 @@ import {
   useAppSelector,
 } from "../../../../hooks/store/useStore";
 import { setTournamentView } from "../../../../store/slice/tournamentView";
-import { setActivePage } from "../../../../store/slice/tournaments";
+import { setActivePageTournaments } from "../../../../store/slice/tournaments";
 import { racketRivalsApi } from "../../../../services/api";
 import styles from "./MenuTournamentCard.module.scss";
 
@@ -16,11 +16,11 @@ interface IPaginationDefault {
   pageSize: number;
 }
 interface MenuTournamentCardProps {
-  pageSizeResponsive: number;
+  pageSizeTournamentResponsive: number;
 }
 
 export const MenuTournamentCard: FC<MenuTournamentCardProps> = ({
-  pageSizeResponsive,
+  pageSizeTournamentResponsive,
 }) => {
   const dispatch = useAppDispatch();
   const currentView = useAppSelector(
@@ -29,7 +29,7 @@ export const MenuTournamentCard: FC<MenuTournamentCardProps> = ({
 
   const paginationDefault: IPaginationDefault = {
     pageNumber: 1,
-    pageSize: pageSizeResponsive,
+    pageSize: pageSizeTournamentResponsive,
   };
 
   return (
@@ -42,7 +42,7 @@ export const MenuTournamentCard: FC<MenuTournamentCardProps> = ({
         }
         onClick={() => {
           dispatch(setTournamentView(TournamentListViews.MyTournaments));
-          dispatch(setActivePage(1));
+          dispatch(setActivePageTournaments(1));
           dispatch(
             racketRivalsApi.util.invalidateTags([
               {
@@ -63,7 +63,7 @@ export const MenuTournamentCard: FC<MenuTournamentCardProps> = ({
         }
         onClick={() => {
           dispatch(setTournamentView(TournamentListViews.TournamentList));
-          dispatch(setActivePage(1));
+          dispatch(setActivePageTournaments(1));
           dispatch(
             racketRivalsApi.util.invalidateTags([
               {

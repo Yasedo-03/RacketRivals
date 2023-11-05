@@ -12,9 +12,9 @@ import {
   useMyTournaments,
   useTournaments,
 } from "../../../../hooks/store/tournaments";
-import { CardFromList } from "../../../CardFromList";
 import { useLaptopMediaQuery } from "../../../../hooks/responsive/useLaptopMediaQuery.hook";
 import { handleCardClick } from "./utils/handleCard";
+import { CardTournamentFromList } from "../../../CardFromList";
 import styles from "./TournamentList.module.scss";
 
 interface TournamentListProps {
@@ -27,17 +27,17 @@ export const TournamentList: FC<TournamentListProps> = ({
   currentView,
 }) => {
   const isLaptop = useLaptopMediaQuery();
-  const pageSizeResponsive = isLaptop ? 8 : 3;
+  const pageSizeTournamentResponsive = isLaptop ? 8 : 3;
   const [selectedTournamentId, setSelectedTournamentId] = useState<
     string | null
   >(null);
 
   const { isLoading: isLoadingTournaments } = useGetTournamentsQuery({
     page: 1,
-    pageSize: pageSizeResponsive,
+    pageSize: pageSizeTournamentResponsive,
   });
   const { isLoading: isLoadingMyTournaments } = useGetMyTournamentsQuery(
-    { page: 1, pageSize: pageSizeResponsive },
+    { page: 1, pageSize: pageSizeTournamentResponsive },
     {
       skip: !me,
     }
@@ -68,7 +68,7 @@ export const TournamentList: FC<TournamentListProps> = ({
         (tournament) =>
           (!selectedTournamentId ||
             selectedTournamentId === tournament._id) && (
-            <CardFromList
+            <CardTournamentFromList
               key={tournament._id}
               tournament={tournament}
               isLaptop={isLaptop}

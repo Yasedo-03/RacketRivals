@@ -2,37 +2,39 @@
 import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/store/useStore";
 import { racketRivalsApi } from "../../services/api";
-import { setActivePage } from "../../store/slice/tournaments";
+import { setActivePageTournaments } from "../../store/slice/tournaments";
 import { RootState } from "../../store/store";
 import { TournamentListViews } from "../Homepage/TournamentSection/TournamentCard";
 import { Pagination as PaginationUI } from "@aws-amplify/ui-react";
 import "./styles.scss";
+import { setActivePageUsers } from "../../store/slice/user";
 
 interface PaginationProps {
   context: "users" | "tournaments";
   onPageChange: (pageNumber: number) => void;
   currentView: TournamentListViews;
-  pageSizeResponsive: number;
+  pageSizeTournamentResponsive?: number;
+  pageSizePlayerResponsive?: number;
 }
 
 export const Pagination: FC<PaginationProps> = ({
   onPageChange,
   context,
   currentView,
-  pageSizeResponsive,
+  pageSizeTournamentResponsive,
+  pageSizePlayerResponsive,
 }) => {
   const dispatch = useAppDispatch();
-  console.log(context);
 
   const config = {
     users: {
-      pageSize: 7,
+      pageSize: pageSizePlayerResponsive,
       type: "Users" as const,
       stateSelector: (state: RootState) => state.user.totalUsers,
       activePageSelector: (state: RootState) => state.user.activePage,
     },
     tournaments: {
-      pageSize: pageSizeResponsive,
+      pageSize: pageSizeTournamentResponsive,
       type: "Tournaments" as const,
       stateSelector: (state: RootState) => state.tournaments.totalTournaments,
       activePageSelector: (state: RootState) => state.tournaments.activePage,
@@ -41,6 +43,11 @@ export const Pagination: FC<PaginationProps> = ({
 
   const contentRange = useAppSelector(config.stateSelector);
   const activePage = useAppSelector(config.activePageSelector);
+  console.log(activePage);
+
+  if (config.pageSize === undefined) {
+    throw new Error("pageSize is undefined");
+  }
 
   const totalPages = Math.ceil(contentRange / config.pageSize);
 
@@ -67,30 +74,24 @@ export const Pagination: FC<PaginationProps> = ({
   };
 
   const handlePageClick = (pageNumber: number) => {
-    dispatch(setActivePage(pageNumber));
-
-    if (
-      currentView === TournamentListViews.MyTournaments &&
+    const setActivePageAction =
       context === "tournaments"
-    ) {
-      dispatch(
-        racketRivalsApi.util.invalidateTags([
-          {
-            type: "Tournaments",
-            id: `GET_MY_${pageNumber}_${config.pageSize}`,
-          },
-        ])
-      );
-    } else {
-      dispatch(
-        racketRivalsApi.util.invalidateTags([
-          { type: config.type, id: `GET_${pageNumber}_${config.pageSize}` },
-        ])
-      );
-    }
+        ? setActivePageTournaments(pageNumber)
+        : setActivePageUsers(pageNumber);
+
+    dispatch(setActivePageAction);
+
+    const tagIdPart =
+      context === "tournaments" &&
+      currentView === TournamentListViews.MyTournaments
+        ? `GET_MY_${pageNumber}_${config.pageSize}`
+        : `GET_${pageNumber}_${config.pageSize}`;
 
     dispatch(
-      racketRivalsApi.util.invalidateTags([{ type: config.type, id: "SEARCH" }])
+      racketRivalsApi.util.invalidateTags([
+        { type: config.type, id: tagIdPart },
+        { type: config.type, id: "SEARCH" },
+      ])
     );
 
     onPageChange(pageNumber);
